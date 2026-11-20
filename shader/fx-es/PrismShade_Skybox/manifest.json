@@ -1,0 +1,410 @@
+{
+ "techniques": [
+  {
+   "name": "Skybox",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xSkyboxPS",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 2,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xSkyboxPS.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__SkyboxTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "SKYBOX"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SkyboxSampler",
+   "tex": "V__SkyboxTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Rotation",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Rotation",
+    "ui_tooltip": "Turns the panorama around the vertical, in degrees, to put the sun or a cloud where you want it.",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     360
+    ],
+    "ui_step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "HorizonShift",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Horizon height",
+    "ui_tooltip": "Raises or lowers the panorama's horizon, in degrees, so it meets the game's own horizon instead of floating above or sinking below it.",
+    "ui_min": [
+     -20
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.5
+    ]
+   }
+  },
+  {
+   "name": "Exposure",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Exposure",
+    "ui_tooltip": "Brightness in stops. Each step up doubles the light.",
+    "ui_min": [
+     -4
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_step": [
+     0.05
+    ]
+   }
+  },
+  {
+   "name": "Tint",
+   "offset": 16,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Tint",
+    "ui_tooltip": "Multiplies the panorama's colour. White leaves it as it is."
+   }
+  },
+  {
+   "name": "Saturation",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "Contrast",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.15
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Contrast",
+    "ui_tooltip": "Panoramas made from HDR photographs are often flat; this pulls the clouds out of the haze.",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "Opacity",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Opacity",
+    "ui_tooltip": "How much of the game's own sky is replaced. Lower lets it show through.",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "EdgeBlend",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.6
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Edge blend",
+    "ui_tooltip": "Paints a little of the new sky into the pixels at the edge of a building or a tree, which otherwise keep a thin line of the old sky's colour.",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "Debug",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Show",
+    "ui_items": "Final image\nSky mask\nPanorama everywhere\n",
+    "ui_tooltip": "Sky mask draws the replaced pixels in white, and red when the game's camera is not known. Panorama everywhere ignores depth, which shows the sky following the camera.",
+    "ui_category": "Debug",
+    "ui_category_closed": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "CameraKnown",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "camera"
+   }
+  },
+  {
+   "name": "CameraRight",
+   "offset": 64,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "source": "camera_right"
+   }
+  },
+  {
+   "name": "CameraUp",
+   "offset": 80,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "source": "camera_up"
+   }
+  },
+  {
+   "name": "CameraForward",
+   "offset": 96,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "source": "camera_forward"
+   }
+  },
+  {
+   "name": "CameraFocal",
+   "offset": 112,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "camera_focal"
+   }
+  }
+ ],
+ "total_uniform_size": 120
+}

@@ -1,0 +1,138 @@
+{
+ "techniques": [
+  {
+   "name": "Before",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Before",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__Before",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Before.frag"
+    }
+   ]
+  },
+  {
+   "name": "After",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_After",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_After.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__Before",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__Before_sampler",
+   "tex": "V__Before",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "splitscreen_mode",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Mode",
+    "ui_tooltip": "Choose a mode",
+    "ui_items": "Vertical 50/50 split\nVertical 25/50/25 split\nAngled 50/50 split\nAngled 25/50/25 split\nHorizontal 50/50 split\nHorizontal 25/50/25 split\nDiagonal split\n"
+   }
+  }
+ ],
+ "total_uniform_size": 4
+}

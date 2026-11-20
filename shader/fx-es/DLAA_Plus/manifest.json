@@ -1,0 +1,252 @@
+{
+ "techniques": [
+  {
+   "name": "Directionally_Localized_Anti_Aliasing",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPreFilter",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__SLPtex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPreFilter.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOut",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOut.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__SLPtex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__BackBuffer",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerLoadedPixel",
+   "tex": "V__SLPtex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Short_Edge_Mask",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Short Edge AA",
+    "ui_tooltip": "Use this to adjust the Short Edge AA.\nDefault is 0.5",
+    "ui_category": "DLAA"
+   }
+  },
+  {
+   "name": "Long_Edge_Mask",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Long Edge AA",
+    "ui_tooltip": "Use this to adjust the Long Edge AA.\nDefault is 0.5",
+    "ui_category": "DLAA"
+   }
+  },
+  {
+   "name": "Text_Preservation",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Text Preservation",
+    "ui_tooltip": "Use this to adjust Text Preservation Power.\nDefault is 0.5",
+    "ui_category": "DLAA Debuging"
+   }
+  },
+  {
+   "name": "Black_Preservation",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.25
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Black Preservation",
+    "ui_tooltip": "Use this to prevent Black Shades from getting AA Since most times this is not needed.\nDefault is 0.25",
+    "ui_category": "DLAA Debuging"
+   }
+  },
+  {
+   "name": "View_Mode",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "DLAA\nRed H & Green V Short Edge Mask\nRed H & Green V Long Edge Mask\nText Preservation Mask\n",
+    "ui_label": "View Mode",
+    "ui_tooltip": "This is used to select the normal view output or debug view.",
+    "ui_category": "DLAA Debuging"
+   }
+  },
+  {
+   "name": "framecount",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 5,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  },
+  {
+   "name": "Delta",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  }
+ ],
+ "total_uniform_size": 28
+}

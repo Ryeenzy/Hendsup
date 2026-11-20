@@ -1,0 +1,295 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_03_FilmicTonemap",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_filmicadaptation_xPS_WriteLuma",
+     "w": 256,
+     "h": 256,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_filmicadaptation__texLuma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_filmicadaptation_xPS_WriteLuma.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_filmicadaptation_xPS_AvgLuma",
+     "w": 1,
+     "h": 1,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_filmicadaptation__texAvgLuma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_filmicadaptation_xPS_AvgLuma.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_filmicadaptation_xPS_Tonemap",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 4,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_filmicadaptation_xPS_Tonemap.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_filmicadaptation_xPS_PrevAvgLuma",
+     "w": 1,
+     "h": 1,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_filmicadaptation__texPrevAvgLuma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_filmicadaptation_xPS_PrevAvgLuma.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__pd80_filmicadaptation__texLuma",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_filmicadaptation__texAvgLuma",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_filmicadaptation__texPrevAvgLuma",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_filmicadaptation__samplerLinColor",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 1
+  },
+  {
+   "name": "V__pd80_filmicadaptation__samplerLuma",
+   "tex": "V__pd80_filmicadaptation__texLuma",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_filmicadaptation__samplerAvgLuma",
+   "tex": "V__pd80_filmicadaptation__texAvgLuma",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_filmicadaptation__samplerPrevAvgLuma",
+   "tex": "V__pd80_filmicadaptation__texPrevAvgLuma",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "adj_shoulder",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Adjust Highlights",
+    "ui_tooltip": "Adjust Highlights",
+    "ui_category": "Tonemapping",
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     5
+    ]
+   }
+  },
+  {
+   "name": "adj_linear",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Adjust Linearity",
+    "ui_tooltip": "Adjust Linearity",
+    "ui_category": "Tonemapping",
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "adj_toe",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Adjust Shadows",
+    "ui_tooltip": "Adjust Shadows",
+    "ui_category": "Tonemapping",
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     5
+    ]
+   }
+  },
+  {
+   "name": "Frametime",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  }
+ ],
+ "total_uniform_size": 16
+}

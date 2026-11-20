@@ -1,0 +1,315 @@
+{
+ "techniques": [
+  {
+   "name": "Outline",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOutlinePS",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOutlinePS.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "OutlineColor",
+   "offset": 0,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Outline colour",
+    "ui_tooltip": "The colour of the line. Any colour works; white reads as a rim of light and black as ink."
+   }
+  },
+  {
+   "name": "BlendMode",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Blend",
+    "ui_items": "Replace\nAdd (glow)\nMultiply (ink)\n",
+    "ui_tooltip": "Replace paints the colour over the scene. Add brightens it, which gives a rim of light. Multiply darkens it, which gives ink."
+   }
+  },
+  {
+   "name": "Strength",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.8
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Strength",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "Thickness",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Thickness",
+    "ui_tooltip": "Line width as a share of the screen's height, so it stays the same size whatever resolution the chain runs at.",
+    "ui_min": [
+     0.25
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_step": [
+     0.05
+    ]
+   }
+  },
+  {
+   "name": "Sensitivity",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.75
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Sensitivity",
+    "ui_tooltip": "How small a step in depth draws a line. Higher finds fainter edges, and at the very top starts to draw lines across flat ground.",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "Softness",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Softness",
+    "ui_tooltip": "Fades a line in over a range instead of cutting it hard.",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "FadeStart",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    120
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Fade start",
+    "ui_tooltip": "Distance in studs where lines start to fade. Assumes Roblox's near plane of 0.1 studs.",
+    "ui_category": "Distance",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     1000
+    ],
+    "ui_step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "FadeEnd",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    450
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Fade end",
+    "ui_tooltip": "Distance in studs where lines are gone.",
+    "ui_category": "Distance",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     2000
+    ],
+    "ui_step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "SkyEdges",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Outline against the sky",
+    "ui_category": "Distance"
+   }
+  },
+  {
+   "name": "Debug",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Show",
+    "ui_items": "Final image\nEdge mask\n",
+    "ui_category": "Debug",
+    "ui_category_closed": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 48
+}

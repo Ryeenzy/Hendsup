@@ -1,0 +1,480 @@
+{
+ "techniques": [
+  {
+   "name": "TAA",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xCurrent_BackBuffer",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__CurrentBackBufferTAA",
+      "V__CurrentDepthBufferTAA",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xCurrent_BackBuffer.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOut",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 4,
+       "binding": 2
+      },
+      {
+       "index": 5,
+       "binding": 3
+      },
+      {
+       "index": 6,
+       "binding": 4
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOut.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPast_BackBuffer",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PastSingleBackBufferTAA",
+      "V__PastSingleDepthBufferTAA",
+      "V__PastBackBufferTAA",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPast_BackBuffer.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__CurrentBackBufferTAA",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__CurrentDepthBufferTAA",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__PastBackBufferTAA",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PastSingleBackBufferTAA",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PastSingleDepthBufferTAA",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__DepthBuffer",
+   "tex": "V__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBuffer",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__CBackBuffer",
+   "tex": "V__CurrentBackBufferTAA",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__CDepthBuffer",
+   "tex": "V__CurrentDepthBufferTAA",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PBackBuffer",
+   "tex": "V__PastBackBufferTAA",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PSBackBuffer",
+   "tex": "V__PastSingleBackBufferTAA",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PSDepthBuffer",
+   "tex": "V__PastSingleDepthBufferTAA",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Clamping_Adjust",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Clamping Adjust",
+    "ui_tooltip": "Adjust Clamping that effects Blur.\nDefault is Zero.",
+    "ui_category": "TAA"
+   }
+  },
+  {
+   "name": "Persistence",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.125
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "User Adjust",
+    "ui_tooltip": "Increase persistence of the frames this is really the Temporal Part.\nDefault is 0.25. But, a value around 0.05 is recommended.",
+    "ui_category": "TAA"
+   }
+  },
+  {
+   "name": "Similarity",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.25
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Depth Similarity",
+    "ui_tooltip": "Extra Image clamping based on Depth Similarities between Past and Current Depth for DeGhosing TAA.\nWorks on Depth & Color Delta is Selected and Depth is working in the game.\nDefault is 0.25.",
+    "ui_category": "TAA"
+   }
+  },
+  {
+   "name": "Delta",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "TAA",
+    "ui_items": "Color Delta\nDepth Delta\n",
+    "ui_category": "TAA"
+   }
+  },
+  {
+   "name": "Delta_Power",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.25
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Color & Depth Delta Power",
+    "ui_tooltip": "Extra Image clamping based on delta between Past and Current Depth Buffer.\nOnly works on Depth Delta is Selected and Depth is working in the game.\nDefault is 0.25.",
+    "ui_category": "TAA"
+   }
+  },
+  {
+   "name": "Debug",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "TAA\nDelta Clamping\nDeGhosting Mask\nDepth\n",
+    "ui_label": "Debug View"
+   }
+  },
+  {
+   "name": "Depth_Map",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Normal\nReverse\n",
+    "ui_label": "Custom Depth Map",
+    "ui_tooltip": "Pick your Depth Map.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Depth_Map_Adjust",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    250
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     1000
+    ],
+    "ui_step": [
+     0.125
+    ],
+    "ui_label": "Depth Map Adjustment",
+    "ui_tooltip": "Adjust the depth map and sharpness distance.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Depth_CutOff",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Depth CutOff point",
+    "ui_tooltip": "Use this too set a TAA Cutoff point based on depth.\nDefault is 0.0.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Depth_Map_Flip",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Depth Map Flip",
+    "ui_tooltip": "Flip the depth map if it is upside down.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "framecount",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 5,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  },
+  {
+   "name": "timer",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  }
+ ],
+ "total_uniform_size": 48
+}

@@ -1,0 +1,173 @@
+{
+ "techniques": [
+  {
+   "name": "FXAA",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xFXAALumaPass",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xFXAALumaPass.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xFXAAPixelShader",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xFXAAPixelShader.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__FXAATexture",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Subpix",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.25
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Amount of sub-pixel aliasing removal. Higher values makes the image softer/blurrier."
+   }
+  },
+  {
+   "name": "EdgeThreshold",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.125
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Edge Detection Threshold",
+    "ui_tooltip": "The minimum amount of local contrast required to apply algorithm."
+   }
+  },
+  {
+   "name": "EdgeThresholdMin",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Darkness Threshold",
+    "ui_tooltip": "Pixels darker than this are not processed in order to increase performance."
+   }
+  }
+ ],
+ "total_uniform_size": 12
+}

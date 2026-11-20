@@ -1,0 +1,2565 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_04_SelectiveColor_v2",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_selectivecolorv2_xPS_SelectiveColor",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_selectivecolorv2_xPS_SelectiveColor.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "corr_method",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Correction Method",
+    "ui_tooltip": "Correction Method",
+    "ui_category": "Selective Color",
+    "ui_items": "Absolute\nRelative\n"
+   }
+  },
+  {
+   "name": "r_adj_cya",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Reds: Cyan",
+    "ui_category": "Selective Color: Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "r_adj_mag",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Reds: Magenta",
+    "ui_category": "Selective Color: Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "r_adj_yel",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Reds: Yellow",
+    "ui_category": "Selective Color: Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "r_adj_bla",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Reds: Black",
+    "ui_category": "Selective Color: Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "r_adj_sat",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Reds: Saturation",
+    "ui_category": "Selective Color: Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "r_adj_lig_curve",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Reds: Lightness Curve",
+    "ui_category": "Selective Color: Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "r_adj_lig",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Reds: Lightness",
+    "ui_category": "Selective Color: Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "o_adj_cya",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Oranges: Cyan",
+    "ui_category": "Selective Color: Oranges",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "o_adj_mag",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Oranges: Magenta",
+    "ui_category": "Selective Color: Oranges",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "o_adj_yel",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Oranges: Yellow",
+    "ui_category": "Selective Color: Oranges",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "o_adj_bla",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Oranges: Black",
+    "ui_category": "Selective Color: Oranges",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "o_adj_sat",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Oranges: Saturation",
+    "ui_category": "Selective Color: Oranges",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "o_adj_lig_curve",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Oranges: Lightness Curve",
+    "ui_category": "Selective Color: Oranges",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "o_adj_lig",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Oranges: Lightness",
+    "ui_category": "Selective Color: Oranges",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "y_adj_cya",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Yellows: Cyan",
+    "ui_category": "Selective Color: Yellows",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "y_adj_mag",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Yellows: Magenta",
+    "ui_category": "Selective Color: Yellows",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "y_adj_yel",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Yellows: Yellow",
+    "ui_category": "Selective Color: Yellows",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "y_adj_bla",
+   "offset": 72,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Yellows: Black",
+    "ui_category": "Selective Color: Yellows",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "y_adj_sat",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Yellows: Saturation",
+    "ui_category": "Selective Color: Yellows",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "y_adj_lig_curve",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Yellows: Lightness Curve",
+    "ui_category": "Selective Color: Yellows",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "y_adj_lig",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Yellows: Lightness",
+    "ui_category": "Selective Color: Yellows",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "yg_adj_cya",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Yellow-Greens: Cyan",
+    "ui_category": "Selective Color: Yellow-Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "yg_adj_mag",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Yellow-Greens: Magenta",
+    "ui_category": "Selective Color: Yellow-Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "yg_adj_yel",
+   "offset": 96,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Yellow-Greens: Yellow",
+    "ui_category": "Selective Color: Yellow-Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "yg_adj_bla",
+   "offset": 100,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Yellow-Greens: Black",
+    "ui_category": "Selective Color: Yellow-Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "yg_adj_sat",
+   "offset": 104,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Yellow-Greens: Saturation",
+    "ui_category": "Selective Color: Yellow-Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "yg_adj_lig_curve",
+   "offset": 108,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Yellow-Greens: Lightness Curve",
+    "ui_category": "Selective Color: Yellow-Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "yg_adj_lig",
+   "offset": 112,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Yellow-Greens: Lightness",
+    "ui_category": "Selective Color: Yellow-Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "g_adj_cya",
+   "offset": 116,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Greens: Cyan",
+    "ui_category": "Selective Color: Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "g_adj_mag",
+   "offset": 120,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Greens: Magenta",
+    "ui_category": "Selective Color: Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "g_adj_yel",
+   "offset": 124,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Greens: Yellow",
+    "ui_category": "Selective Color: Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "g_adj_bla",
+   "offset": 128,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Greens: Black",
+    "ui_category": "Selective Color: Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "g_adj_sat",
+   "offset": 132,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Greens: Saturation",
+    "ui_category": "Selective Color: Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "g_adj_lig_curve",
+   "offset": 136,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Greens: Lightness Curve",
+    "ui_category": "Selective Color: Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "g_adj_lig",
+   "offset": 140,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Greens: Lightness",
+    "ui_category": "Selective Color: Greens",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "gc_adj_cya",
+   "offset": 144,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Green-Cyans: Cyan",
+    "ui_category": "Selective Color: Green-Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "gc_adj_mag",
+   "offset": 148,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Green-Cyans: Magenta",
+    "ui_category": "Selective Color: Green-Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "gc_adj_yel",
+   "offset": 152,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Green-Cyans: Yellow",
+    "ui_category": "Selective Color: Green-Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "gc_adj_bla",
+   "offset": 156,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Green-Cyans: Black",
+    "ui_category": "Selective Color: Green-Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "gc_adj_sat",
+   "offset": 160,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Green-Cyans: Saturation",
+    "ui_category": "Selective Color: Green-Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "gc_adj_lig_curve",
+   "offset": 164,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Green-Cyans: Lightness Curve",
+    "ui_category": "Selective Color: Green-Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "gc_adj_lig",
+   "offset": 168,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Green-Cyans: Lightness",
+    "ui_category": "Selective Color: Green-Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "c_adj_cya",
+   "offset": 172,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Cyans: Cyan",
+    "ui_category": "Selective Color: Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "c_adj_mag",
+   "offset": 176,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Cyans: Magenta",
+    "ui_category": "Selective Color: Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "c_adj_yel",
+   "offset": 180,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Cyans: Yellow",
+    "ui_category": "Selective Color: Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "c_adj_bla",
+   "offset": 184,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Cyans: Black",
+    "ui_category": "Selective Color: Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "c_adj_sat",
+   "offset": 188,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Cyans: Saturation",
+    "ui_category": "Selective Color: Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "c_adj_lig_curve",
+   "offset": 192,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Cyans: Lightness Curve",
+    "ui_category": "Selective Color: Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "c_adj_lig",
+   "offset": 196,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Cyans: Lightness",
+    "ui_category": "Selective Color: Cyans",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "cb_adj_cya",
+   "offset": 200,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Cyan-Blues: Cyan",
+    "ui_category": "Selective Color: Cyan-Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "cb_adj_mag",
+   "offset": 204,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Cyan-Blues: Magenta",
+    "ui_category": "Selective Color: Cyan-Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "cb_adj_yel",
+   "offset": 208,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Cyan-Blues: Yellow",
+    "ui_category": "Selective Color: Cyan-Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "cb_adj_bla",
+   "offset": 212,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Cyan-Blues: Black",
+    "ui_category": "Selective Color: Cyan-Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "cb_adj_sat",
+   "offset": 216,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Cyan-Blues: Saturation",
+    "ui_category": "Selective Color: Cyan-Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "cb_adj_lig_curve",
+   "offset": 220,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Cyan-Blues: Lightness Curve",
+    "ui_category": "Selective Color: Cyan-Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "cb_adj_lig",
+   "offset": 224,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Cyan-Blues: Lightness",
+    "ui_category": "Selective Color: Cyan-Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "b_adj_cya",
+   "offset": 228,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Blues: Cyan",
+    "ui_category": "Selective Color: Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "b_adj_mag",
+   "offset": 232,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Blues: Magenta",
+    "ui_category": "Selective Color: Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "b_adj_yel",
+   "offset": 236,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Blues: Yellow",
+    "ui_category": "Selective Color: Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "b_adj_bla",
+   "offset": 240,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Blues: Black",
+    "ui_category": "Selective Color: Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "b_adj_sat",
+   "offset": 244,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Blues: Saturation",
+    "ui_category": "Selective Color: Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "b_adj_lig_curve",
+   "offset": 248,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Blues: Lightness Curve",
+    "ui_category": "Selective Color: Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "b_adj_lig",
+   "offset": 252,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Blues: Lightness",
+    "ui_category": "Selective Color: Blues",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bm_adj_cya",
+   "offset": 256,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Blue-Magentas: Cyan",
+    "ui_category": "Selective Color: Blue-Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bm_adj_mag",
+   "offset": 260,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Blue-Magentas: Magenta",
+    "ui_category": "Selective Color: Blue-Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bm_adj_yel",
+   "offset": 264,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Blue-Magentas: Yellow",
+    "ui_category": "Selective Color: Blue-Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bm_adj_bla",
+   "offset": 268,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Blue-Magentas: Black",
+    "ui_category": "Selective Color: Blue-Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bm_adj_sat",
+   "offset": 272,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Blue-Magentas: Saturation",
+    "ui_category": "Selective Color: Blue-Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bm_adj_lig_curve",
+   "offset": 276,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Blue-Magentas: Lightness Curve",
+    "ui_category": "Selective Color: Blue-Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bm_adj_lig",
+   "offset": 280,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Blue-Magentas: Lightness",
+    "ui_category": "Selective Color: Blue-Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "m_adj_cya",
+   "offset": 284,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Magentas: Cyan",
+    "ui_category": "Selective Color: Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "m_adj_mag",
+   "offset": 288,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Magentas: Magenta",
+    "ui_category": "Selective Color: Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "m_adj_yel",
+   "offset": 292,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Magentas: Yellow",
+    "ui_category": "Selective Color: Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "m_adj_bla",
+   "offset": 296,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Magentas: Black",
+    "ui_category": "Selective Color: Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "m_adj_sat",
+   "offset": 300,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Magentas: Saturation",
+    "ui_category": "Selective Color: Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "m_adj_lig_curve",
+   "offset": 304,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Magentas: Lightness Curve",
+    "ui_category": "Selective Color: Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "m_adj_lig",
+   "offset": 308,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Magentas: Lightness",
+    "ui_category": "Selective Color: Magentas",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "mr_adj_cya",
+   "offset": 312,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Magenta-Reds: Cyan",
+    "ui_category": "Selective Color: Magenta-Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "mr_adj_mag",
+   "offset": 316,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Magenta-Reds: Magenta",
+    "ui_category": "Selective Color: Magenta-Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "mr_adj_yel",
+   "offset": 320,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Magenta-Reds: Yellow",
+    "ui_category": "Selective Color: Magenta-Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "mr_adj_bla",
+   "offset": 324,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Magenta-Reds: Black",
+    "ui_category": "Selective Color: Magenta-Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "mr_adj_sat",
+   "offset": 328,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Magenta-Reds: Saturation",
+    "ui_category": "Selective Color: Magenta-Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "mr_adj_lig_curve",
+   "offset": 332,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness Curve",
+    "ui_tooltip": "Selective Color Magenta-Reds: Lightness Curve",
+    "ui_category": "Selective Color: Magenta-Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "mr_adj_lig",
+   "offset": 336,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Lightness",
+    "ui_tooltip": "Selective Color Magenta-Reds: Lightness",
+    "ui_category": "Selective Color: Magenta-Reds",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "w_adj_cya",
+   "offset": 340,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Whites: Cyan",
+    "ui_category": "Selective Color: Whites",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "w_adj_mag",
+   "offset": 344,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Whites: Magenta",
+    "ui_category": "Selective Color: Whites",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "w_adj_yel",
+   "offset": 348,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Whites: Yellow",
+    "ui_category": "Selective Color: Whites",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "w_adj_bla",
+   "offset": 352,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Whites: Black",
+    "ui_category": "Selective Color: Whites",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "w_adj_sat",
+   "offset": 356,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Whites: Saturation",
+    "ui_category": "Selective Color: Whites",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "n_adj_cya",
+   "offset": 360,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Neutrals: Cyan",
+    "ui_category": "Selective Color: Neutrals",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "n_adj_mag",
+   "offset": 364,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Neutrals: Magenta",
+    "ui_category": "Selective Color: Neutrals",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "n_adj_yel",
+   "offset": 368,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Neutrals: Yellow",
+    "ui_category": "Selective Color: Neutrals",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "n_adj_bla",
+   "offset": 372,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Neutrals: Black",
+    "ui_category": "Selective Color: Neutrals",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "n_adj_sat",
+   "offset": 376,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Neutrals: Saturation",
+    "ui_category": "Selective Color: Neutrals",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bk_adj_cya",
+   "offset": 380,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Cyan",
+    "ui_tooltip": "Selective Color Blacks: Cyan",
+    "ui_category": "Selective Color: Blacks",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bk_adj_mag",
+   "offset": 384,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Magenta",
+    "ui_tooltip": "Selective Color Blacks: Magenta",
+    "ui_category": "Selective Color: Blacks",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bk_adj_yel",
+   "offset": 388,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Yellow",
+    "ui_tooltip": "Selective Color Blacks: Yellow",
+    "ui_category": "Selective Color: Blacks",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bk_adj_bla",
+   "offset": 392,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black",
+    "ui_tooltip": "Selective Color Blacks: Black",
+    "ui_category": "Selective Color: Blacks",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bk_adj_sat",
+   "offset": 396,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_tooltip": "Selective Color Blacks: Saturation",
+    "ui_category": "Selective Color: Blacks",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 400
+}

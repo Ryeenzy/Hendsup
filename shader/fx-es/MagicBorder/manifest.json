@@ -1,0 +1,317 @@
+{
+ "techniques": [
+  {
+   "name": "MagicBorder",
+   "passes": [
+    {
+     "vs": "E_xMagicBorder_xVS_CalculateBorderInfo",
+     "ps": "E_xMagicBorder_xPS_DrawBorder",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xMagicBorder_xVS_CalculateBorderInfo.vert",
+     "ps_file": "E_xMagicBorder_xPS_DrawBorder.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "LeftTopCornerDepth",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Depth of window left top corner",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     300
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "The depth the left top corner of the window is placed in the scene.\n0.0 is at the camera, 1000.0 is at the horizon"
+   }
+  },
+  {
+   "name": "RightTopCornerDepth",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Depth of window right top corner",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     300
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "The depth the right top corner of the window is placed in the scene.\n0.0 is at the camera, 1000.0 is at the horizon"
+   }
+  },
+  {
+   "name": "RightBottomCornerDepth",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Depth of window right bottom corner",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     300
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "The depth the right bottom corner of the window is placed in the scene.\n0.0 is at the camera, 1000.0 is at the horizon"
+   }
+  },
+  {
+   "name": "LeftBottomCornerDepth",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Depth of window left bottom corner",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     300
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "The depth the left bottom corner of the window is placed in the scene.\n0.0 is at the camera, 1000.0 is at the horizon"
+   }
+  },
+  {
+   "name": "ShowDepths",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Show corner depths",
+    "ui_tooltip": "If enabled it will show the depths of each corner. White is far away, black is close to the camera."
+   }
+  },
+  {
+   "name": "PictureFrameLeftTop",
+   "offset": 24,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1,
+    0.1
+   ],
+   "ann": {
+    "ui_label": "Picture frame left top coord",
+    "ui_type": "drag",
+    "ui_tooltip": "The left top coordinate of the picture frame"
+   }
+  },
+  {
+   "name": "PictureFrameRightTop",
+   "offset": 32,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.9,
+    0.1
+   ],
+   "ann": {
+    "ui_label": "Picture frame right top coord",
+    "ui_type": "drag",
+    "ui_tooltip": "The right top coordinate of the picture frame"
+   }
+  },
+  {
+   "name": "PictureFrameRightBottom",
+   "offset": 40,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.9,
+    0.9
+   ],
+   "ann": {
+    "ui_label": "Picture frame right bottom coord",
+    "ui_type": "drag",
+    "ui_tooltip": "The right bottom coordinate of the picture frame"
+   }
+  },
+  {
+   "name": "PictureFrameLeftBottom",
+   "offset": 48,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1,
+    0.9
+   ],
+   "ann": {
+    "ui_label": "Picture frame left bottom coord",
+    "ui_type": "drag",
+    "ui_tooltip": "The left bottom coordinate of the picture frame"
+   }
+  },
+  {
+   "name": "BorderColor",
+   "offset": 64,
+   "size": 16,
+   "rows": 4,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_label": "Border color",
+    "ui_type": "color",
+    "ui_tooltip": "The color of the border. Use the alpha value for blending. "
+   }
+  },
+  {
+   "name": "PictureFrameColor",
+   "offset": 80,
+   "size": 16,
+   "rows": 4,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.7,
+    0.7,
+    0.7,
+    1
+   ],
+   "ann": {
+    "ui_label": "Picture frame color",
+    "ui_type": "color",
+    "ui_tooltip": "The color of the area within the border. Use the alpha value for blending. "
+   }
+  }
+ ],
+ "total_uniform_size": 96
+}

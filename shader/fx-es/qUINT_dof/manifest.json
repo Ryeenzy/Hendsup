@@ -1,0 +1,851 @@
+{
+ "techniques": [
+  {
+   "name": "ADOF",
+   "passes": [
+    {
+     "vs": "E_xVS_ADOF",
+     "ps": "E_xPS_ReadFocus",
+     "w": 1,
+     "h": 1,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__ADOF_FocusTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xVS_ADOF.vert",
+     "ps_file": "E_xPS_ReadFocus.frag"
+    },
+    {
+     "vs": "E_xVS_ADOF",
+     "ps": "E_xPS_CopyFocus",
+     "w": 1,
+     "h": 1,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__ADOF_FocusTexPrev",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xVS_ADOF.vert",
+     "ps_file": "E_xPS_CopyFocus.frag"
+    },
+    {
+     "vs": "E_xVS_ADOF",
+     "ps": "E_xPS_CoC",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__CommonTex0",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 2,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xVS_ADOF.vert",
+     "ps_file": "E_xPS_CoC.frag"
+    },
+    {
+     "vs": "E_xVS_ADOF",
+     "ps": "E_xPS_DoF_Main",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__CommonTex1",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xVS_ADOF.vert",
+     "ps_file": "E_xPS_DoF_Main.frag"
+    },
+    {
+     "vs": "E_xVS_ADOF",
+     "ps": "E_xPS_DoF_Combine",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__CommonTex0",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 2,
+       "binding": 2
+      },
+      {
+       "index": 5,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xVS_ADOF.vert",
+     "ps_file": "E_xPS_DoF_Combine.frag"
+    },
+    {
+     "vs": "E_xVS_ADOF",
+     "ps": "E_xPS_DoF_Gauss1",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__CommonTex1",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xVS_ADOF.vert",
+     "ps_file": "E_xPS_DoF_Gauss1.frag"
+    },
+    {
+     "vs": "E_xVS_ADOF",
+     "ps": "E_xPS_DoF_Gauss2",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__CommonTex0",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xVS_ADOF.vert",
+     "ps_file": "E_xPS_DoF_Gauss2.frag"
+    },
+    {
+     "vs": "E_xVS_ADOF",
+     "ps": "E_xPS_DoF_ChromaticAberration",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xVS_ADOF.vert",
+     "ps_file": "E_xPS_DoF_ChromaticAberration.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__qUINT__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__qUINT__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__ADOF_FocusTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__ADOF_FocusTexPrev",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__CommonTex0",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__CommonTex1",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__qUINT__sBackBufferTex",
+   "tex": "V__qUINT__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__qUINT__sDepthBufferTex",
+   "tex": "V__qUINT__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sADOF_FocusTex",
+   "tex": "V__ADOF_FocusTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sADOF_FocusTexPrev",
+   "tex": "V__ADOF_FocusTexPrev",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sCommonTex0",
+   "tex": "V__CommonTex0",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sCommonTex1",
+   "tex": "V__CommonTex1",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "bADOF_AutofocusEnable",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "bool",
+    "ui_label": "Enable Autofocus",
+    "ui_tooltip": "Enables automated focus calculation.",
+    "ui_category": "Focusing"
+   }
+  },
+  {
+   "name": "fADOF_AutofocusCenter",
+   "offset": 8,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5,
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Autofocus Center",
+    "ui_tooltip": "X and Y coordinates of autofocus center. Axes start from upper left screen corner.",
+    "ui_category": "Focusing"
+   }
+  },
+  {
+   "name": "fADOF_AutofocusRadius",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.6
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Autofocus sample radius",
+    "ui_tooltip": "Radius of area contributing to focus calculation.",
+    "ui_category": "Focusing"
+   }
+  },
+  {
+   "name": "fADOF_AutofocusSpeed",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0.05
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Autofocus Adjustment Speed",
+    "ui_tooltip": "Adjustment speed of autofocus on focus change",
+    "ui_category": "Focusing"
+   }
+  },
+  {
+   "name": "fADOF_ManualfocusDepth",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.001
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Manual focus depth",
+    "ui_tooltip": "Manually adjusted static focus depth, disable autofocus to use it.",
+    "ui_category": "Focusing"
+   }
+  },
+  {
+   "name": "fADOF_NearBlurCurve",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    6
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     6
+    ],
+    "ui_label": "Near blur curve",
+    "ui_category": "Focusing"
+   }
+  },
+  {
+   "name": "fADOF_FarBlurCurve",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     6
+    ],
+    "ui_label": "Far blur curve",
+    "ui_category": "Focusing"
+   }
+  },
+  {
+   "name": "fADOF_HyperFocus",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Hyperfocal depth distance",
+    "ui_category": "Focusing"
+   }
+  },
+  {
+   "name": "fADOF_RenderResolutionMult",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Size Scale",
+    "ui_tooltip": "Resolution Scale of bokeh blur. 0.5 means 1/2 screen width and height.",
+    "ui_category": "Blur & Quality"
+   }
+  },
+  {
+   "name": "fADOF_ShapeRadius",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    20.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     100
+    ],
+    "ui_label": "Bokeh Maximal Blur Size",
+    "ui_tooltip": "Blur size of areas entirely out of focus.",
+    "ui_category": "Blur & Quality"
+   }
+  },
+  {
+   "name": "fADOF_SmootheningAmount",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    4
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_label": "Gaussian blur width",
+    "ui_tooltip": "Width of gaussian blur after bokeh filter.",
+    "ui_category": "Blur & Quality"
+   }
+  },
+  {
+   "name": "fADOF_BokehIntensity",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.3
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bokeh Intensity",
+    "ui_tooltip": "Intensity of bokeh discs.",
+    "ui_category": "Bokeh"
+   }
+  },
+  {
+   "name": "iADOF_BokehMode",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     3
+    ],
+    "ui_label": "Bokeh highlight type",
+    "ui_tooltip": "Different methods to emphasize bokeh sprites",
+    "ui_category": "Bokeh"
+   }
+  },
+  {
+   "name": "iADOF_ShapeVertices",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    6
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     3
+    ],
+    "ui_max": [
+     9
+    ],
+    "ui_label": "Bokeh shape vertices",
+    "ui_tooltip": "Vertices of bokeh kernel. 5 = pentagon, 6 = hexagon etc.",
+    "ui_category": "Bokeh"
+   }
+  },
+  {
+   "name": "iADOF_ShapeQuality",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     2
+    ],
+    "ui_max": [
+     25
+    ],
+    "ui_label": "Bokeh shape quality",
+    "ui_category": "Bokeh"
+   }
+  },
+  {
+   "name": "fADOF_ShapeCurvatureAmount",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bokeh shape roundness",
+    "ui_tooltip": "Roundness of bokeh kernel. 1.0 = circle, 0.0 = polygon.",
+    "ui_category": "Bokeh"
+   }
+  },
+  {
+   "name": "fADOF_ShapeRotation",
+   "offset": 72,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     360
+    ],
+    "ui_label": "Bokeh shape rotation",
+    "ui_category": "Bokeh"
+   }
+  },
+  {
+   "name": "fADOF_ShapeAnamorphRatio",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bokeh shape aspect ratio",
+    "ui_category": "Bokeh"
+   }
+  },
+  {
+   "name": "fADOF_ShapeChromaAmount",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    -0.1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Shape chromatic aberration amount",
+    "ui_category": "Chromatic Aberration"
+   }
+  },
+  {
+   "name": "iADOF_ShapeChromaMode",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_label": "Shape chromatic aberration type",
+    "ui_category": "Chromatic Aberration"
+   }
+  },
+  {
+   "name": "FRAME_TIME",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  },
+  {
+   "name": "FRAME_COUNT",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  }
+ ],
+ "total_uniform_size": 96
+}

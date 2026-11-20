@@ -1,0 +1,1113 @@
+{
+ "techniques": [
+  {
+   "name": "Blooming_HDR",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_StoreInfo",
+     "w": 64,
+     "h": 64,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texStored",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 12,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_StoreInfo.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_CurrentInfo",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texCurrColor",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 12,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_CurrentInfo.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_BloomH_A",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__BloomTexH_A",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_BloomH_A.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_BloomV_A",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__BloomTexV_A",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_BloomV_A.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_BloomH_B",
+     "w": 480,
+     "h": 270,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__BloomTexH_B",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_BloomH_B.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_BloomV_B",
+     "w": 480,
+     "h": 270,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__BloomTexV_B",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_BloomV_B.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_BloomH_C",
+     "w": 240,
+     "h": 135,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__BloomTexH_C",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 6,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_BloomH_C.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_BloomV_C",
+     "w": 240,
+     "h": 135,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__BloomTexV_C",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 7,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_BloomV_C.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xFinal_Bloom",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__BloomTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 4,
+       "binding": 2
+      },
+      {
+       "index": 5,
+       "binding": 3
+      },
+      {
+       "index": 6,
+       "binding": 4
+      },
+      {
+       "index": 7,
+       "binding": 5
+      },
+      {
+       "index": 8,
+       "binding": 6
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xFinal_Bloom.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xDownsample",
+     "w": 256,
+     "h": 256,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texDS",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xDownsample.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Temporal_Adaptation",
+     "w": 64,
+     "h": 64,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texTA",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 11,
+       "binding": 0
+      },
+      {
+       "index": 13,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Temporal_Adaptation.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOut",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 9,
+       "binding": 1
+      },
+      {
+       "index": 12,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOut.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__texCurrColor",
+   "w": 960,
+   "h": 540,
+   "levels": 8,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__BloomTexH_A",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__BloomTexV_A",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__BloomTexH_B",
+   "w": 480,
+   "h": 270,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__BloomTexV_B",
+   "w": 480,
+   "h": 270,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__BloomTexH_C",
+   "w": 240,
+   "h": 135,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__BloomTexV_C",
+   "w": 240,
+   "h": 135,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__BloomTex",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__TexFlareShared",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__texDS",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "fmt": 34,
+   "semantic": ""
+  },
+  {
+   "name": "V__texTA",
+   "w": 64,
+   "h": 64,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__texStored",
+   "w": 64,
+   "h": 64,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__DepthBuffer",
+   "tex": "V__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBuffer",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerCurrBB",
+   "tex": "V__texCurrColor",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__TextureBloomH_A",
+   "tex": "V__BloomTexH_A",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__TextureBloomV_A",
+   "tex": "V__BloomTexV_A",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__TextureBloomH_B",
+   "tex": "V__BloomTexH_B",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__TextureBloomV_B",
+   "tex": "V__BloomTexV_B",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__TextureBloomH_C",
+   "tex": "V__BloomTexH_C",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__TextureBloomV_C",
+   "tex": "V__BloomTexV_C",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__TextureBloom",
+   "tex": "V__BloomTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerFlare",
+   "tex": "V__TexFlareShared",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerDS",
+   "tex": "V__texDS",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerTA",
+   "tex": "V__texTA",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerStored",
+   "tex": "V__texStored",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Auto_Bloom",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Auto Bloom",
+    "ui_items": "Off\nAuto Intensity\nAuto Desaturation\nAuto Saturation\nAuto Intensity & Desaturation\nAuto Intensity & Saturation\n",
+    "ui_tooltip": "Auto Intensity will enable the shader to adjust Bloom Intensity automaticly though Bloom Opacity above.\nAuto Saturation will enable the shader to adjust Bloom Saturation automaticly though Bloom Saturation above.\nDefault is Off.",
+    "ui_category": "Bloom Adjustments"
+   }
+  },
+  {
+   "name": "CBT_Adjust",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Extracting Bright Colors",
+    "ui_tooltip": "Use this to set the color based brightness threshold for what is and what isn't allowed.\nThis is the most important setting, use Debug View to adjust this.\nDefault Number is 0.5.",
+    "ui_category": "Bloom Adjustments"
+   }
+  },
+  {
+   "name": "Bloom_Intensity",
+   "offset": 8,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1,
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Intensity & Bloom Opacity",
+    "ui_tooltip": "Use this to set Primary & Secondary Bloom Intensity and Overall Bloom Opacity for your content.\nNumber 0.1 & 0.5 is default.",
+    "ui_category": "Bloom Adjustments"
+   }
+  },
+  {
+   "name": "BloomSensitivity",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0.1
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Bloom Sensitivity",
+    "ui_tooltip": "A Curve that is applied to the bloom input.",
+    "ui_category": "Bloom Adjustments"
+   }
+  },
+  {
+   "name": "BloomCurve",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0.1
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Bloom Curve",
+    "ui_tooltip": "Defines the way the bloom spreads.",
+    "ui_category": "Bloom Adjustments"
+   }
+  },
+  {
+   "name": "Saturation",
+   "offset": 24,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.25,
+    0.25
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Saturation & Auto Cutoff Point",
+    "ui_tooltip": "Adjustment The amount to adjust the saturation of the Bloom.\nNumber 0.25 is default for both.",
+    "ui_category": "Bloom Adjustments"
+   }
+  },
+  {
+   "name": "Bloom_Spread",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Bloom Spread",
+    "ui_tooltip": "Adjust to spread out the primary Bloom.\nThis is used for spreading Bloom.\nNumber 1.0 is default.",
+    "ui_category": "Bloom Adjustments"
+   }
+  },
+  {
+   "name": "Dither_Bloom",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.125
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Dither",
+    "ui_tooltip": "Adjustment The amount Dither on bloom to reduce banding.\nNumber 0.25 is default.",
+    "ui_category": "Bloom Adjustments"
+   }
+  },
+  {
+   "name": "Tonemappers",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Tonemappers",
+    "ui_tooltip": "Changes how color get used for the other effects.\n",
+    "ui_items": "Timothy\nACESFitted\n",
+    "ui_category": "Tonemapper Adjustments"
+   }
+  },
+  {
+   "name": "WP",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_label": "Linear White Point Value",
+    "ui_category": "Tonemapper Adjustments"
+   }
+  },
+  {
+   "name": "Exp",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     -4
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_label": "Exposure",
+    "ui_category": "Tonemapper Adjustments"
+   }
+  },
+  {
+   "name": "GreyValue",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.128
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     0.5
+    ],
+    "ui_label": "Exposure 50% Greyvalue",
+    "ui_tooltip": "Exposure 50% Greyvalue Set this Higher when using ACES Fitted and Lower when using Timoithy.",
+    "ui_category": "Tonemapper Adjustments"
+   }
+  },
+  {
+   "name": "Gamma",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2.2
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_label": "Gamma value",
+    "ui_tooltip": "Most monitors/images use a value of 2.2. Setting this to 1 disables the inital color space conversion from gamma to linear.",
+    "ui_category": "Tonemapper Adjustments"
+   }
+  },
+  {
+   "name": "Contrast",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     3
+    ],
+    "ui_tooltip": "Contrast Adjustment.\nNumber 1.0 is default.",
+    "ui_category": "Tonemapper Adjustments"
+   }
+  },
+  {
+   "name": "Saturate",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_label": "Image Saturation",
+    "ui_tooltip": "Adjustment The amount to adjust the saturation of the color in the image.\nNumber 1.0 is default.",
+    "ui_category": "Tonemapper Adjustments"
+   }
+  },
+  {
+   "name": "Inv_Tonemappers",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Extract HDR Information",
+    "ui_tooltip": "Changes how color get used for the other effects.\nTurn this Off when the game has a good HDR implementation.",
+    "ui_items": "Off\nLuma\nColor\nMax Color Brightness\n",
+    "ui_category": "HDR"
+   }
+  },
+  {
+   "name": "HDR_BP",
+   "offset": 72,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "HDR Power",
+    "ui_tooltip": "Use adjsut the HDR Power, You can override this value and set it to like 1.5 or something.\nNumber 0.5 is default.",
+    "ui_category": "HDR"
+   }
+  },
+  {
+   "name": "Bloom_BA_iToneMapper",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "HDR Bloom Application",
+    "ui_tooltip": "This will let you swap between Befor HDR ToneMapper and After.",
+    "ui_category": "HDR"
+   }
+  },
+  {
+   "name": "Auto_Exposure",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Auto Exposure Type",
+    "ui_items": "Off\nAuto Exposure & Eye Adaptation\nAuto Exposure & Eyelids Adaptation\n",
+    "ui_tooltip": "This will enable the shader to adjust Exposure automaticly.\nThis will also turn on Eye Adaptation for this shader.\nThis is based off Prod80's Port of an Auto-Expo Algo.\nPadraic Hennessy, MJP and David Neubelt.",
+    "ui_category": "Adaptation"
+   }
+  },
+  {
+   "name": "Adapt_Adjust",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Eye Adapt Speed",
+    "ui_tooltip": "Use this to Adjust Eye Adaptation Speed.\nSet from Zero to One, Zero is the slowest.\nNumber 0.5 is default.",
+    "ui_category": "Adaptation"
+   }
+  },
+  {
+   "name": "Adapt_Seek",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Eye Adapt Seeking",
+    "ui_tooltip": "Use this to Adjust Eye Seeking Radius for Average Brightness.\nSet from 0 to 1, 1 is Full-Screen Average Brightness.\nNumber 0.5 is default.",
+    "ui_category": "Adaptation"
+   }
+  },
+  {
+   "name": "Debug_View",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Debug View",
+    "ui_items": "Normal View\nBloom View\nHeat Map\n",
+    "ui_tooltip": "To view Shade & Blur effect on the game, movie piture & ect.",
+    "ui_category": "Debugging"
+   }
+  },
+  {
+   "name": "timer",
+   "offset": 96,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  },
+  {
+   "name": "frametime",
+   "offset": 100,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  }
+ ],
+ "total_uniform_size": 104
+}

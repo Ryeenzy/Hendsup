@@ -1,0 +1,201 @@
+{
+ "techniques": [
+  {
+   "name": "DepthDarkness",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xDepthDarkness_xPS_ApplyDarkness",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xDepthDarkness_xPS_ApplyDarkness.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "FocusPlane",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.01
+   ],
+   "ann": {
+    "ui_label": "Focus plane",
+    "ui_type": "drag",
+    "ui_min": [
+     0.001
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The depth of the plane where the blur starts, related to the camera"
+   }
+  },
+  {
+   "name": "FocusRange",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.001
+   ],
+   "ann": {
+    "ui_label": "Focus range",
+    "ui_type": "drag",
+    "ui_min": [
+     0.001
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The range around the focus plane that's more or less not blurred.\n1.0 is the FocusPlaneMaxRange."
+   }
+  },
+  {
+   "name": "FocusPlaneMaxRange",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    50
+   ],
+   "ann": {
+    "ui_label": "Focus plane max range",
+    "ui_type": "drag",
+    "ui_min": [
+     10
+    ],
+    "ui_max": [
+     300
+    ],
+    "ui_step": [
+     1
+    ],
+    "ui_tooltip": "The max range Focus Plane for when Focus Plane is 1.0.\n1000 is the horizon."
+   }
+  },
+  {
+   "name": "DarknessColor",
+   "offset": 16,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "ui_label": "Darkness color",
+    "ui_type": "color"
+   }
+  },
+  {
+   "name": "BlendFactor",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Blend factor",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "How strong the effect is applied to the original image. 1.0 is 100%, 0.0 is 0%.",
+    "ui_step": [
+     0.01
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 32
+}

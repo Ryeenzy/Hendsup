@@ -1,0 +1,129 @@
+{
+ "techniques": [
+  {
+   "name": "Curves",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xCurvesPass",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xCurvesPass.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Mode",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Luma\nChroma\nBoth Luma and Chroma\n",
+    "ui_tooltip": "Choose what to apply contrast to."
+   }
+  },
+  {
+   "name": "Formula",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    4
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Sine\nAbs split\nSmoothstep\nExp formula\nSimplified Catmull-Rom (0,0,1,1)\nPerlins Smootherstep\nAbs add\nTechicolor Cinestyle\nParabola\nHalf-circles\nPolynomial split\n",
+    "ui_tooltip": "The contrast s-curve you want to use. Note that Technicolor Cinestyle is practically identical to Sine, but runs slower. In fact I think the difference might only be due to rounding errors. I prefer 2 myself, but 3 is a nice alternative with a little more effect (but harsher on the highlight and shadows) and it's the fastest formula."
+   }
+  },
+  {
+   "name": "Contrast",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.65
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "The amount of contrast you want."
+   }
+  }
+ ],
+ "total_uniform_size": 12
+}

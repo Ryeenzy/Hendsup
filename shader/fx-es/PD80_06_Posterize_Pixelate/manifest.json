@@ -1,0 +1,369 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_06_Posterize_Pixelate",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_posterizepixelate_xPS_MipMe",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_posterizepixelate__texMipMe",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_posterizepixelate_xPS_MipMe.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_posterizepixelate_xPS_Posterize",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_posterizepixelate_xPS_Posterize.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNoiseRGB",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texGaussNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_posterizepixelate__texMipMe",
+   "w": 1920,
+   "h": 1080,
+   "levels": 9,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerNoise",
+   "tex": "V__texNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerRGBNoise",
+   "tex": "V__texNoiseRGB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerGaussNoise",
+   "tex": "V__texGaussNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_posterizepixelate__samplerMipMe",
+   "tex": "V__pd80_posterizepixelate__texMipMe",
+   "filter": 0,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "pp",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "number_of_levels",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    255
+   ],
+   "ann": {
+    "ui_label": "Number of Levels",
+    "ui_tooltip": "Number of Levels",
+    "ui_category": "Posterize",
+    "ui_type": "slider",
+    "ui_min": [
+     2
+    ],
+    "ui_max": [
+     255
+    ]
+   }
+  },
+  {
+   "name": "pixel_size",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Pixel Size",
+    "ui_tooltip": "Pixel Size",
+    "ui_category": "Pixelate",
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     9
+    ]
+   }
+  },
+  {
+   "name": "effect_strength",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Effect Strength",
+    "ui_tooltip": "Effect Strength",
+    "ui_category": "Posterize Pixelate",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "border_str",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Border Strength",
+    "ui_tooltip": "Border Strength",
+    "ui_category": "Posterize Pixelate",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "enable_dither",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Enable Dithering",
+    "ui_tooltip": "Enable Dithering",
+    "ui_category": "Posterize Pixelate"
+   }
+  },
+  {
+   "name": "dither_motion",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Dither Motion",
+    "ui_tooltip": "Dither Motion",
+    "ui_category": "Posterize Pixelate"
+   }
+  },
+  {
+   "name": "dither_strength",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Dither Strength",
+    "ui_tooltip": "Dither Strength",
+    "ui_category": "Posterize Pixelate",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "pingpong",
+   "offset": 40,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 48
+}

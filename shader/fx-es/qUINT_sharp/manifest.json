@@ -1,0 +1,180 @@
+{
+ "techniques": [
+  {
+   "name": "DELC_Sharpen",
+   "passes": [
+    {
+     "vs": "E_xVS_Sharp",
+     "ps": "E_xPS_Sharp",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xVS_Sharp.vert",
+     "ps_file": "E_xPS_Sharp.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__qUINT__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__qUINT__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__qUINT__sBackBufferTex",
+   "tex": "V__qUINT__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__qUINT__sDepthBufferTex",
+   "tex": "V__qUINT__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "SHARP_STRENGTH",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.7
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Sharpen Strength",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "DEPTH_MASK_ENABLE",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Use Depth Mask"
+   }
+  },
+  {
+   "name": "RMS_MASK_ENABLE",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Use Local Contrast Enhancer"
+   }
+  },
+  {
+   "name": "SHARPEN_MODE",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "radio",
+    "ui_label": "Sharpen Mode",
+    "ui_category": "Sharpen Mode",
+    "ui_items": "Chroma\nLuma\n"
+   }
+  },
+  {
+   "name": "FRAME_TIME",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  },
+  {
+   "name": "FRAME_COUNT",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  }
+ ],
+ "total_uniform_size": 24
+}

@@ -1,0 +1,492 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_04_Black_and_White",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_blackandwhite_xPS_BlackandWhite",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_blackandwhite_xPS_BlackandWhite.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNoiseRGB",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texGaussNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerNoise",
+   "tex": "V__texNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerRGBNoise",
+   "tex": "V__texNoiseRGB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerGaussNoise",
+   "tex": "V__texGaussNoise",
+   "filter": 0,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "pp",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "enable_dither",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Enable Dithering",
+    "ui_tooltip": "Enable Dithering",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "dither_strength",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Dither Strength",
+    "ui_tooltip": "Dither Strength",
+    "ui_category": "Global",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "curve_str",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Contrast Smoothness",
+    "ui_tooltip": "Contrast Smoothness",
+    "ui_category": "Global",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     4
+    ]
+   }
+  },
+  {
+   "name": "show_clip",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Show Clipping Mask",
+    "ui_tooltip": "Show Clipping Mask",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "bw_mode",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    13
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Black & White Conversion",
+    "ui_tooltip": "Black & White Conversion",
+    "ui_category": "Black & White Techniques",
+    "ui_items": "Red Filter\nGreen Filter\nBlue Filter\nHigh Contrast Red Filter\nHigh Contrast Green Filter\nHigh Contrast Blue Filter\nInfrared\nMaximum Black\nMaximum White\nPreserve Luminosity\nNeutral Green Filter\nMaintain Contrasts\nHigh Contrast\nCustom\n"
+   }
+  },
+  {
+   "name": "redchannel",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.2
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Custom: Red Weight",
+    "ui_tooltip": "Custom: Red Weight",
+    "ui_category": "Black & White Techniques",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     3
+    ]
+   }
+  },
+  {
+   "name": "yellowchannel",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.4
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Custom: Yellow Weight",
+    "ui_tooltip": "Custom: Yellow Weight",
+    "ui_category": "Black & White Techniques",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     3
+    ]
+   }
+  },
+  {
+   "name": "greenchannel",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.6
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Custom: Green Weight",
+    "ui_tooltip": "Custom: Green Weight",
+    "ui_category": "Black & White Techniques",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     3
+    ]
+   }
+  },
+  {
+   "name": "cyanchannel",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Custom: Cyan Weight",
+    "ui_tooltip": "Custom: Cyan Weight",
+    "ui_category": "Black & White Techniques",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     3
+    ]
+   }
+  },
+  {
+   "name": "bluechannel",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    -0.6
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Custom: Blue Weight",
+    "ui_tooltip": "Custom: Blue Weight",
+    "ui_category": "Black & White Techniques",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     3
+    ]
+   }
+  },
+  {
+   "name": "magentachannel",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    -0.2
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Custom: Magenta Weight",
+    "ui_tooltip": "Custom: Magenta Weight",
+    "ui_category": "Black & White Techniques",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     3
+    ]
+   }
+  },
+  {
+   "name": "use_tint",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Enable Tinting",
+    "ui_tooltip": "Enable Tinting",
+    "ui_category": "Tint"
+   }
+  },
+  {
+   "name": "tinthue",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.083
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Tint Hue",
+    "ui_tooltip": "Tint Hue",
+    "ui_category": "Tint",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "tintsat",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.12
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Tint Saturation",
+    "ui_tooltip": "Tint Saturation",
+    "ui_category": "Tint",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "pingpong",
+   "offset": 64,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 72
+}

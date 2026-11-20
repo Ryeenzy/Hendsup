@@ -1,0 +1,11 @@
+Sky panoramas for PrismShade Skybox, from Poly Haven (https://polyhaven.com), released under CC0.
+Each is the published tonemapped JPEG, scaled from 8192x4096 to 4096x2048.
+
+Day.jpg     Kloofendal 48d Partly Cloudy (Pure Sky), Greg Zaal and Jarod Guest
+            https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky
+Sunset.jpg  Belfast Sunset (Pure Sky), Dimitrios Savva, Greg Zaal and Jarod Guest
+            https://polyhaven.com/a/belfast_sunset_puresky
+Dusk.jpg    Qwantani Dusk 2 (Pure Sky), Greg Zaal and Jarod Guest
+            https://polyhaven.com/a/qwantani_dusk_2_puresky
+Night.jpg   Qwantani Night (Pure Sky), Greg Zaal and Jarod Guest
+            https://polyhaven.com/a/qwantani_night_puresky

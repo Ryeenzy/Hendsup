@@ -1,0 +1,320 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_03_Levels",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_levels_xPS_Levels",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_levels_xPS_Levels.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNoiseRGB",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texGaussNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerNoise",
+   "tex": "V__texNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerRGBNoise",
+   "tex": "V__texNoiseRGB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerGaussNoise",
+   "tex": "V__texGaussNoise",
+   "filter": 0,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "pp",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "enable_dither",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Enable Dithering",
+    "ui_tooltip": "Enable Dithering",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "dither_strength",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Dither Strength",
+    "ui_tooltip": "Dither Strength",
+    "ui_category": "Global",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "ib",
+   "offset": 16,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Black IN Level",
+    "ui_tooltip": "Black IN Level",
+    "ui_category": "Levels"
+   }
+  },
+  {
+   "name": "iw",
+   "offset": 32,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "White IN Level",
+    "ui_tooltip": "White IN Level",
+    "ui_category": "Levels"
+   }
+  },
+  {
+   "name": "ob",
+   "offset": 48,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Black OUT Level",
+    "ui_tooltip": "Black OUT Level",
+    "ui_category": "Levels"
+   }
+  },
+  {
+   "name": "ow",
+   "offset": 64,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "White OUT Level",
+    "ui_tooltip": "White OUT Level",
+    "ui_category": "Levels"
+   }
+  },
+  {
+   "name": "ig",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Gamma Adjustment",
+    "ui_tooltip": "Gamma Adjustment",
+    "ui_category": "Levels",
+    "ui_type": "slider",
+    "ui_min": [
+     0.05
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "pingpong",
+   "offset": 80,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 88
+}

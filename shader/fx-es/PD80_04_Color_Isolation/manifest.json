@@ -1,0 +1,170 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_04_ColorIsolation",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_ColorIsolation_xPS_ColorIso",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_ColorIsolation_xPS_ColorIso.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "hueMid",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Hue Selection (Middle)",
+    "ui_category": "Color Isolation",
+    "ui_tooltip": "0 = Red, 0.167 = Yellow, 0.333 = Green, 0.5 = Cyan, 0.666 = Blue, 0.833 = Magenta",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "hueRange",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.167
+   ],
+   "ann": {
+    "ui_label": "Hue Range Selection",
+    "ui_tooltip": "Hue Range Selection",
+    "ui_category": "Color Isolation",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "satLimit",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Saturation Output",
+    "ui_tooltip": "Saturation Output",
+    "ui_category": "Color Isolation",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "fxcolorMix",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Mix with Original",
+    "ui_tooltip": "Mix with Original",
+    "ui_category": "Color Isolation",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 16
+}

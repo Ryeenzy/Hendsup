@@ -1,0 +1,519 @@
+{
+ "techniques": [
+  {
+   "name": "MXAO",
+   "passes": [
+    {
+     "vs": "E_xVS_MXAO",
+     "ps": "E_xPS_InputBufferSetup",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXAO_ColorTex",
+      "V__MXAO_DepthTex",
+      "V__MXAO_NormalTex",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xVS_MXAO.vert",
+     "ps_file": "E_xPS_InputBufferSetup.frag"
+    },
+    {
+     "vs": "E_xVS_MXAO",
+     "ps": "E_xPS_StencilSetup",
+     "w": 0,
+     "h": 0,
+     "clear": 1,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xVS_MXAO.vert",
+     "ps_file": "E_xPS_StencilSetup.frag"
+    },
+    {
+     "vs": "E_xVS_MXAO",
+     "ps": "E_xPS_AmbientObscurance",
+     "w": 1920,
+     "h": 1080,
+     "clear": 1,
+     "srgb": 0,
+     "rt": [
+      "V__CommonTex0",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      },
+      {
+       "index": 4,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xVS_MXAO.vert",
+     "ps_file": "E_xPS_AmbientObscurance.frag"
+    },
+    {
+     "vs": "E_xVS_MXAO",
+     "ps": "E_xPS_SpatialFilter1",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__CommonTex1",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xVS_MXAO.vert",
+     "ps_file": "E_xPS_SpatialFilter1.frag"
+    },
+    {
+     "vs": "E_xVS_MXAO",
+     "ps": "E_xPS_SpatialFilter2",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      },
+      {
+       "index": 4,
+       "binding": 2
+      },
+      {
+       "index": 6,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xVS_MXAO.vert",
+     "ps_file": "E_xPS_SpatialFilter2.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__qUINT__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__qUINT__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__MXAO_ColorTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 5,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXAO_DepthTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 3,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXAO_NormalTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 5,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__CommonTex0",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__CommonTex1",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__qUINT__sBackBufferTex",
+   "tex": "V__qUINT__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__qUINT__sDepthBufferTex",
+   "tex": "V__qUINT__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXAO_ColorTex",
+   "tex": "V__MXAO_ColorTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXAO_DepthTex",
+   "tex": "V__MXAO_DepthTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXAO_NormalTex",
+   "tex": "V__MXAO_NormalTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sCommonTex0",
+   "tex": "V__CommonTex0",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sCommonTex1",
+   "tex": "V__CommonTex1",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "MXAO_GLOBAL_SAMPLE_QUALITY_PRESET",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Sample Quality",
+    "ui_items": "Very Low  (4 samples)\nLow       (8 samples)\nMedium    (16 samples)\nHigh      (24 samples)\nVery High (32 samples)\nUltra     (64 samples)\nMaximum   (255 samples)\nAuto      (variable)\n",
+    "ui_tooltip": "Global quality control, main performance knob. Higher radii might require higher quality.",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "MXAO_SAMPLE_RADIUS",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_label": "Sample Radius",
+    "ui_tooltip": "Sample radius of MXAO, higher means more large-scale occlusion with less fine-scale details.",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "MXAO_SAMPLE_NORMAL_BIAS",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.2
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     0.8
+    ],
+    "ui_label": "Normal Bias",
+    "ui_tooltip": "Occlusion Cone bias to reduce self-occlusion of surfaces that have a low angle to each other.",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "MXAO_GLOBAL_RENDER_SCALE",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Render Size Scale",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Factor of MXAO resolution, lower values greatly reduce performance overhead but decrease quality.\n1.0 = MXAO is computed in original resolution\n0.5 = MXAO is computed in 1/2 width 1/2 height of original resolution\n...",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "MXAO_SSAO_AMOUNT",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_label": "Ambient Occlusion Amount",
+    "ui_tooltip": "Intensity of AO effect. Can cause pitch black clipping if set too high.",
+    "ui_category": "Ambient Occlusion"
+   }
+  },
+  {
+   "name": "MXAO_BLEND_TYPE",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     3
+    ],
+    "ui_label": "Blending Mode",
+    "ui_tooltip": "Different blending modes for merging AO/IL with original color.\nBlending mode 0 matches formula of MXAO 2.0 and older.",
+    "ui_category": "Blending"
+   }
+  },
+  {
+   "name": "MXAO_FADE_DEPTH_START",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.05
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Fade Out Start",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Distance where MXAO starts to fade out. 0.0 = camera, 1.0 = sky. Must be less than Fade Out End.",
+    "ui_category": "Blending"
+   }
+  },
+  {
+   "name": "MXAO_FADE_DEPTH_END",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.4
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Fade Out End",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Distance where MXAO completely fades out. 0.0 = camera, 1.0 = sky. Must be greater than Fade Out Start.",
+    "ui_category": "Blending"
+   }
+  },
+  {
+   "name": "MXAO_DEBUG_VIEW_ENABLE",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Enable Debug View",
+    "ui_items": "None\nAO/IL channel\nNormal vectors\n",
+    "ui_tooltip": "Different debug outputs",
+    "ui_category": "Debug"
+   }
+  },
+  {
+   "name": "FRAME_TIME",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  },
+  {
+   "name": "FRAME_COUNT",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  }
+ ],
+ "total_uniform_size": 44
+}

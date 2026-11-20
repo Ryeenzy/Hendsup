@@ -1,0 +1,731 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_02_Bloom",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_hqbloom_xPS_WriteBLuma",
+     "w": 256,
+     "h": 256,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_hqbloom__texBLuma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 6,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_hqbloom_xPS_WriteBLuma.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_hqbloom_xPS_AvgBLuma",
+     "w": 1,
+     "h": 1,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_hqbloom__texBAvgLuma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 7,
+       "binding": 0
+      },
+      {
+       "index": 9,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_hqbloom_xPS_AvgBLuma.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_hqbloom_xPS_PrepLOD",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_hqbloom__texPrepLOD",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_hqbloom_xPS_PrepLOD.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_hqbloom_xPS_BloomIn",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_hqbloom__texBloomIn",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      },
+      {
+       "index": 8,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_hqbloom_xPS_BloomIn.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_hqbloom_xPS_GaussianH",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_hqbloom__texBloomH",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 10,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_hqbloom_xPS_GaussianH.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_hqbloom_xPS_GaussianV",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_hqbloom__texBloom",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 11,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_hqbloom_xPS_GaussianV.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_hqbloom_xPS_Combine",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_hqbloom__texBloomAll",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 12,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_hqbloom_xPS_Combine.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_hqbloom_xPS_Gaussian",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 13,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_hqbloom_xPS_Gaussian.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_hqbloom_xPS_PrevAvgBLuma",
+     "w": 1,
+     "h": 1,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_hqbloom__texBPrevAvgLuma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 8,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_hqbloom_xPS_PrevAvgBLuma.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNoiseRGB",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texGaussNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_hqbloom__texPrepLOD",
+   "w": 1920,
+   "h": 1080,
+   "levels": 5,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_hqbloom__texBLuma",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_hqbloom__texBAvgLuma",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_hqbloom__texBPrevAvgLuma",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_hqbloom__texBloomIn",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_hqbloom__texBloomH",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_hqbloom__texBloom",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_hqbloom__texBloomAll",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerNoise",
+   "tex": "V__texNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerRGBNoise",
+   "tex": "V__texNoiseRGB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerGaussNoise",
+   "tex": "V__texGaussNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_hqbloom__samplerLODColor",
+   "tex": "V__pd80_hqbloom__texPrepLOD",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_hqbloom__samplerLinColor",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 1
+  },
+  {
+   "name": "V__pd80_hqbloom__samplerBLuma",
+   "tex": "V__pd80_hqbloom__texBLuma",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_hqbloom__samplerBAvgLuma",
+   "tex": "V__pd80_hqbloom__texBAvgLuma",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_hqbloom__samplerBPrevAvgLuma",
+   "tex": "V__pd80_hqbloom__texBPrevAvgLuma",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_hqbloom__samplerBloomIn",
+   "tex": "V__pd80_hqbloom__texBloomIn",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_hqbloom__samplerBloomH",
+   "tex": "V__pd80_hqbloom__texBloomH",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_hqbloom__samplerBloom",
+   "tex": "V__pd80_hqbloom__texBloom",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_hqbloom__samplerBloomAll",
+   "tex": "V__pd80_hqbloom__texBloomAll",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "pp",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "debugBloom",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Show only bloom on screen",
+    "ui_category": "Bloom debug"
+   }
+  },
+  {
+   "name": "dither_strength",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_label": "Bloom Dither Stength",
+    "ui_tooltip": "Bloom Dither Stength",
+    "ui_category": "Bloom",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "BloomMix",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_label": "Bloom Mix",
+    "ui_tooltip": "Bloom Mix",
+    "ui_category": "Bloom",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "BloomLimit",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.333
+   ],
+   "ann": {
+    "ui_label": "Bloom Threshold",
+    "ui_tooltip": "Bloom Threshold",
+    "ui_category": "Bloom",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "GreyValue",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.333
+   ],
+   "ann": {
+    "ui_label": "Bloom Exposure 50% Greyvalue",
+    "ui_tooltip": "Bloom Exposure 50% Greyvalue",
+    "ui_category": "Bloom",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "bExposure",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Bloom Exposure",
+    "ui_tooltip": "Bloom Exposure",
+    "ui_category": "Bloom",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     5
+    ]
+   }
+  },
+  {
+   "name": "BlurSigma",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    30
+   ],
+   "ann": {
+    "ui_label": "Bloom Width",
+    "ui_tooltip": "Bloom Width",
+    "ui_category": "Bloom",
+    "ui_type": "slider",
+    "ui_min": [
+     10
+    ],
+    "ui_max": [
+     300
+    ]
+   }
+  },
+  {
+   "name": "BloomSaturation",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Bloom Add Saturation",
+    "ui_tooltip": "Bloom Add Saturation",
+    "ui_category": "Bloom",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "enableBKelvin",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Enable Bloom Color Temp (K)",
+    "ui_tooltip": "Enable Bloom Color Temp (K)",
+    "ui_category": "Bloom Color Temperature"
+   }
+  },
+  {
+   "name": "BKelvin",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 5,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    6500
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Bloom Color Temp (K)",
+    "ui_tooltip": "Bloom Color Temp (K)",
+    "ui_category": "Bloom Color Temperature",
+    "ui_min": [
+     1000
+    ],
+    "ui_max": [
+     40000
+    ]
+   }
+  },
+  {
+   "name": "frametime",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  }
+ ],
+ "total_uniform_size": 52
+}

@@ -1,0 +1,290 @@
+{
+ "techniques": [
+  {
+   "name": "AdaptiveFog",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Otis_AFG_PerformBloom",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__Otis_BloomTarget",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Otis_AFG_PerformBloom.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Otis_AFG_BlendFogWithNormalBuffer",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 2,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Otis_AFG_BlendFogWithNormalBuffer.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__Otis_BloomTarget",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__Otis_BloomSampler",
+   "tex": "V__Otis_BloomTarget",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "FogColor",
+   "offset": 0,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.9,
+    0.9,
+    0.9
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_tooltip": "Color of the fog, in (red , green, blue)"
+   }
+  },
+  {
+   "name": "MaxFogFactor",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.8
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "The maximum fog factor. 1.0 makes distant objects completely fogged out, a lower factor will shimmer them through the fog.",
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "FogCurve",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     175
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "The curve how quickly distant objects get fogged. A low value will make the fog appear just slightly. A high value will make the fog kick in rather quickly. The max value in the rage makes it very hard in general to view any objects outside fog."
+   }
+  },
+  {
+   "name": "FogStart",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.05
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "Start of the fog. 0.0 is at the camera, 1.0 is at the horizon, 0.5 is halfway towards the horizon. Before this point no fog will appear."
+   }
+  },
+  {
+   "name": "BloomThreshold",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    10.25
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     50
+    ],
+    "ui_step": [
+     0.1
+    ],
+    "ui_tooltip": "Threshold for what is a bright light (that causes bloom) and what isn't."
+   }
+  },
+  {
+   "name": "BloomPower",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    10
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     100
+    ],
+    "ui_step": [
+     0.1
+    ],
+    "ui_tooltip": "Strength of the bloom"
+   }
+  },
+  {
+   "name": "BloomWidth",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.2
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Width of the bloom"
+   }
+  }
+ ],
+ "total_uniform_size": 36
+}

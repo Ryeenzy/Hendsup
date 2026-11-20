@@ -1,0 +1,795 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_01B_RT_Correct_Color",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_correctcolor_xPS_WriteColor",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_correctcolor__texColor",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_correctcolor_xPS_WriteColor.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_correctcolor_xPS_MinMax_1",
+     "w": 32,
+     "h": 32,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_correctcolor__texDS_1_Min",
+      "V__pd80_correctcolor__texDS_1_Max",
+      "V__pd80_correctcolor__texDS_1_Mid",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      },
+      {
+       "index": 10,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_correctcolor_xPS_MinMax_1.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_correctcolor_xPS_MinMax_1x1",
+     "w": 6,
+     "h": 2,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_correctcolor__texDS_1x1",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 6,
+       "binding": 0
+      },
+      {
+       "index": 7,
+       "binding": 1
+      },
+      {
+       "index": 8,
+       "binding": 2
+      },
+      {
+       "index": 10,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_correctcolor_xPS_MinMax_1x1.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_correctcolor_xPS_RemoveTint",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      },
+      {
+       "index": 6,
+       "binding": 2
+      },
+      {
+       "index": 7,
+       "binding": 3
+      },
+      {
+       "index": 8,
+       "binding": 4
+      },
+      {
+       "index": 9,
+       "binding": 5
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_correctcolor_xPS_RemoveTint.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_correctcolor_xPS_StorePrev",
+     "w": 6,
+     "h": 2,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_correctcolor__texPrevious",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 9,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_correctcolor_xPS_StorePrev.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNoiseRGB",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texGaussNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_correctcolor__texColor",
+   "w": 1920,
+   "h": 1080,
+   "levels": 5,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_correctcolor__texDS_1_Max",
+   "w": 32,
+   "h": 32,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_correctcolor__texDS_1_Min",
+   "w": 32,
+   "h": 32,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_correctcolor__texDS_1_Mid",
+   "w": 32,
+   "h": 32,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_correctcolor__texDS_1x1",
+   "w": 6,
+   "h": 2,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_correctcolor__texPrevious",
+   "w": 6,
+   "h": 2,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerNoise",
+   "tex": "V__texNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerRGBNoise",
+   "tex": "V__texNoiseRGB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerGaussNoise",
+   "tex": "V__texGaussNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcolor__samplerColor",
+   "tex": "V__pd80_correctcolor__texColor",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcolor__samplerDS_1_Max",
+   "tex": "V__pd80_correctcolor__texDS_1_Max",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcolor__samplerDS_1_Min",
+   "tex": "V__pd80_correctcolor__texDS_1_Min",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcolor__samplerDS_1_Mid",
+   "tex": "V__pd80_correctcolor__texDS_1_Mid",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcolor__samplerDS_1x1",
+   "tex": "V__pd80_correctcolor__texDS_1x1",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcolor__samplerPrevious",
+   "tex": "V__pd80_correctcolor__texPrevious",
+   "filter": 0,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "pp",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "debug_mode",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Debug Mode",
+    "ui_tooltip": "Debug Mode",
+    "ui_category": "Debug Mode",
+    "ui_items": "Default\nMin Color Texture\nMax Color Texture\nMid Color Texture\n"
+   }
+  },
+  {
+   "name": "enable_fade",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_text": "----------------------------------------------",
+    "ui_label": "Enable Time Based Fade",
+    "ui_tooltip": "Enable Time Based Fade",
+    "ui_category": "Global: Remove Tint"
+   }
+  },
+  {
+   "name": "freeze",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Freeze Correction",
+    "ui_tooltip": "Freeze Correction",
+    "ui_category": "Global: Remove Tint"
+   }
+  },
+  {
+   "name": "transition_speed",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Time Based Fade Speed",
+    "ui_tooltip": "Time Based Fade Speed",
+    "ui_category": "Global: Remove Tint",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "enable_dither",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Enable Dithering",
+    "ui_tooltip": "Enable Dithering",
+    "ui_category": "Global: Remove Tint"
+   }
+  },
+  {
+   "name": "dither_strength",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Dither Strength",
+    "ui_tooltip": "Dither Strength",
+    "ui_category": "Global: Remove Tint",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "rt_enable_whitepoint_correction",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_text": "----------------------------------------------",
+    "ui_label": "Enable Whitepoint Correction",
+    "ui_tooltip": "Enable Whitepoint Correction",
+    "ui_category": "Whitepoint: Remove Tint"
+   }
+  },
+  {
+   "name": "rt_whitepoint_respect_luma",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Respect Luma",
+    "ui_tooltip": "Whitepoint: Respect Luma",
+    "ui_category": "Whitepoint: Remove Tint"
+   }
+  },
+  {
+   "name": "rt_whitepoint_method",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Color Detection Method",
+    "ui_category": "Whitepoint: Remove Tint",
+    "ui_items": "By Color Channel (auto-color)\nFind Light Color (auto-tone)\n"
+   }
+  },
+  {
+   "name": "rt_wp_str",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "White Point Correction Strength",
+    "ui_tooltip": "Whitepoint: White Point Correction Strength",
+    "ui_category": "Whitepoint: Remove Tint",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "rt_wp_rl_str",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "White Point Respect Luma Strength",
+    "ui_tooltip": "Whitepoint: White Point Respect Luma Strength",
+    "ui_category": "Whitepoint: Remove Tint",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "rt_enable_blackpoint_correction",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_text": "----------------------------------------------",
+    "ui_label": "Enable Blackpoint Correction",
+    "ui_tooltip": "Enable Blackpoint Correction",
+    "ui_category": "Blackpoint: Remove Tint"
+   }
+  },
+  {
+   "name": "rt_blackpoint_respect_luma",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Respect Luma",
+    "ui_tooltip": "Blackpoint: Respect Luma",
+    "ui_category": "Blackpoint: Remove Tint"
+   }
+  },
+  {
+   "name": "rt_blackpoint_method",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Color Detection Method",
+    "ui_category": "Blackpoint: Remove Tint",
+    "ui_items": "By Color Channel (auto-color)\nFind Dark Color  (auto-tone)\n"
+   }
+  },
+  {
+   "name": "rt_bp_str",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black Point Correction Strength",
+    "ui_tooltip": "Blackpoint: Black Point Correction Strength",
+    "ui_category": "Blackpoint: Remove Tint",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "rt_bp_rl_str",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black Point Respect Luma Strength",
+    "ui_tooltip": "Blackpoint: Black Point Respect Luma Strength",
+    "ui_category": "Blackpoint: Remove Tint",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "rt_enable_midpoint_correction",
+   "offset": 72,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_text": "----------------------------------------------",
+    "ui_label": "Enable Midtone Correction",
+    "ui_tooltip": "Enable Midtone Correction",
+    "ui_category": "Midtone: Remove Tint"
+   }
+  },
+  {
+   "name": "rt_midpoint_respect_luma",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Respect Luma",
+    "ui_tooltip": "Midtone: Respect Luma",
+    "ui_category": "Midtone: Remove Tint"
+   }
+  },
+  {
+   "name": "mid_use_alt_method",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Use average Dark-Light as Mid",
+    "ui_tooltip": "Midtone: Use average Dark-Light as Mid",
+    "ui_category": "Midtone: Remove Tint"
+   }
+  },
+  {
+   "name": "midCC_scale",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Midtone Correction Scale",
+    "ui_tooltip": "Midtone: Midtone Correction Scale",
+    "ui_category": "Midtone: Remove Tint",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     5
+    ]
+   }
+  },
+  {
+   "name": "frametime",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  }
+ ],
+ "total_uniform_size": 92
+}

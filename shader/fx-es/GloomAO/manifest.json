@@ -1,0 +1,1054 @@
+{
+ "techniques": [
+  {
+   "name": "SSDO_Plus",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xSSDOColors",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texColorsSSDO",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xSSDOColors.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xNormalsDepth",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texNormalsSSDO",
+      "V__texDepthSSDO",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 4,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xNormalsDepth.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xSSDO",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texSSDO",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      },
+      {
+       "index": 4,
+       "binding": 1
+      },
+      {
+       "index": 5,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xSSDO.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xCEAGD_H_SSDO",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texCEAGD_H_SSDO",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      },
+      {
+       "index": 6,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xCEAGD_H_SSDO.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xCEAGD_V_SSDO",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texCEAGD_V_SSDO",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      },
+      {
+       "index": 7,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xCEAGD_V_SSDO.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xTAA_SSDO",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      },
+      {
+       "index": 8,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xTAA_SSDO.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xAccumulatedFramesSSDO",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__accuTexSSDO",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xAccumulatedFramesSSDO.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOut",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 4,
+       "binding": 2
+      },
+      {
+       "index": 5,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOut.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__accuTexSSDO",
+   "w": 1920,
+   "h": 1080,
+   "levels": 4,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNormalsSSDO",
+   "w": 1920,
+   "h": 1080,
+   "levels": 4,
+   "fmt": 34,
+   "semantic": ""
+  },
+  {
+   "name": "V__texColorsSSDO",
+   "w": 1920,
+   "h": 1080,
+   "levels": 8,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texDepthSSDO",
+   "w": 1920,
+   "h": 1080,
+   "levels": 4,
+   "fmt": 41,
+   "semantic": ""
+  },
+  {
+   "name": "V__texSSDO",
+   "w": 960,
+   "h": 540,
+   "levels": 2,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texCEAGD_H_SSDO",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texCEAGD_V_SSDO",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ZBufferSSDO",
+   "tex": "V__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBufferSSDO",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SSDOaccuFrames",
+   "tex": "V__accuTexSSDO",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerNormalsSSDO",
+   "tex": "V__texNormalsSSDO",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerColorsSSDO",
+   "tex": "V__texColorsSSDO",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerDepthSSDO",
+   "tex": "V__texDepthSSDO",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerSSDO",
+   "tex": "V__texSSDO",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerSSDOH",
+   "tex": "V__texCEAGD_H_SSDO",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerSSDOV",
+   "tex": "V__texCEAGD_V_SSDO",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "GloomAO",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_text": "GloomAO is an Screen Space Directional Occlusion algorithm based on generalize SSAO. SSDO was created by the people at MPI Informatik.\nThe researches Tobias Ritschel, Thorsten Grosch, and Hans-Peter Seidel. Where instrumental in making this happen, so Thank you.\nSSDO physically plausible occlusion allows better simulated depth cues based on gradient and contrast information.\nThis AO shader is free and shouldn't sit behind a paywall. If you paid for this shader ask for a refund right away.\nAs for my self I do want to provide the community with free shaders and any donations will help keep that motivation alive.\nFor more information and help please feel free to visit http://www.Depth3D.info or https://blueskydefender.github.io/AstrayFX\n Help with this shader fuctions specifically visit the WIki @ https://github.com/BlueSkyDefender/AstrayFX/wiki/RadiantGI\nPlease enjoy this shader and Thank You for using GloomAO.",
+    "ui_category": "GloomAO",
+    "ui_category_closed": [
+     1
+    ],
+    "ui_label": " ",
+    "ui_type": "radio"
+   }
+  },
+  {
+   "name": "SSDO_MipSampling",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    4
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Full Resolution\nHalf Resolution\nQuarter Resolution\nFull Resolution Adptive\nHalf Resolution Adaptive\nQuarter Resolution Adaptive\n",
+    "ui_label": "Sampling Quality",
+    "ui_tooltip": "Use this to improve performance by sampling Mipmaps.\nArtifacts are more prominent at lower quality settings.",
+    "ui_category": "SSDO"
+   }
+  },
+  {
+   "name": "SSDO_Levels",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    32
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     64
+    ],
+    "ui_label": "Samples",
+    "ui_tooltip": "The Samples slider is used to increase or decrease samples amount as a side effect this reduces noise at the cost of performance.",
+    "ui_category": "SSDO"
+   }
+  },
+  {
+   "name": "SSDO_SampleRadius",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2500
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     5000
+    ],
+    "ui_label": "Sampling Radius",
+    "ui_tooltip": "This lets you extend the Sample Radius or Sample Range of the SSDO Algo.\nSetting this too high will decrease performance.",
+    "ui_category": "SSDO"
+   }
+  },
+  {
+   "name": "Set_2DTexture_Detail",
+   "offset": 16,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Texture Details & Falloff",
+    "ui_tooltip": "Lets you add Texture Details to PCGI so you can have added 2D texture information applyed to the GI.\nTurn this on by adjusting the first slider and then adjusting it's falloff with the second.\nDefaults are [0.0,0.5] and Zero is Off",
+    "ui_category": "Supplemental Contributions"
+   }
+  },
+  {
+   "name": "NCD",
+   "offset": 24,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.125,
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Near Details",
+    "ui_tooltip": "Lets you adjust detail of objects near the cam and or like weapon hand AO.\nThe 2nd Option is for Weapon Hands in game that fall out of range.\nDefaults are [Near Details X 0.125] [Weapon Hand Y 0.0]",
+    "ui_category": "SSDO"
+   }
+  },
+  {
+   "name": "SSDO_Trimming",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     0.5
+    ],
+    "ui_label": "Depth Trimming",
+    "ui_tooltip": "Use this to limit the local falloff of the ao in the image also known as Depth Range Check.",
+    "ui_category": "SSDO"
+   }
+  },
+  {
+   "name": "SSDO_Fade",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Depth Fade-Out",
+    "ui_tooltip": "SSDO Application Power that is based on Depth scaling for controlled fade In-N-Out.\nCan be set from -1 to 1 and is Set to Zero for No Culling.\nDefault is 0.5.",
+    "ui_category": "SSDO"
+   }
+  },
+  {
+   "name": "SSDO_X2",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Square Off\nSquare Input\nSquare Luma Positive\nSquare Luma Negitive\n",
+    "ui_label": "Square Input",
+    "ui_tooltip": "This option squares the input of BackBuffer for SSDO.\nYou can also favor Illuminated areas or Darker areas.\nThis is basically effects the GI Color and AO, Default is Off.",
+    "ui_category": "Image"
+   }
+  },
+  {
+   "name": "SSDO_Power",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Total Power",
+    "ui_tooltip": "This option controls the over all intensity of the effect.",
+    "ui_category": "Image"
+   }
+  },
+  {
+   "name": "SSDO_ColorPower",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Color Power",
+    "ui_tooltip": "This option controls the GI Color intensity.",
+    "ui_category": "Image"
+   }
+  },
+  {
+   "name": "SSDO_Saturation",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Saturation",
+    "ui_tooltip": "Applys color saturation to the indriect bounce of light.",
+    "ui_category": "Image"
+   }
+  },
+  {
+   "name": "SSDO_Intensity_Masking",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Intensity Mask",
+    "ui_tooltip": "Mask out intense light sources from receiving AO.",
+    "ui_category": "Image"
+   }
+  },
+  {
+   "name": "Depth_Map",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "DM0 Normal\nDM1 Reversed\n",
+    "ui_label": "Depth Map Selection",
+    "ui_tooltip": "Linearization for the zBuffer also known as Depth Map.\nDM0 is Z-Normal and DM1 is Z-Reversed.\n",
+    "ui_category": "Depth Map"
+   }
+  },
+  {
+   "name": "Depth_Map_Adjust",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    7.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     500
+    ],
+    "ui_label": "Depth Map Adjustment",
+    "ui_tooltip": "This allows for you to adjust the DM precision.\nAdjust this to keep it as low as possible.\nDefault is 7.5",
+    "ui_category": "Depth Map"
+   }
+  },
+  {
+   "name": "Offset",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Depth Map Offset",
+    "ui_tooltip": "Depth Map Offset is for non conforming ZBuffer.\nIt is rare that you would need to use this option.\nUse this to make adjustments to DM 0 or DM 1.\nDefault and starts at Zero and it is Off.",
+    "ui_category": "Depth Map"
+   }
+  },
+  {
+   "name": "SSDO_Max_Depth",
+   "offset": 72,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.999
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Max Depth",
+    "ui_tooltip": "SSDO Max Depth is used to limit the max range SSDO should pull information from the Depth Buffer.\nThink about it like a Wall where all information stops, keep in mind this is not like Depth Fade.\nDefault is 0.999.",
+    "ui_category": "Depth Map"
+   }
+  },
+  {
+   "name": "Depth_Map_Flip",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Depth Map Flip",
+    "ui_tooltip": "Flip the depth map if it is upside down.",
+    "ui_category": "Depth Map"
+   }
+  },
+  {
+   "name": "Debug",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "GloomAO\nDebug\nDepth & Normals\n",
+    "ui_label": "Debug View",
+    "ui_tooltip": "View Debug Buffers.",
+    "ui_category": "Extra Options"
+   }
+  },
+  {
+   "name": "SamplesXY",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    3
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     6
+    ],
+    "ui_label": "Denoise Power",
+    "ui_tooltip": "This raises or lowers Samples used for the Final DeNoisers which in turn affects Performance.\nThis also has the side effect of smoothing out the image so you get that Normal Like Smoothing.\nDefault is 3 and you can override this a bit.",
+    "ui_category": "Extra Options"
+   }
+  },
+  {
+   "name": "Persistence",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.125
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "TAA Power",
+    "ui_tooltip": "Increase persistence of the frames this is really the Temporal Part.\nDefault is 0.125 and a value of 1.0 is off.",
+    "ui_category": "Extra Options"
+   }
+  },
+  {
+   "name": "Dither_SSDO",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Dither SSDO",
+    "ui_tooltip": "Add Noise to AO so that it can limit banding in some game.",
+    "ui_category": "Extra Options"
+   }
+  },
+  {
+   "name": "Horizontal_and_Vertical",
+   "offset": 96,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_label": "Horizontal & Vertical Size",
+    "ui_tooltip": "Adjust Horizontal and Vertical Resize. Default is 1.0.",
+    "ui_category": "Depth Corrections"
+   }
+  },
+  {
+   "name": "Image_Position_Adjust",
+   "offset": 104,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Horizontal & Vertical Position",
+    "ui_tooltip": "Adjust the Image Position if it's off by a bit. Default is Zero.",
+    "ui_category": "Depth Corrections"
+   }
+  },
+  {
+   "name": "Easy_SS_Scaling",
+   "offset": 112,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Off\nDLSS Quality\nDLSS Balanced\nDLSS Performance\nDLSS Ultra Performance\n",
+    "ui_label": "Super Sampling Scaling",
+    "ui_tooltip": "Use Adjust the Depth to match the main screen.\nDefault is ON.",
+    "ui_category": "Depth Corrections"
+   }
+  },
+  {
+   "name": "Depth_Guide",
+   "offset": 116,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Alinement Guide",
+    "ui_tooltip": "Use this for a guide for alinement.",
+    "ui_category": "Depth Corrections"
+   }
+  },
+  {
+   "name": "Text_Info",
+   "offset": 120,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "key",
+    "keycode": [
+     93
+    ],
+    "toggle": [
+     1
+    ],
+    "mode": "toggle"
+   }
+  },
+  {
+   "name": "framecount",
+   "offset": 124,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  },
+  {
+   "name": "clock",
+   "offset": 128,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  }
+ ],
+ "total_uniform_size": 132
+}

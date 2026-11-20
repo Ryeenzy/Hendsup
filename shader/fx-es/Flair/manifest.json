@@ -1,0 +1,849 @@
+{
+ "techniques": [
+  {
+   "name": "Flair",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xColorBB",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__TexMBB",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xColorBB.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPast_Flare",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__TexFlarePast",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPast_Flare.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xStoredBB",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__TexBC",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 4,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xStoredBB.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xGlammor_Out",
+     "w": 480,
+     "h": 270,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texFlare",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      },
+      {
+       "index": 4,
+       "binding": 3
+      },
+      {
+       "index": 7,
+       "binding": 4
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xGlammor_Out.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xLuminanceG",
+     "w": 256,
+     "h": 256,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texLumF",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xLuminanceG.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xAverage_LuminanceF",
+     "w": 256,
+     "h": 256,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texAvgLumF",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 6,
+       "binding": 0
+      },
+      {
+       "index": 8,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xAverage_LuminanceF.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_StoreAvgLumaF",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__TexAvgLumaLastF",
+      "V__TexFlareShared",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      },
+      {
+       "index": 7,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_StoreAvgLumaF.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOutF",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      },
+      {
+       "index": 5,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOutF.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__TexFlareShared",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__TexDepthBuffer",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__TexBackBuffer",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__texFlare",
+   "w": 480,
+   "h": 270,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__TexBC",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__TexMBB",
+   "w": 1920,
+   "h": 1080,
+   "levels": 8,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__TexFlarePast",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texLumF",
+   "w": 256,
+   "h": 256,
+   "levels": 9,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__texAvgLumF",
+   "w": 256,
+   "h": 256,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__TexAvgLumaLastF",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__DepthBufferF",
+   "tex": "V__TexDepthBuffer",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBufferF",
+   "tex": "V__TexBackBuffer",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerGlammor",
+   "tex": "V__texFlare",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerBC",
+   "tex": "V__TexBC",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerMBB",
+   "tex": "V__TexMBB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerPastFlare",
+   "tex": "V__TexFlarePast",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerLumG",
+   "tex": "V__texLumF",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerAvgLumG",
+   "tex": "V__texAvgLumF",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerAvgLumaLastG",
+   "tex": "V__TexAvgLumaLastF",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Flare_Type",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Star Full\nStar Half\nCross +\nCross x\nFlare +Skew\nFlare -Skew\nFlare Horizontal\nFlare Vertical\n",
+    "ui_label": "Flare Type",
+    "ui_category": "Flare Type"
+   }
+  },
+  {
+   "name": "Auto_Flare_Intensity",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Auto Flare Intensity",
+    "ui_tooltip": "This will enable the shader to adjust Flare Intensity automatically.\nAuto Bloom Intensity will set Bloom Intensity below.",
+    "ui_category": "Flare Adjustments"
+   }
+  },
+  {
+   "name": "Flare_Clamp_A",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Flare Brightness Threshold",
+    "ui_tooltip": "Use this to set the color based brightness threshold for what is and what isn't allowed.\nNumber 1.0 is default.",
+    "ui_category": "Flare Adjustments"
+   }
+  },
+  {
+   "name": "Flare_Clamp_B",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Flare Max Brightness Cutoff",
+    "ui_tooltip": "Use this to set the max cutoff point of the brightness things in the image.\nNumber 1.0 is default.",
+    "ui_category": "Flare Adjustments"
+   }
+  },
+  {
+   "name": "Flare_Spread",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_label": "Flare Spread",
+    "ui_tooltip": "Use this to adjust Flare size & you can override this.\nNumber 0.5 is default.",
+    "ui_category": "Flare Adjustments"
+   }
+  },
+  {
+   "name": "Flare_Power",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     12.5
+    ],
+    "ui_step": [
+     0.125
+    ],
+    "ui_label": "Flare Intensity",
+    "ui_tooltip": "Use this to set Flare Intensity for your content.\nNumber 1.0 is default.",
+    "ui_category": "Flare Adjustments"
+   }
+  },
+  {
+   "name": "Flare_Saturation",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ],
+    "ui_step": [
+     0.1
+    ],
+    "ui_label": "Flare Saturation",
+    "ui_tooltip": "Adjustment The amount to adjust the saturation of the flare color.\nNumber 1.0 is default.",
+    "ui_category": "Flare Adjustments"
+   }
+  },
+  {
+   "name": "Flare_Color_Map",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    4
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     8
+    ],
+    "ui_label": "Flare Color Map",
+    "ui_tooltip": "Use this to set MIP levels for the color map used to se Flare Color.\nThis samples color in the general area to achieve this effect.\nNumber 4 is default & Zero is Off.",
+    "ui_category": "Flare Adjustments"
+   }
+  },
+  {
+   "name": "User_Flare_Color",
+   "offset": 32,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Flare Color Adjust",
+    "ui_tooltip": "Use this to set your own color settings.",
+    "ui_category": "Flare Adjustments"
+   }
+  },
+  {
+   "name": "Flare_Localization",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.1
+    ],
+    "ui_label": "Flare Localization",
+    "ui_tooltip": "This localizes flare to a user selected area.\nNumber Zero is default.",
+    "ui_category": "Flare Adjustments"
+   }
+  },
+  {
+   "name": "CA_Type",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Off\nType BD\nType Box\nType Hozi\nType Verti\n",
+    "ui_label": "Flare CA Type",
+    "ui_category": "Flare Chromatic Aberration"
+   }
+  },
+  {
+   "name": "Flare_PBD",
+   "offset": 64,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    0.5,
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Flare CA Adjust",
+    "ui_tooltip": "Use this to set chromatic aberration for your content.",
+    "ui_category": "Flare Chromatic Aberration"
+   }
+  },
+  {
+   "name": "Depth_Map",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Normal\nReversed\n",
+    "ui_label": "Depth Map Adjustment",
+    "ui_tooltip": "Linearization for the zBuffer also known as Depth Map.\nDM0 is Z-Normal and DM1 is Z-Reversed.\n",
+    "ui_category": "Depth Map Masking"
+   }
+  },
+  {
+   "name": "Depth_Map_Adjust",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0.25
+    ],
+    "ui_max": [
+     250
+    ],
+    "ui_step": [
+     0.25
+    ],
+    "ui_label": "Depth Map Adjustment",
+    "ui_tooltip": "This allows for you to adjust the DM precision.\nAdjust this to keep it as low as possible.\nDefault is 1.5",
+    "ui_category": "Depth Map Masking"
+   }
+  },
+  {
+   "name": "Depth_Map_Flip",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Depth Map Flip",
+    "ui_tooltip": "Flip the depth map if it is upside down.",
+    "ui_category": "Depth Map Masking"
+   }
+  },
+  {
+   "name": "Mask_Sky",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Sky Mask",
+    "ui_tooltip": "Mask Sky using depth",
+    "ui_category": "Depth Map Masking"
+   }
+  },
+  {
+   "name": "Flair_Falloff",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Falloff",
+    "ui_tooltip": "A depth mask is use to add a fall off distance",
+    "ui_category": "Depth Map Masking"
+   }
+  },
+  {
+   "name": "timer",
+   "offset": 96,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  },
+  {
+   "name": "framecount",
+   "offset": 100,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 5,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  },
+  {
+   "name": "frametime",
+   "offset": 104,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  }
+ ],
+ "total_uniform_size": 108
+}

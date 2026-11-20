@@ -1,0 +1,381 @@
+{
+ "techniques": [
+  {
+   "name": "AdvancedCRT",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xAdvancedCRTPass",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xAdvancedCRTPass.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Amount",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Amount of CRT effect you want"
+   }
+  },
+  {
+   "name": "Resolution",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.15
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     8
+    ],
+    "ui_tooltip": "Input size coefficient (low values gives the 'low - res retro look')."
+   }
+  },
+  {
+   "name": "Gamma",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2.4
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_tooltip": "Gamma of simulated CRT"
+   }
+  },
+  {
+   "name": "MonitorGamma",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2.2
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_tooltip": "Gamma of display monitor"
+   }
+  },
+  {
+   "name": "Brightness",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.9
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     3
+    ],
+    "ui_tooltip": "Used to boost brightness a little."
+   }
+  },
+  {
+   "name": "ScanlineIntensity",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     2
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_label": "Scanline Intensity"
+   }
+  },
+  {
+   "name": "ScanlineGaussian",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Scanline Bloom Effect",
+    "ui_tooltip": "Use the new nongaussian scanlines bloom effect."
+   }
+  },
+  {
+   "name": "Curvature",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_tooltip": "Barrel effect"
+   }
+  },
+  {
+   "name": "CurvatureRadius",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_label": "Curvature Radius"
+   }
+  },
+  {
+   "name": "CornerSize",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.01
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     0.02
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_label": "Corner Size",
+    "ui_tooltip": "Higher values => more rounded corner"
+   }
+  },
+  {
+   "name": "ViewerDistance",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_Label": "Viewer Distance",
+    "ui_tooltip": "Simulated distance from viewer to monitor"
+   }
+  },
+  {
+   "name": "Angle",
+   "offset": 48,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     -0.2
+    ],
+    "ui_max": [
+     0.2
+    ],
+    "ui_tooltip": "Tilt angle in radians"
+   }
+  },
+  {
+   "name": "Overscan",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.01
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     1.1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Overscan (e.g. 1.02 for 2% overscan)."
+   }
+  },
+  {
+   "name": "Oversample",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_tooltip": "Enable 3x oversampling of the beam profile (warning : performance hit)"
+   }
+  }
+ ],
+ "total_uniform_size": 64
+}

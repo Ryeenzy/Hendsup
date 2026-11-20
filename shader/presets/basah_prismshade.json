@@ -1,0 +1,13 @@
+{
+  "glossy": 0.85,
+  "wet": 0.9,
+  "contrast": 1.15,
+  "saturation": 0.85,
+  "brightness": -0.02,
+  "warmth": -0.1,
+  "vibrance": 0.1,
+  "levels_black": 0.04,
+  "levels_white": 0.96,
+  "curves": 0.3,
+  "bloom_gain": 1.6
+}

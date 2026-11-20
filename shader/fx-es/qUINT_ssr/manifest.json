@@ -1,0 +1,496 @@
+{
+ "techniques": [
+  {
+   "name": "SSR",
+   "passes": [
+    {
+     "vs": "E_xVS_SSR",
+     "ps": "E_xPS_PrepareColor",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__SSR_ColorTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xVS_SSR.vert",
+     "ps_file": "E_xPS_PrepareColor.frag"
+    },
+    {
+     "vs": "E_xVS_SSR",
+     "ps": "E_xPS_SSR",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__CommonTex0",
+      "V__CommonTex1",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 2,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xVS_SSR.vert",
+     "ps_file": "E_xPS_SSR.frag"
+    },
+    {
+     "vs": "E_xVS_SSR",
+     "ps": "E_xPS_FilterH",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__SSR_ColorTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      },
+      {
+       "index": 4,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xVS_SSR.vert",
+     "ps_file": "E_xPS_FilterH.frag"
+    },
+    {
+     "vs": "E_xVS_SSR",
+     "ps": "E_xPS_FilterV",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 2,
+       "binding": 2
+      },
+      {
+       "index": 4,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xVS_SSR.vert",
+     "ps_file": "E_xPS_FilterV.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__qUINT__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__qUINT__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__SSR_ColorTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__CommonTex0",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__CommonTex1",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__qUINT__sBackBufferTex",
+   "tex": "V__qUINT__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__qUINT__sDepthBufferTex",
+   "tex": "V__qUINT__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sSSR_ColorTex",
+   "tex": "V__SSR_ColorTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sCommonTex0",
+   "tex": "V__CommonTex0",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sCommonTex1",
+   "tex": "V__CommonTex1",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "SSR_FIELD_OF_VIEW",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    50
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     100
+    ],
+    "ui_label": "Vertical Field of View",
+    "ui_tooltip": "Vertical FoV, should match camera FoV but since ReShade's\ndepth linearization is not always precise, this value\nmight differ from the actual value. Just set to what looks best.",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "SSR_REFLECTION_INTENSITY",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Reflection Intensity",
+    "ui_tooltip": "Amount of reflection.",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "SSR_FRESNEL_EXP",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     10
+    ],
+    "ui_label": "Reflection Exponent",
+    "ui_tooltip": "qUINT uses Schlick's fresnel approximation.\nThis parameter represents the power of the angle falloff.\nHigher values restrict reflections to very flat angles.\nOriginal Schlick value: 5.\nThe Fresnel Coefficient is set to 0 to match most surfaces.",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "SSR_FADE_DIST",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.8
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0.001
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Fade Distance",
+    "ui_tooltip": "Distance where reflection is completely faded out.\n1 means infinite distance.",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "SSR_RAY_INC",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.6
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     1.01
+    ],
+    "ui_max": [
+     3
+    ],
+    "ui_label": "Ray Increment",
+    "ui_tooltip": "Rate of ray step size growth.\nA parameter of 1.0 means same sized steps,\n2.0 means the step size doubles each iteration.\nIncrease if not the entire scene is represented (e.g. sky missing) at the cost of precision.",
+    "ui_category": "Ray Tracing"
+   }
+  },
+  {
+   "name": "SSR_ACCEPT_RANGE",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     12
+    ],
+    "ui_label": "Acceptance Range",
+    "ui_tooltip": "Acceptable error for ray intersection. Larger values will cause more coherent but incorrect reflections.",
+    "ui_category": "Ray Tracing"
+   }
+  },
+  {
+   "name": "SSR_JITTER_AMOUNT",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.25
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Ray Jitter Amount",
+    "ui_tooltip": "Changes ray step size randomly per pixel to produce\na more coherent reflection at the cost of noise that needs to be filtered away.",
+    "ui_category": "Ray Tracing"
+   }
+  },
+  {
+   "name": "SSR_FILTER_SIZE",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Filter Kernel Size",
+    "ui_tooltip": "Size of spatial filter, higher values create more blurry reflections at the cost of detail.",
+    "ui_category": "Filtering and Details"
+   }
+  },
+  {
+   "name": "SSR_RELIEF_AMOUNT",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.05
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Surface Relief Height",
+    "ui_tooltip": "Strength of embossed texture relief. Higher values cause more bumpy surfaces.",
+    "ui_category": "Filtering and Details"
+   }
+  },
+  {
+   "name": "SSR_RELIEF_SCALE",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.35
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0.1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Surface Relief Scale",
+    "ui_tooltip": "Scale of embossed texture relief, lower values cause more high frequency relief.",
+    "ui_category": "Filtering and Details"
+   }
+  },
+  {
+   "name": "FRAME_TIME",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  },
+  {
+   "name": "FRAME_COUNT",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  }
+ ],
+ "total_uniform_size": 48
+}

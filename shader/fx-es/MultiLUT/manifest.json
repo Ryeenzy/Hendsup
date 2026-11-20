@@ -1,0 +1,161 @@
+{
+ "techniques": [
+  {
+   "name": "MultiLUT",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_MultiLUT_Apply",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_MultiLUT_Apply.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texMultiLUT",
+   "w": 1024,
+   "h": 576,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerMultiLUT",
+   "tex": "V__texMultiLUT",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "fLUT_LutSelector",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     16
+    ],
+    "ui_items": "Neutral\nColor1\nColor2\nColor3 (Blue oriented)\nColor4 (Hollywood)\nColor5\nColor6\nColor7\nColor8\nCool light\nFlat & green\nRed lift matte\nCross process\nAzure Red Dual Tone\nVogue\nSepia\nB&W mid constrast\nB&W high contrast\n",
+    "ui_label": "The LUT to use",
+    "ui_tooltip": "The LUT to use for color transformation. 'Neutral' doesn't do any color transformation when using the default texture."
+   }
+  },
+  {
+   "name": "fLUT_AmountChroma",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "LUT chroma amount",
+    "ui_tooltip": "Intensity of color/chroma change of the LUT."
+   }
+  },
+  {
+   "name": "fLUT_AmountLuma",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "LUT luma amount",
+    "ui_tooltip": "Intensity of luma change of the LUT."
+   }
+  }
+ ],
+ "total_uniform_size": 12
+}

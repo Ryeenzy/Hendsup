@@ -1,0 +1,9 @@
+# Paket Termux (pkg install ...)
+python
+openjdk-17
+apksigner
+android-tools
+curl
+unzip
+# Opsional: gh (ambil artifact GitHub Actions)  -> pkg install gh
+patchelf

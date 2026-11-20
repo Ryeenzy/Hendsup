@@ -1,0 +1,232 @@
+{
+ "techniques": [
+  {
+   "name": "NFAA",
+   "passes": [
+    {
+     "vs": "E_xNFAA_VS",
+     "ps": "E_xNFAA_PS",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xNFAA_VS.vert",
+     "ps_file": "E_xNFAA_PS.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__BackBuffer",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "EdgeDetectionType",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    3
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Luminance edge detection\nPerceived Luminance edge detection\nColor edge detection\nPerceived Color edge detection\n",
+    "ui_label": "Edge Detection Type"
+   }
+  },
+  {
+   "name": "EdgeDetectionThreshold",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Edge Detection Threshold",
+    "ui_tooltip": "The difference in Luminence/Color that would be perceived as an edge.\nTry lowering this slightly if the Edge Mask misses some edges.\nDefault is 0.063",
+    "ui_min": [
+     0.05
+    ],
+    "ui_max": [
+     0.2
+    ],
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "EdgeSearchRadius",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Edge Search Radius",
+    "ui_tooltip": "The radius to search for edges.\nTry raising this if using in-game upscaling.\nDefault is 1.000",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "UnblurFilterStrength",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Unblur Filter Strength",
+    "ui_tooltip": "Adjusts the Edge Mask and Corner Mask contrast for filtering unwanted edge blur.\nTry raising this if text or icons become blurry.\nTry lowering this if edges are still too aliased.\nDefault is 1.000",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "BlurStrength",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Blur Strength",
+    "ui_tooltip": "Adjusts the Normal Map weights for stronger edge blur.\nTry raising this if edges are still too aliased.\nTry lowering this if text or icons become blurry.\nDefault is 1.000",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "BlurSize",
+   "offset": 24,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2,
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Blur Size",
+    "ui_tooltip": "Adjusts the Normal Map depth for larger/longer edge blur.\nInputs are blur size parallel and perpendicular to the edge respectively.\nTry raising this if edges are still too aliased.\nTry lowering this if text or icons become blurry.\nDefaults are 2.000 and 1.000",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "DebugOutput",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Debug Output",
+    "ui_items": "None\nEdge Mask View\nCorner Mask View\nNormal Map View\nPre-Blur Mask View\nPost-Blur Mask View\n",
+    "ui_tooltip": "Edge Mask View shows the Edge Detection and Unblur Filter Strength.\nCorner Mask View shows the Corner Detection and Unblur Filter Strength.\nNormal Map View shows the Normal Map depth, used for Blur Size and Blur Direction.\nPre-Blur Mask View shows just the edges that will be blurred.\nPost-Blur Mask View shows just the edges have been blurred.",
+    "ui_spacing": [
+     2
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 36
+}

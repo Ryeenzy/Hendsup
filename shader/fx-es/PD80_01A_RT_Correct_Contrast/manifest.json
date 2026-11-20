@@ -1,0 +1,382 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_01A_RT_Correct_Contrast",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_correctcontrast_xPS_MinMax_1",
+     "w": 32,
+     "h": 32,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_correctcontrast__texDS_1_Min",
+      "V__pd80_correctcontrast__texDS_1_Max",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_correctcontrast_xPS_MinMax_1.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_correctcontrast_xPS_MinMax_1x1",
+     "w": 4,
+     "h": 2,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_correctcontrast__texDS_1x1",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 4,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_correctcontrast_xPS_MinMax_1x1.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_correctcontrast_xPS_CorrectContrast",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_correctcontrast_xPS_CorrectContrast.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_correctcontrast_xPS_StorePrev",
+     "w": 4,
+     "h": 2,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_correctcontrast__texPrevious",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_correctcontrast_xPS_StorePrev.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__pd80_correctcontrast__texDS_1_Max",
+   "w": 32,
+   "h": 32,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_correctcontrast__texDS_1_Min",
+   "w": 32,
+   "h": 32,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_correctcontrast__texPrevious",
+   "w": 4,
+   "h": 2,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_correctcontrast__texDS_1x1",
+   "w": 4,
+   "h": 2,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcontrast__samplerDS_1_Max",
+   "tex": "V__pd80_correctcontrast__texDS_1_Max",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcontrast__samplerDS_1_Min",
+   "tex": "V__pd80_correctcontrast__texDS_1_Min",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcontrast__samplerPrevious",
+   "tex": "V__pd80_correctcontrast__texPrevious",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_correctcontrast__samplerDS_1x1",
+   "tex": "V__pd80_correctcontrast__texDS_1x1",
+   "filter": 0,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "enable_fade",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_text": "----------------------------------------------",
+    "ui_label": "Enable Time Based Fade",
+    "ui_tooltip": "Enable Time Based Fade",
+    "ui_category": "Global: Correct Contrasts"
+   }
+  },
+  {
+   "name": "freeze",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Freeze Correction",
+    "ui_tooltip": "Freeze Correction",
+    "ui_category": "Global: Correct Contrasts"
+   }
+  },
+  {
+   "name": "transition_speed",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Time Based Fade Speed",
+    "ui_tooltip": "Time Based Fade Speed",
+    "ui_category": "Global: Correct Contrasts",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "rt_enable_whitepoint_correction",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_text": "----------------------------------------------",
+    "ui_label": "Enable Whitepoint Correction",
+    "ui_tooltip": "Enable Whitepoint Correction",
+    "ui_category": "Whitepoint Correction"
+   }
+  },
+  {
+   "name": "rt_wp_str",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "White Point Correction Strength",
+    "ui_tooltip": "White Point Correction Strength",
+    "ui_category": "Whitepoint Correction",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "rt_enable_blackpoint_correction",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_text": "----------------------------------------------",
+    "ui_label": "Enable Blackpoint Correction",
+    "ui_tooltip": "Enable Blackpoint Correction",
+    "ui_category": "Blackpoint Correction"
+   }
+  },
+  {
+   "name": "rt_bp_str",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Black Point Correction Strength",
+    "ui_tooltip": "Black Point Correction Strength",
+    "ui_category": "Blackpoint Correction",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "frametime",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  }
+ ],
+ "total_uniform_size": 32
+}

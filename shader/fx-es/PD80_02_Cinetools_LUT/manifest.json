@@ -1,0 +1,401 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_02_Cinetools_LUT",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xprod80_02_Cinetools_LUTName_xPS_MultiLUT_v2",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 5,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xprod80_02_Cinetools_LUTName_xPS_MultiLUT_v2.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNoiseRGB",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texGaussNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__prod80_02_Cinetools_LUTName__prod80_02_Cinetools_LUTTex",
+   "w": 4096,
+   "h": 1984,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerNoise",
+   "tex": "V__texNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerRGBNoise",
+   "tex": "V__texNoiseRGB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerGaussNoise",
+   "tex": "V__texGaussNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__prod80_02_Cinetools_LUTName__prod80_02_Cinetools_LUTSamp",
+   "tex": "V__prod80_02_Cinetools_LUTName__prod80_02_Cinetools_LUTTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "pp",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "enable_dither",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Enable Dithering",
+    "ui_tooltip": "Enable Dithering"
+   }
+  },
+  {
+   "name": "dither_strength",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Dither Strength",
+    "ui_tooltip": "Dither Strength",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "PD80_LutSelector",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "FilmicGold\nFilmicGold_Contrast\nFilmicBlue\nFilmicBlue_Contrast\nTealOrangeNeutral\nTealOrangeYCSplit\nTealOrangeWarmMatte\nCinematicColors\nUltraWarmMatte\nUltraMatte\nBW-Max\nBW-MaxSepia\nBW-MatteLooks\nAlternativeProcess-01\nAlternativeProcess-02\nSuperGreens\nColorHarmony-01\nColorHarmony-02\nGoingBrownAgain\nCyanolyte\nDustyOldMan\nDustyOldMatte\nDrankAllTheRedWine\nOldEleganceClean\nOldEleganceMatte\nHundredDollarStripper\nHundredDollarStripperMatte\nClassicTealOrange\nClassicTealOrangeMatte\nClassicTealOrangeYHL\nClassicTealOrangeYHLMatte\n",
+    "ui_label": "LUT Selection",
+    "ui_tooltip": "The LUT to use for color transformation."
+   }
+  },
+  {
+   "name": "PD80_MixChroma",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "LUT Chroma",
+    "ui_tooltip": "LUT Chroma"
+   }
+  },
+  {
+   "name": "PD80_MixLuma",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "LUT Luma",
+    "ui_tooltip": "LUT Luma"
+   }
+  },
+  {
+   "name": "PD80_Intensity",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "LUT Intensity",
+    "ui_tooltip": "Intensity of LUT effect"
+   }
+  },
+  {
+   "name": "ib",
+   "offset": 32,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "LUT Black IN Level",
+    "ui_tooltip": "LUT Black IN Level",
+    "ui_category": "LUT Levels"
+   }
+  },
+  {
+   "name": "iw",
+   "offset": 48,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "LUT White IN Level",
+    "ui_tooltip": "LUT White IN Level",
+    "ui_category": "LUT Levels"
+   }
+  },
+  {
+   "name": "ob",
+   "offset": 64,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "LUT Black OUT Level",
+    "ui_tooltip": "LUT Black OUT Level",
+    "ui_category": "LUT Levels"
+   }
+  },
+  {
+   "name": "ow",
+   "offset": 80,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "LUT White OUT Level",
+    "ui_tooltip": "LUT White OUT Level",
+    "ui_category": "LUT Levels"
+   }
+  },
+  {
+   "name": "ig",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "LUT Gamma Adjustment",
+    "ui_tooltip": "LUT Gamma Adjustment",
+    "ui_category": "LUT Levels",
+    "ui_type": "slider",
+    "ui_min": [
+     0.05
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 96
+}

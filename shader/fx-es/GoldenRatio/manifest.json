@@ -1,0 +1,134 @@
+{
+ "techniques": [
+  {
+   "name": "GoldenRatio",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xGoldenRatio_xPS_RenderSpirals",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xGoldenRatio_xPS_RenderSpirals.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__GoldenRatio__texSpirals",
+   "w": 1748,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__GoldenRatio__samplerSpirals",
+   "tex": "V__GoldenRatio__texSpirals",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Opacity",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.3
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_label": "Opacity",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "Opacity of overlay. 0 is invisible, 1 is opaque lines."
+   }
+  },
+  {
+   "name": "ResizeMode",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_label": "Resize mode",
+    "ui_tooltip": "Resize mode: 0 is clamp to screen (so resizing of overlay, no golden ratio by definition),\n1: resize to either full with or full height while keeping aspect ratio: golden ratio by definition in lined area."
+   }
+  }
+ ],
+ "total_uniform_size": 8
+}

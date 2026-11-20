@@ -1,0 +1,203 @@
+{
+ "techniques": [
+  {
+   "name": "UIMask_Top",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xUIMask_xBackupPS",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__UIMask__BackupTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xUIMask_xBackupPS.frag"
+    }
+   ]
+  },
+  {
+   "name": "UIMask_Bottom",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xUIMask_xMainPS",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xUIMask_xMainPS.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__UIMask__BackupTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__UIMask__MaskTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 61,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__UIMask__Backup",
+   "tex": "V__UIMask__BackupTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__UIMask__Mask",
+   "tex": "V__UIMask__MaskTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "_Help",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": " ",
+    "ui_text": "For more detailed instructions, see the text at the top of this effect's shader file (UIMask.fx).\n\nAvailable preprocessor definitions:\n  UIMASK_MULTICHANNEL:\n    If set to 1, each of the RGB color channels in the texture is treated as a separate mask.\n\nHow to create a mask:\n\n1. Take a screenshot with the game's UI appearing.\n2. Open the screenshot in an image editor, GIMP or Photoshop are recommended.\n3. Create a new layer over the screenshot layer, fill it with black.\n4. Reduce the layer opacity so you can see the screenshot layer below.\n5. Cover the UI with white to mask it from effects. The stronger the mask white color, the more opaque the mask will be.\n6. Set the mask layer opacity back to 100%.\n7. Save the image in one of your texture folders, making sure to use a unique name such as: \"MyUIMask.png\"\n8. Set the preprocessor definition UIMASK_TEXTURE to the name of your image, with quotes: \"MyUIMask.png\"\n",
+    "ui_category": "Help",
+    "ui_category_closed": [
+     1
+    ],
+    "ui_type": "radio"
+   }
+  },
+  {
+   "name": "fMask_Intensity",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Mask Intensity",
+    "ui_tooltip": "How much to mask effects from affecting the original image.\n\nDefault: 1.0",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "bDisplayMask",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Display Mask",
+    "ui_tooltip": "Display the mask texture.\nUseful for testing multiple channels or simply the mask itself.\n\nDefault: Off"
+   }
+  }
+ ],
+ "total_uniform_size": 12
+}

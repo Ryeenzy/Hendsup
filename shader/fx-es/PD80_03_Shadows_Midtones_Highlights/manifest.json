@@ -1,0 +1,899 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_03_Shadows_Midtones_Highlights",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_SMH_xPS_SMH",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_SMH_xPS_SMH.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNoiseRGB",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texGaussNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerNoise",
+   "tex": "V__texNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerRGBNoise",
+   "tex": "V__texNoiseRGB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerGaussNoise",
+   "tex": "V__texGaussNoise",
+   "filter": 0,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "pp",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "luma_mode",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Luma Mode",
+    "ui_tooltip": "Luma Mode",
+    "ui_category": "Global",
+    "ui_items": "Use Average\nUse Perceived Luma\nUse Max Value\n"
+   }
+  },
+  {
+   "name": "separation_mode",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Luma Separation Mode",
+    "ui_tooltip": "Luma Separation Mode",
+    "ui_category": "Global",
+    "ui_items": "Harsh Separation\nSmooth Separation\n"
+   }
+  },
+  {
+   "name": "enable_dither",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Enable Dithering",
+    "ui_tooltip": "Enable Dithering",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "dither_strength",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Dither Strength",
+    "ui_tooltip": "Dither Strength",
+    "ui_category": "Global",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "exposure_s",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Exposure",
+    "ui_tooltip": "Shadow Exposure",
+    "ui_category": "Shadow Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -4
+    ],
+    "ui_max": [
+     4
+    ]
+   }
+  },
+  {
+   "name": "contrast_s",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Contrast",
+    "ui_tooltip": "Shadow Contrast",
+    "ui_category": "Shadow Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "brightness_s",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Brightness",
+    "ui_tooltip": "Shadow Brightness",
+    "ui_category": "Shadow Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "blendcolor_s",
+   "offset": 48,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0.365,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color",
+    "ui_tooltip": "Shadow Color",
+    "ui_category": "Shadow Adjustments"
+   }
+  },
+  {
+   "name": "blendmode_s",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Blendmode",
+    "ui_tooltip": "Shadow Blendmode",
+    "ui_category": "Shadow Adjustments",
+    "ui_items": "Default\nDarken\nMultiply\nLinearburn\nColorburn\nLighten\nScreen\nColordodge\nLineardodge\nOverlay\nSoftlight\nVividlight\nLinearlight\nPinlight\nHardmix\nReflect\nGlow\nHue\nSaturation\nColor\nLuminosity\n"
+   }
+  },
+  {
+   "name": "opacity_s",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Opacity",
+    "ui_tooltip": "Shadow Opacity",
+    "ui_category": "Shadow Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "tint_s",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Tint",
+    "ui_tooltip": "Shadow Tint",
+    "ui_category": "Shadow Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "saturation_s",
+   "offset": 72,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Saturation",
+    "ui_tooltip": "Shadow Saturation",
+    "ui_category": "Shadow Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "vibrance_s",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Vibrance",
+    "ui_tooltip": "Shadow Vibrance",
+    "ui_category": "Shadow Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "exposure_m",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Exposure",
+    "ui_tooltip": "Midtone Exposure",
+    "ui_category": "Midtone Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -4
+    ],
+    "ui_max": [
+     4
+    ]
+   }
+  },
+  {
+   "name": "contrast_m",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Contrast",
+    "ui_tooltip": "Midtone Contrast",
+    "ui_category": "Midtone Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "brightness_m",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Brightness",
+    "ui_tooltip": "Midtone Brightness",
+    "ui_category": "Midtone Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "blendcolor_m",
+   "offset": 96,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.98,
+    0.588,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color",
+    "ui_tooltip": "Midtone Color",
+    "ui_category": "Midtone Adjustments"
+   }
+  },
+  {
+   "name": "blendmode_m",
+   "offset": 108,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Blendmode",
+    "ui_tooltip": "Midtone Blendmode",
+    "ui_category": "Midtone Adjustments",
+    "ui_items": "Default\nDarken\nMultiply\nLinearburn\nColorburn\nLighten\nScreen\nColordodge\nLineardodge\nOverlay\nSoftlight\nVividlight\nLinearlight\nPinlight\nHardmix\nReflect\nGlow\nHue\nSaturation\nColor\nLuminosity\n"
+   }
+  },
+  {
+   "name": "opacity_m",
+   "offset": 112,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Opacity",
+    "ui_tooltip": "Midtone Opacity",
+    "ui_category": "Midtone Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "tint_m",
+   "offset": 116,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Tint",
+    "ui_tooltip": "Midtone Tint",
+    "ui_category": "Midtone Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "saturation_m",
+   "offset": 120,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Saturation",
+    "ui_tooltip": "Midtone Saturation",
+    "ui_category": "Midtone Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "vibrance_m",
+   "offset": 124,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Vibrance",
+    "ui_tooltip": "Midtone Vibrance",
+    "ui_category": "Midtone Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "exposure_h",
+   "offset": 128,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Exposure",
+    "ui_tooltip": "Highlight Exposure",
+    "ui_category": "Highlight Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -4
+    ],
+    "ui_max": [
+     4
+    ]
+   }
+  },
+  {
+   "name": "contrast_h",
+   "offset": 132,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Contrast",
+    "ui_tooltip": "Highlight Contrast",
+    "ui_category": "Highlight Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "brightness_h",
+   "offset": 136,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Brightness",
+    "ui_tooltip": "Highlight Brightness",
+    "ui_category": "Highlight Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "blendcolor_h",
+   "offset": 144,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color",
+    "ui_tooltip": "Highlight Color",
+    "ui_category": "Highlight Adjustments"
+   }
+  },
+  {
+   "name": "blendmode_h",
+   "offset": 156,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Blendmode",
+    "ui_tooltip": "Highlight Blendmode",
+    "ui_category": "Highlight Adjustments",
+    "ui_items": "Default\nDarken\nMultiply\nLinearburn\nColorburn\nLighten\nScreen\nColordodge\nLineardodge\nOverlay\nSoftlight\nVividlight\nLinearlight\nPinlight\nHardmix\nReflect\nGlow\nHue\nSaturation\nColor\nLuminosity\n"
+   }
+  },
+  {
+   "name": "opacity_h",
+   "offset": 160,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Opacity",
+    "ui_tooltip": "Highlight Opacity",
+    "ui_category": "Highlight Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "tint_h",
+   "offset": 164,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Tint",
+    "ui_tooltip": "Highlight Tint",
+    "ui_category": "Highlight Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "saturation_h",
+   "offset": 168,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Saturation",
+    "ui_tooltip": "Highlight Saturation",
+    "ui_category": "Highlight Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "vibrance_h",
+   "offset": 172,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Vibrance",
+    "ui_tooltip": "Highlight Vibrance",
+    "ui_category": "Highlight Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "pingpong",
+   "offset": 176,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 184
+}

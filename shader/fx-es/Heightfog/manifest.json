@@ -1,0 +1,796 @@
+{
+ "techniques": [
+  {
+   "name": "HeightFog",
+   "passes": [
+    {
+     "vs": "E_xHeightfog_xVS_PixelInfo",
+     "ps": "E_xHeightfog_xPS_CreateFilterCircle",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__Heightfog__texFilterCircle",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [],
+     "vs_file": "E_xHeightfog_xVS_PixelInfo.vert",
+     "ps_file": "E_xHeightfog_xPS_CreateFilterCircle.frag"
+    },
+    {
+     "vs": "E_xHeightfog_xVS_PixelInfo",
+     "ps": "E_xHeightfog_xPS_FogIt",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 2,
+       "binding": 2
+      },
+      {
+       "index": 3,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xHeightfog_xVS_PixelInfo.vert",
+     "ps_file": "E_xHeightfog_xPS_FogIt.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__Heightfog__texFogNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__Heightfog__texFilterCircle",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__Heightfog__SamplerFogNoise",
+   "tex": "V__Heightfog__texFogNoise",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__Heightfog__samplerFilterCircle",
+   "tex": "V__Heightfog__texFilterCircle",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "FogColor",
+   "offset": 0,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.8,
+    0.8,
+    0.8
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_label": "Fog color",
+    "ui_type": "color"
+   }
+  },
+  {
+   "name": "FogDensity",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_type": "drag",
+    "ui_label": "Fog density",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "Controls how thick the fog is at its thickest point"
+   }
+  },
+  {
+   "name": "OveralFogDensityMax",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Overall fog density maximum",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_category": "General"
+   }
+  },
+  {
+   "name": "FogStart",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_label": "Fog start",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Controls where the fog starts, relative to the camera",
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "FogCurve",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    25
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_type": "drag",
+    "ui_label": "Fog curve",
+    "ui_min": [
+     0.001
+    ],
+    "ui_max": [
+     1000
+    ],
+    "ui_tooltip": "Controls how quickly the fog gets thicker",
+    "ui_step": [
+     0.1
+    ]
+   }
+  },
+  {
+   "name": "FoV",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    60
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_type": "drag",
+    "ui_label": "FoV (degrees)",
+    "ui_tooltip": "The Field of View of the scene, for being able to correctly place the fog in the scene",
+    "ui_min": [
+     10
+    ],
+    "ui_max": [
+     140
+    ],
+    "ui_step": [
+     0.1
+    ]
+   }
+  },
+  {
+   "name": "PlaneOrientation",
+   "offset": 32,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.751,
+    -0.464
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_type": "drag",
+    "ui_label": "Fog plane orientation",
+    "ui_tooltip": "Rotates the fog plane to match the scene.\nFirst value is roll, second value is up/down",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "PlaneZ",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    -0.001
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_type": "drag",
+    "ui_label": "Fog plane Z",
+    "ui_tooltip": "Moves the fog plane up/down. Negative values are moving the plane downwards",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.001
+    ]
+   }
+  },
+  {
+   "name": "EvenlyDistributeFog",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "General",
+    "ui_label": "Fog is evenly distributed",
+    "ui_tooltip": "If checked it'll evenly distribute fog so fog close by is as thick as further away."
+   }
+  },
+  {
+   "name": "MovingFog",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Moving fog",
+    "ui_tooltip": "Controls whether the fog clouds are static or moving across the plane",
+    "ui_category": "Cloud configuration"
+   }
+  },
+  {
+   "name": "MovementSpeed",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.4
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Cloud movement speed",
+    "ui_tooltip": "Configures the speed the clouds move. 0.0 is no movement, 1.0 is max speed",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_category": "Cloud configuration"
+   }
+  },
+  {
+   "name": "FogCloudScaleMax",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Cloud scale (Max)",
+    "ui_tooltip": "Configures the cloud size of the fog, used for max values",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_category": "Cloud configuration"
+   }
+  },
+  {
+   "name": "FogCloudScaleVertical",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Cloud scale (vertical)",
+    "ui_tooltip": "Configures the cloud size of the fog, vertically",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_category": "Cloud configuration"
+   }
+  },
+  {
+   "name": "FogCloudScaleHorizontal",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Cloud scale (horizotal)",
+    "ui_tooltip": "Configures the cloud size of the fog, horizontally",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_category": "Cloud configuration"
+   }
+  },
+  {
+   "name": "FogCloudFactor",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Cloud factor",
+    "ui_tooltip": "Configures the amount of cloud forming in the fog.\n1.0 means full clouds, 0.0 means no clouds",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_category": "Cloud configuration"
+   }
+  },
+  {
+   "name": "FogCloudOffset",
+   "offset": 72,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Cloud offset",
+    "ui_tooltip": "Configures the offset in the cloud texture of the fog.\nUse this instead of Moving fog to control the cloud position",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_category": "Cloud configuration"
+   }
+  },
+  {
+   "name": "FogMaxOffset",
+   "offset": 80,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Max offsets",
+    "ui_tooltip": "Configures the offset in the cloud texture of the fog.\nUse this instead of Moving fog to control the cloud position",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_category": "Cloud configuration"
+   }
+  },
+  {
+   "name": "UseFilterCircle",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Filter circle edge filtering",
+    "ui_tooltip": "Controls whether the edge filter is active or not"
+   }
+  },
+  {
+   "name": "FocusPointViewFilterCircleOnMouseDown",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Filter circle edge filtering",
+    "ui_label": "Show filter circle on mouse down",
+    "ui_tooltip": "If checked, an overlay is shown with the current filter circle.Red means no fog will be present,\ntransparent means fog will be present"
+   }
+  },
+  {
+   "name": "FilterCircleCenterPoint",
+   "offset": 96,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5,
+    0.5
+   ],
+   "ann": {
+    "ui_category": "Filter circle edge filtering",
+    "ui_label": "Center point",
+    "ui_type": "drag",
+    "ui_step": [
+     0.001
+    ],
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "The X and Y coordinates of the filter circle center\n0,0 is the upper left corner, and 0.5, 0.5 is at the center of the screen."
+   }
+  },
+  {
+   "name": "FilterCircleRadius",
+   "offset": 104,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_category": "Filter circle edge filtering",
+    "ui_label": "Radius",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The radius of the filter circle.\nAll points outside this circle are not or only partially fogged"
+   }
+  },
+  {
+   "name": "FilterCircleDeformFactors",
+   "offset": 112,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1
+   ],
+   "ann": {
+    "ui_category": "Filter circle edge filtering",
+    "ui_label": "Deform factors",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The radius factors for width and height of the filter circle.\n1.0 means no deformation, another value means deformation in that direction"
+   }
+  },
+  {
+   "name": "FilterCircleRotationFactor",
+   "offset": 120,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Filter circle edge filtering",
+    "ui_label": "Rotation factor",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The rotation factor of the filter circle"
+   }
+  },
+  {
+   "name": "FilterCircleFeather",
+   "offset": 124,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_category": "Filter circle edge filtering",
+    "ui_label": "Feather",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The feather area within the filter circle.\n1.0 means the whole inner area is feathered,\n0.0 means no feather area."
+   }
+  },
+  {
+   "name": "timer",
+   "offset": 128,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  },
+  {
+   "name": "LeftMouseDown",
+   "offset": 132,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "mousebutton",
+    "keycode": [
+     0
+    ],
+    "toggle": [
+     0
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 136
+}

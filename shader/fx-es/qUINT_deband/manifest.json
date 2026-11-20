@@ -1,0 +1,202 @@
+{
+ "techniques": [
+  {
+   "name": "Debanding",
+   "passes": [
+    {
+     "vs": "E_xVSMain",
+     "ps": "E_xPSMain",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xVSMain.vert",
+     "ps_file": "E_xPSMain.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__qUINT__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__qUINT__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__qUINT__sBackBufferTex",
+   "tex": "V__qUINT__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__qUINT__sDepthBufferTex",
+   "tex": "V__qUINT__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "SEARCH_RADIUS",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Debanding Search Radius"
+   }
+  },
+  {
+   "name": "BIT_DEPTH",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    8
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     4
+    ],
+    "ui_max": [
+     10
+    ],
+    "ui_label": "Bit depth of data to be debanded"
+   }
+  },
+  {
+   "name": "AUTOMATE_BIT_DEPTH",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Automatic bit depth detection"
+   }
+  },
+  {
+   "name": "DEBAND_MODE",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "radio",
+    "ui_label": "Dither mode",
+    "ui_items": "None\nDither\nDeband\n"
+   }
+  },
+  {
+   "name": "SKY_ONLY",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Apply to sky only"
+   }
+  },
+  {
+   "name": "FRAME_TIME",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  },
+  {
+   "name": "FRAME_COUNT",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  }
+ ],
+ "total_uniform_size": 28
+}

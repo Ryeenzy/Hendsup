@@ -1,0 +1,237 @@
+{
+ "techniques": [
+  {
+   "name": "Trails",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xCurrent_BackBuffer_T",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__CurrentBackBufferT",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xCurrent_BackBuffer_T.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xT_Out",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xT_Out.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPast_BB",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PBB",
+      "V__PSBB",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPast_BB.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__CurrentBackBufferT",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PBB",
+   "w": 1920,
+   "h": 1080,
+   "levels": 2,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PSBB",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__DepthBuffer",
+   "tex": "V__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBuffer",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__CBackBuffer",
+   "tex": "V__CurrentBackBufferT",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PBackBuffer",
+   "tex": "V__PBB",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PSBackBuffer",
+   "tex": "V__PSBB",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Persistence",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.25
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Persistence",
+    "ui_tooltip": "Increase persistence longer the trail or afterimage.\nIf pushed out the effect is alot like long exposure.\nThis can be used for light painting in games.\n1000/1 is 1.0, so 1/2 is 0.5 and so forth.\nDefault is 0.25, 0 is infinity."
+   }
+  },
+  {
+   "name": "TQ",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Trail Blur Quality",
+    "ui_tooltip": "Adjust Trail Blur Quality.\nDefault is Zero."
+   }
+  },
+  {
+   "name": "PS2",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "PS2 Style Echo",
+    "ui_tooltip": "This enables PS2 Style Echo in your game.\nThis disables Trail Quality."
+   }
+  }
+ ],
+ "total_uniform_size": 12
+}

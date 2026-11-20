@@ -1,0 +1,181 @@
+{
+ "techniques": [
+  {
+   "name": "LumaSharpen",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xLumaSharpenPass",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xLumaSharpenPass.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "sharp_strength",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.65
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0.1
+    ],
+    "ui_max": [
+     3
+    ],
+    "ui_label": "Shapening strength",
+    "ui_tooltip": "Strength of the sharpening"
+   }
+  },
+  {
+   "name": "sharp_clamp",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.035
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.005
+    ],
+    "ui_label": "Sharpening limit",
+    "ui_tooltip": "Limits maximum amount of sharpening a pixel receives\nThis helps avoid \"haloing\" artifacts which would otherwise occur when you raised the strength too much."
+   }
+  },
+  {
+   "name": "pattern",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Fast\nNormal\nWider\nPyramid shaped\n",
+    "ui_label": "Sample pattern",
+    "ui_tooltip": "Choose a sample pattern.\nFast is faster but slightly lower quality.\nNormal is normal.\nWider is less sensitive to noise but also to fine details.\nPyramid has a slightly more aggresive look."
+   }
+  },
+  {
+   "name": "offset_bias",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     6
+    ],
+    "ui_label": "Offset bias",
+    "ui_tooltip": "Offset bias adjusts the radius of the sampling pattern. I designed the pattern for an offset bias of 1.0, but feel free to experiment."
+   }
+  },
+  {
+   "name": "show_sharpen",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Show sharpening pattern",
+    "ui_tooltip": "Visualize the strength of the sharpen\nThis is useful for seeing what areas the sharpning affects the most"
+   }
+  }
+ ],
+ "total_uniform_size": 20
+}

@@ -1,0 +1,785 @@
+{
+ "techniques": [
+  {
+   "name": "DirectionalDepthBlur",
+   "passes": [
+    {
+     "vs": "E_xDirectionalDepthBlur_xVS_PixelInfo",
+     "ps": "E_xDirectionalDepthBlur_xPS_CreateFilterCircle",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__DirectionalDepthBlur__texFilterCircle",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [],
+     "vs_file": "E_xDirectionalDepthBlur_xVS_PixelInfo.vert",
+     "ps_file": "E_xDirectionalDepthBlur_xPS_CreateFilterCircle.frag"
+    },
+    {
+     "vs": "E_xDirectionalDepthBlur_xVS_PixelInfo",
+     "ps": "E_xDirectionalDepthBlur_xPS_DownSample",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__DirectionalDepthBlur__texDownsampledBackBuffer",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xDirectionalDepthBlur_xVS_PixelInfo.vert",
+     "ps_file": "E_xDirectionalDepthBlur_xPS_DownSample.frag"
+    },
+    {
+     "vs": "E_xDirectionalDepthBlur_xVS_PixelInfo",
+     "ps": "E_xDirectionalDepthBlur_xPS_Blur",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__DirectionalDepthBlur__texBlurDestination",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      },
+      {
+       "index": 4,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xDirectionalDepthBlur_xVS_PixelInfo.vert",
+     "ps_file": "E_xDirectionalDepthBlur_xPS_Blur.frag"
+    },
+    {
+     "vs": "E_xDirectionalDepthBlur_xVS_PixelInfo",
+     "ps": "E_xDirectionalDepthBlur_xPS_Combiner",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      },
+      {
+       "index": 4,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xDirectionalDepthBlur_xVS_PixelInfo.vert",
+     "ps_file": "E_xDirectionalDepthBlur_xPS_Combiner.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__DirectionalDepthBlur__texDownsampledBackBuffer",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__DirectionalDepthBlur__texBlurDestination",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__DirectionalDepthBlur__texFilterCircle",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__DirectionalDepthBlur__samplerDownsampledBackBuffer",
+   "tex": "V__DirectionalDepthBlur__texDownsampledBackBuffer",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__DirectionalDepthBlur__samplerBlurDestination",
+   "tex": "V__DirectionalDepthBlur__texBlurDestination",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__DirectionalDepthBlur__samplerFilterCircle",
+   "tex": "V__DirectionalDepthBlur__texFilterCircle",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "FocusPlane",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.01
+   ],
+   "ann": {
+    "ui_category": "Focusing",
+    "ui_label": "Focus plane",
+    "ui_type": "drag",
+    "ui_min": [
+     0.001
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The depth of the plane where the blur starts, related to the camera"
+   }
+  },
+  {
+   "name": "FocusRange",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.001
+   ],
+   "ann": {
+    "ui_category": "Focusing",
+    "ui_label": "Focus range",
+    "ui_type": "drag",
+    "ui_min": [
+     0.001
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The range around the focus plane that's more or less not blurred.\n1.0 is the FocusPlaneMaxRange."
+   }
+  },
+  {
+   "name": "FocusPlaneMaxRange",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    150
+   ],
+   "ann": {
+    "ui_category": "Focusing",
+    "ui_label": "Focus plane max range",
+    "ui_type": "drag",
+    "ui_min": [
+     10
+    ],
+    "ui_max": [
+     300
+    ],
+    "ui_step": [
+     1
+    ],
+    "ui_tooltip": "The max range Focus Plane for when Focus Plane is 1.0.\n1000 is the horizon."
+   }
+  },
+  {
+   "name": "BlurAngle",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking",
+    "ui_label": "Blur angle",
+    "ui_type": "drag",
+    "ui_min": [
+     0.01
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "The angle of the blur direction",
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "BlurLength",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking",
+    "ui_label": "Blur length",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The length of the blur strokes per pixel. 1.0 is the entire screen."
+   }
+  },
+  {
+   "name": "BlurQuality",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking",
+    "ui_label": "Blur quality",
+    "ui_type": "drag",
+    "ui_min": [
+     0.01
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "The quality of the blur. 1.0 means all pixels in the blur length are\nread, 0.5 means half of them are read."
+   }
+  },
+  {
+   "name": "ScaleFactor",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking",
+    "ui_label": "Scale factor",
+    "ui_type": "drag",
+    "ui_min": [
+     0.01
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The scale factor for the pixels to blur. Lower values downscale the\nsource frame and will result in wider blur strokes."
+   }
+  },
+  {
+   "name": "BlurType",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking",
+    "ui_type": "combo",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_items": "Parallel Strokes\nFocus Point Targeting Strokes\n",
+    "ui_label": "The blur type",
+    "ui_tooltip": "The blur type. Focus Point Targeting Strokes means the blur directions\nper pixel are towards the Focus Point."
+   }
+  },
+  {
+   "name": "FocusPoint",
+   "offset": 32,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5,
+    0.5
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Blur focus point",
+    "ui_type": "drag",
+    "ui_step": [
+     0.001
+    ],
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "The X and Y coordinates of the blur focus point, which is used for\nthe Blur type 'Focus Point Targeting Strokes'. 0,0 is the\nupper left corner, and 0.5, 0.5 is at the center of the screen."
+   }
+  },
+  {
+   "name": "FocusPointBlendColor",
+   "offset": 48,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Color",
+    "ui_type": "color",
+    "ui_tooltip": "The color of the focus point in Point focused mode. The closer a\npixel is to the focus point, the more it will become this color.\nIn (red , green, blue)"
+   }
+  },
+  {
+   "name": "FocusPointBlendFactor",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Color blend factor",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "The factor with which the focus point color is blended with the final image"
+   }
+  },
+  {
+   "name": "FocusPointViewFilterCircleOnMouseDown",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Show filter circle on mouse down",
+    "ui_tooltip": "For Focus Point Targeting Strokes blur type:\nIf checked, an overlay is shown with the current filter circle.\nWhite means blur will be present,\ntransparent means no blur will be present"
+   }
+  },
+  {
+   "name": "FocusPointFadeBlurInFeatherBand",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Fade blur in feather band",
+    "ui_tooltip": "For Focus Point Targeting Strokes blur type:\nIf checked, it'll fade out the blur in the feather area in the filter circle"
+   }
+  },
+  {
+   "name": "FlipFadeBlurInFeatherBand",
+   "offset": 72,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Flip feather band",
+    "ui_tooltip": "For Focus Point Targeting Strokes blur type:\nIf checked, it'll flip the feather band from being towards the center to towards the edges"
+   }
+  },
+  {
+   "name": "FlipFocusPointTargetingBlurDirection",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Flip Focus Point Targeting strokes blur direction",
+    "ui_tooltip": "For Focus Point Targeting Strokes blur type:\nIf checked, it'll flip the direction of the blur from inside-to-outside to outside-to-inside"
+   }
+  },
+  {
+   "name": "FilterCircleRadius",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Filter circle radius",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "For Focus Point Targeting Strokes blur type:\nThe radius of the filter circle.\nAll points within this circle are not or only partially blurred"
+   }
+  },
+  {
+   "name": "FilterCircleDeformFactors",
+   "offset": 88,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Filter circle deform factors",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "For Focus Point Targeting Strokes blur type:\nThe radius factors for width and height of the filter circle.\n1.0 means no deformation, another value means deformation in that direction"
+   }
+  },
+  {
+   "name": "FilterCircleRotationFactor",
+   "offset": 96,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Filter circle rotation factor",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "For Focus Point Targeting Strokes blur type:\nThe rotation factor of the filter circle"
+   }
+  },
+  {
+   "name": "FilterCircleFeather",
+   "offset": 100,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking, Focus Point",
+    "ui_label": "Filter circle feather",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "For Focus Point Targeting Strokes blur type:\nThe feather area within the filter circle.\n1.0 means the whole inner area is feathered,\n0.0 means no feather area."
+   }
+  },
+  {
+   "name": "HighlightGain",
+   "offset": 104,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking",
+    "ui_label": "Highlight gain",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ],
+    "ui_tooltip": "The gain for highlights in the strokes plane. The higher the more a highlight gets\nbrighter.",
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "BlendFactor",
+   "offset": 108,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "Blur tweaking",
+    "ui_label": "Blend factor",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "How strong the effect is applied to the original image. 1.0 is 100%, 0.0 is 0%.",
+    "ui_step": [
+     0.01
+    ]
+   }
+  },
+  {
+   "name": "MouseCoords",
+   "offset": 112,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "mousepoint"
+   }
+  },
+  {
+   "name": "LeftMouseDown",
+   "offset": 120,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "mousebutton",
+    "keycode": [
+     0
+    ],
+    "toggle": [
+     0
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 124
+}

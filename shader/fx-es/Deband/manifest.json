@@ -1,0 +1,310 @@
+{
+ "techniques": [
+  {
+   "name": "Deband",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Deband",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Deband.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "enable_weber",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "Banding analysis",
+    "ui_label": "Weber ratio",
+    "ui_tooltip": "Weber ratio analysis that calculates the ratio of the each local pixel's intensity to average background intensity of all the local pixels.",
+    "ui_type": "radio"
+   }
+  },
+  {
+   "name": "enable_sdeviation",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "Banding analysis",
+    "ui_label": "Standard deviation",
+    "ui_tooltip": "Modified standard deviation analysis that calculates nearby pixels' intensity deviation from the current pixel instead of the mean.",
+    "ui_type": "radio"
+   }
+  },
+  {
+   "name": "enable_depthbuffer",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Banding analysis",
+    "ui_label": "Depth detection",
+    "ui_tooltip": "Allows depth information to be used when analysing banding, pixels will only be analysed if they are in a certain depth. (e.g. debanding only the sky)",
+    "ui_type": "radio"
+   }
+  },
+  {
+   "name": "t1",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.007
+   ],
+   "ann": {
+    "ui_category": "Banding analysis",
+    "ui_label": "Standard deviation threshold",
+    "ui_max": [
+     0.5
+    ],
+    "ui_min": [
+     0
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "Standard deviations lower than this threshold will be flagged as flat regions with potential banding.",
+    "ui_type": "slider"
+   }
+  },
+  {
+   "name": "t2",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.04
+   ],
+   "ann": {
+    "ui_category": "Banding analysis",
+    "ui_label": "Weber ratio threshold",
+    "ui_max": [
+     2
+    ],
+    "ui_min": [
+     0
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Weber ratios lower than this threshold will be flagged as flat regions with potential banding.",
+    "ui_type": "slider"
+   }
+  },
+  {
+   "name": "banding_depth",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "Banding analysis",
+    "ui_label": "Banding depth",
+    "ui_max": [
+     1
+    ],
+    "ui_min": [
+     0
+    ],
+    "ui_step": [
+     0.001
+    ],
+    "ui_tooltip": "Pixels under this depth threshold will not be processed and returned as they are.",
+    "ui_type": "slider"
+   }
+  },
+  {
+   "name": "range",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    24
+   ],
+   "ann": {
+    "ui_category": "Banding detection & removal",
+    "ui_label": "Radius",
+    "ui_max": [
+     32
+    ],
+    "ui_min": [
+     1
+    ],
+    "ui_step": [
+     1
+    ],
+    "ui_tooltip": "The radius increases linearly for each iteration. A higher radius will find more gradients, but a lower radius will smooth more aggressively.",
+    "ui_type": "slider"
+   }
+  },
+  {
+   "name": "iterations",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "Banding detection & removal",
+    "ui_label": "Iterations",
+    "ui_max": [
+     4
+    ],
+    "ui_min": [
+     1
+    ],
+    "ui_tooltip": "The number of debanding steps to perform per sample. Each step reduces a bit more banding, but takes time to compute.",
+    "ui_type": "slider"
+   }
+  },
+  {
+   "name": "debug_output",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Debug",
+    "ui_items": "None\nBlurred (LPF) image\nBanding map\n",
+    "ui_label": "Debug view",
+    "ui_tooltip": "Blurred (LPF) image: Useful when tweaking radius and iterations to make sure all banding regions are blurred enough.\nBanding map: Useful when tweaking analysis parameters, continuous green regions indicate flat (i.e. banding) regions.",
+    "ui_type": "combo"
+   }
+  },
+  {
+   "name": "drandom",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "random",
+    "min": [
+     0
+    ],
+    "max": [
+     32767
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 40
+}

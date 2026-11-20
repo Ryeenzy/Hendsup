@@ -1,0 +1,449 @@
+{
+ "techniques": [
+  {
+   "name": "OS_SnowScape",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xBuffers_A",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__Normals_A",
+      "V__BB_Depth_A",
+      "V__SnowMask_A",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 5,
+       "binding": 2
+      },
+      {
+       "index": 6,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xBuffers_A.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xBuffers_B",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__Normals_B",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xBuffers_B.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xBuffers_C",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__Bump_C",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 6,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xBuffers_C.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOut",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 4,
+       "binding": 2
+      },
+      {
+       "index": 6,
+       "binding": 3
+      },
+      {
+       "index": 7,
+       "binding": 4
+      },
+      {
+       "index": 8,
+       "binding": 5
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOut.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__SnowMask_A",
+   "w": 1920,
+   "h": 1080,
+   "levels": 11,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__Normals_A",
+   "w": 1920,
+   "h": 1080,
+   "levels": 11,
+   "fmt": 11,
+   "semantic": ""
+  },
+  {
+   "name": "V__Normals_B",
+   "w": 1920,
+   "h": 1080,
+   "levels": 11,
+   "fmt": 11,
+   "semantic": ""
+  },
+  {
+   "name": "V__BB_Depth_A",
+   "w": 1920,
+   "h": 1080,
+   "levels": 11,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__Bump_C",
+   "w": 1920,
+   "h": 1080,
+   "levels": 11,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__DepthBuffer",
+   "tex": "V__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBuffer",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__CSnowMask",
+   "tex": "V__SnowMask_A",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__N_Sampler_A",
+   "tex": "V__Normals_A",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__N_Sampler_B",
+   "tex": "V__Normals_B",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__CDBuffer",
+   "tex": "V__BB_Depth_A",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BumpMap",
+   "tex": "V__Bump_C",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "BG",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.9625
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Best Guess Sensitivity",
+    "ui_tooltip": "Increases the sensitiviy of the Algo used for gussing where the user is looking at.\nDefault is 0.9625. But, any value around 0.5 - 1.0 can be used. Decreasing this makes it stronger.",
+    "ui_category": "Snow"
+   }
+  },
+  {
+   "name": "SSC",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.625
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Snow Scape Adjust",
+    "ui_tooltip": "Increase persistence of the frames this is really the Temporal Part.\nDefault is 0.625. But, a value around 0.625 is recommended.",
+    "ui_category": "Snow"
+   }
+  },
+  {
+   "name": "HMP",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Height Map Scaling",
+    "ui_tooltip": "Increases the Detail that it takes from the color information from the world.\nDefault is 0.5. But, any value around 0 - 2 can be used.",
+    "ui_category": "Snow"
+   }
+  },
+  {
+   "name": "Elevation",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    10
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     50
+    ],
+    "ui_label": "Elevation",
+    "ui_tooltip": "Increase Parallax Occlusion Mapping Elevation.\nDefault is 10. But, a value around 1-25 is recommended.",
+    "ui_category": "Snow"
+   }
+  },
+  {
+   "name": "I_Ice",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Invert Snow",
+    "ui_tooltip": "Use this so you can invert the Height Map.",
+    "ui_category": "Snow"
+   }
+  },
+  {
+   "name": "Depth_Map_Adjust",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Depth Map Adjustment",
+    "ui_tooltip": "Adjust the depth map and sharpness distance.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "framecount",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 5,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  }
+ ],
+ "total_uniform_size": 28
+}

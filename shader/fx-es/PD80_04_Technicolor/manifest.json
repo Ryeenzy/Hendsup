@@ -1,0 +1,271 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_04_Technicolor",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_technicolor_xPS_Technicolor",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_technicolor_xPS_Technicolor.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Red2strip",
+   "offset": 0,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    0.098,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Red Dye Color",
+    "ui_tooltip": "Red Color used to create Cyan (contemporary)",
+    "ui_category": "Technicolor 2 strip"
+   }
+  },
+  {
+   "name": "Cyan2strip",
+   "offset": 16,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0.988,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Cyan Dye Color",
+    "ui_tooltip": "Cyan Color used to create Red (contemporary)",
+    "ui_category": "Technicolor 2 strip"
+   }
+  },
+  {
+   "name": "colorKey",
+   "offset": 32,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Funky Color Adjustment",
+    "ui_tooltip": "3rd Layer for Fun, lower values increase contrast",
+    "ui_category": "Technicolor 2 strip"
+   }
+  },
+  {
+   "name": "Saturation2",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.5
+   ],
+   "ann": {
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_type": "slider",
+    "ui_label": "Saturation Adjustment",
+    "ui_tooltip": "Additional saturation control as 2 Strip Process is not very saturated by itself",
+    "ui_category": "Technicolor 2 strip"
+   }
+  },
+  {
+   "name": "enable3strip",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Enable Technicolor 3 strip",
+    "ui_tooltip": "Enable Technicolor 3 strip",
+    "ui_category": "Technicolor 3 strip"
+   }
+  },
+  {
+   "name": "ColorStrength",
+   "offset": 64,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.2,
+    0.2,
+    0.2
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_tooltip": "Higher means darker and more intense colors.",
+    "ui_category": "Technicolor 3 strip"
+   }
+  },
+  {
+   "name": "Brightness",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Brightness Adjustment",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     1.5
+    ],
+    "ui_tooltip": "Higher means brighter image.",
+    "ui_category": "Technicolor 3 strip"
+   }
+  },
+  {
+   "name": "Saturation",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation Adjustment",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1.5
+    ],
+    "ui_tooltip": "Additional saturation control since this effect tends to oversaturate the image.",
+    "ui_category": "Technicolor 3 strip"
+   }
+  },
+  {
+   "name": "Strength",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Effect Strength",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Adjust the strength of the effect.",
+    "ui_category": "Technicolor 3 strip"
+   }
+  }
+ ],
+ "total_uniform_size": 88
+}

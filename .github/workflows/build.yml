@@ -1,0 +1,68 @@
+name: RYEENZYXNZ build
+on:
+  push: { branches: [main], tags: ['v*'] }
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Pasang glslang (validasi GLSL)
+        run: sudo apt-get update && sudo apt-get install -y glslang-tools
+      - name: Uji (pack sintetis + validasi GLSL + patch APK palsu)
+        run: bash tests/run_tests.sh
+      - name: Cek sintaks skrip
+        run: for f in termux/*.sh patcher/*.sh ui/*.sh tests/*.sh; do bash -n "$f"; done
+
+  native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - name: Uji native (hook, config, patch, shader LIVE) dan overlay
+        run: |
+          sudo apt-get update && sudo apt-get install -y glslang-tools
+          cd native/module && make && cd ../..
+          PLATFORM=$(ls -d "$ANDROID_HOME"/platforms/android-* | sort -V | tail -1)
+          mkdir -p /tmp/ovl /tmp/ovl_test
+          javac -source 8 -target 8 -Xlint:-options -cp "$PLATFORM/android.jar" -d /tmp/ovl native/overlay/com/ryeenzyxnz/overlay/*.java
+          javac -source 8 -target 8 -Xlint:-options -cp "/tmp/ovl:$PLATFORM/android.jar" -d /tmp/ovl_test native/overlay_test/com/ryeenzyxnz/overlay/RzTest.java
+          java -cp "/tmp/ovl_test:/tmp/ovl:$PLATFORM/android.jar" com.ryeenzyxnz.overlay.RzTest
+      - name: Build payload (NDK)
+        run: |
+          if [ -z "$ANDROID_NDK_HOME" ] || [ ! -d "$ANDROID_NDK_HOME" ]; then
+            ANDROID_NDK_HOME=$(ls -d "$ANDROID_HOME"/ndk/* | sort -V | tail -1)
+          fi
+          export ANDROID_NDK_HOME
+          sh native/module/build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: payload
+          path: native/module/libryeenzyxnz_payload.so
+
+  package:
+    needs: [test, native]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: payload
+          path: native
+      - name: Kemas paket Termux
+        run: |
+          mkdir -p dist
+          zip -r dist/ryeenzyxnz-patcher.zip termux patcher shader ui config native/libryeenzyxnz_payload.so native/tools README.md -x '*/__pycache__/*'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ryeenzyxnz-patcher
+          path: dist/ryeenzyxnz-patcher.zip
+      - name: Rilis (tag v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with: { files: dist/ryeenzyxnz-patcher.zip }

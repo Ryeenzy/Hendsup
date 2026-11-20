@@ -1,0 +1,135 @@
+{
+ "techniques": [
+  {
+   "name": "Levels",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xLevelsPass",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xLevelsPass.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "BlackPoint",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    16
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     255
+    ],
+    "ui_label": "Black Point",
+    "ui_tooltip": "The black point is the new black - literally. Everything darker than this will become completely black."
+   }
+  },
+  {
+   "name": "WhitePoint",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    235
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     255
+    ],
+    "ui_label": "White Point",
+    "ui_tooltip": "The new white point. Everything brighter than this becomes completely white"
+   }
+  },
+  {
+   "name": "HighlightClipping",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Highlight clipping pixels",
+    "ui_tooltip": "Colors between the two points will stretched, which increases contrast, but details above and below the points are lost (this is called clipping).\nThis setting marks the pixels that clip.\nRed: Some detail is lost in the highlights\nYellow: All detail is lost in the highlights\nBlue: Some detail is lost in the shadows\nCyan: All detail is lost in the shadows."
+   }
+  }
+ ],
+ "total_uniform_size": 12
+}

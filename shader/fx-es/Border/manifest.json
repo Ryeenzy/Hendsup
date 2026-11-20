@@ -1,0 +1,135 @@
+{
+ "techniques": [
+  {
+   "name": "Border",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xBorderPass",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xBorderPass.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "border_width",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_label": "Size",
+    "ui_tooltip": "Measured in pixels. If this is set to zero then the ratio will be used instead.",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     960
+    ],
+    "ui_step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "border_ratio",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2.35
+   ],
+   "ann": {
+    "ui_type": "input",
+    "ui_label": "Size Ratio",
+    "ui_tooltip": "Set the desired ratio for the visible area."
+   }
+  },
+  {
+   "name": "border_color",
+   "offset": 16,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Border Color"
+   }
+  }
+ ],
+ "total_uniform_size": 28
+}

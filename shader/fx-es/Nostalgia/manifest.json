@@ -1,0 +1,467 @@
+{
+ "techniques": [
+  {
+   "name": "Nostalgia",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Nostalgia",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 1,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Nostalgia.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__Linear",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 1
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Nostalgia_scanlines",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Scanlines",
+    "ui_items": "None\nType 1\nType 2\n"
+   }
+  },
+  {
+   "name": "Nostalgia_color_reduction",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Color reduction type",
+    "ui_items": "None\nPalette\n"
+   }
+  },
+  {
+   "name": "Nostalgia_dither",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Dither"
+   }
+  },
+  {
+   "name": "Nostalgia_palette",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Palette",
+    "ui_tooltip": "Choose a palette",
+    "ui_items": "Custom\nC64 palette\nEGA palette\nIBMPC palette\nZXSpectrum palette\nAppleII palette\nNTSC palette\nCommodore VIC-20\nMSX Systems\nThomson MO5\nAmstrad CPC\nAtari ST\nMattel Aquarius\nGameboy\nAek16 palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_0",
+   "offset": 16,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 0",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_1",
+   "offset": 32,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    1,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 1",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_2",
+   "offset": 48,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.533333,
+    0,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 2",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_3",
+   "offset": 64,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.666667,
+    1,
+    0.933333
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 3",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_4",
+   "offset": 80,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.8,
+    0.266667,
+    0.8
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 4",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_5",
+   "offset": 96,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0.8,
+    0.333333
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 5",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_6",
+   "offset": 112,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0,
+    0.666667
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 6",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_7",
+   "offset": 128,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.933333,
+    0.933333,
+    0.466667
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 7",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_8",
+   "offset": 144,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.866667,
+    0.533333,
+    0.333333
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 8",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_9",
+   "offset": 160,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.4,
+    0.266667,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 9",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_10",
+   "offset": 176,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    0.466667,
+    0.466667
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 10",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_11",
+   "offset": 192,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.2,
+    0.2,
+    0.2
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 11",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_12",
+   "offset": 208,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.466667,
+    0.466667,
+    0.466667
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 12",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_13",
+   "offset": 224,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.666667,
+    1,
+    0.4
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 13",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_14",
+   "offset": 240,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0.533333,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 14",
+    "ui_category": "Custom palette"
+   }
+  },
+  {
+   "name": "Nostalgia_color_15",
+   "offset": 256,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.733333,
+    0.733333,
+    0.733333
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color 15",
+    "ui_category": "Custom palette"
+   }
+  }
+ ],
+ "total_uniform_size": 268
+}

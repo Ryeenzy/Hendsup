@@ -1,0 +1,982 @@
+{
+ "techniques": [
+  {
+   "name": "Bloom",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_BloomPrepass",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTexSource",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_BloomPrepass.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Downsample1",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex1",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Downsample1.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Downsample2",
+     "w": 480,
+     "h": 270,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex2",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Downsample2.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Downsample3",
+     "w": 240,
+     "h": 135,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex3",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Downsample3.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Downsample4",
+     "w": 120,
+     "h": 67,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex4",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Downsample4.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Downsample5",
+     "w": 60,
+     "h": 33,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex5",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 6,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Downsample5.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Downsample6",
+     "w": 30,
+     "h": 16,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex6",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 7,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Downsample6.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Downsample7",
+     "w": 15,
+     "h": 8,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex7",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 8,
+       "binding": 0
+      },
+      {
+       "index": 10,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Downsample7.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_AdaptStoreLast",
+     "w": 1,
+     "h": 1,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTexAdapt",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 9,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_AdaptStoreLast.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Upsample1",
+     "w": 30,
+     "h": 16,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex6",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 9,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Upsample1.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Upsample2",
+     "w": 60,
+     "h": 33,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex5",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 8,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Upsample2.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Upsample3",
+     "w": 120,
+     "h": 67,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex4",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 7,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Upsample3.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Upsample4",
+     "w": 240,
+     "h": 135,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex3",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 6,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Upsample4.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Upsample5",
+     "w": 480,
+     "h": 270,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex2",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Upsample5.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Upsample6",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__MXBLOOM_BloomTex1",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Upsample6.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Combine",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 10,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Combine.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__qUINT__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__qUINT__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__MXBLOOM_BloomTexSource",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXBLOOM_BloomTex1",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXBLOOM_BloomTex2",
+   "w": 480,
+   "h": 270,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXBLOOM_BloomTex3",
+   "w": 240,
+   "h": 135,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXBLOOM_BloomTex4",
+   "w": 120,
+   "h": 67,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXBLOOM_BloomTex5",
+   "w": 60,
+   "h": 33,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXBLOOM_BloomTex6",
+   "w": 30,
+   "h": 16,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXBLOOM_BloomTex7",
+   "w": 15,
+   "h": 8,
+   "levels": 3,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__MXBLOOM_BloomTexAdapt",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__qUINT__sBackBufferTex",
+   "tex": "V__qUINT__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__qUINT__sDepthBufferTex",
+   "tex": "V__qUINT__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXBLOOM_BloomTexSource",
+   "tex": "V__MXBLOOM_BloomTexSource",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXBLOOM_BloomTex1",
+   "tex": "V__MXBLOOM_BloomTex1",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXBLOOM_BloomTex2",
+   "tex": "V__MXBLOOM_BloomTex2",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXBLOOM_BloomTex3",
+   "tex": "V__MXBLOOM_BloomTex3",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXBLOOM_BloomTex4",
+   "tex": "V__MXBLOOM_BloomTex4",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXBLOOM_BloomTex5",
+   "tex": "V__MXBLOOM_BloomTex5",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXBLOOM_BloomTex6",
+   "tex": "V__MXBLOOM_BloomTex6",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXBLOOM_BloomTex7",
+   "tex": "V__MXBLOOM_BloomTex7",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__sMXBLOOM_BloomTexAdapt",
+   "tex": "V__MXBLOOM_BloomTexAdapt",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "BLOOM_INTENSITY",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.2
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ],
+    "ui_label": "Bloom Intensity",
+    "ui_tooltip": "Scales bloom brightness."
+   }
+  },
+  {
+   "name": "BLOOM_CURVE",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ],
+    "ui_label": "Bloom Curve",
+    "ui_tooltip": "Higher values limit bloom to bright light sources only."
+   }
+  },
+  {
+   "name": "BLOOM_SAT",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Bloom Saturation",
+    "ui_tooltip": "Adjusts the color strength of the bloom effect"
+   }
+  },
+  {
+   "name": "BLOOM_LAYER_MULT_1",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.05
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Layer 1 Intensity",
+    "ui_tooltip": "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry."
+   }
+  },
+  {
+   "name": "BLOOM_LAYER_MULT_2",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.05
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Layer 2 Intensity",
+    "ui_tooltip": "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry."
+   }
+  },
+  {
+   "name": "BLOOM_LAYER_MULT_3",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.05
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Layer 3 Intensity",
+    "ui_tooltip": "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry."
+   }
+  },
+  {
+   "name": "BLOOM_LAYER_MULT_4",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Layer 4 Intensity",
+    "ui_tooltip": "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry."
+   }
+  },
+  {
+   "name": "BLOOM_LAYER_MULT_5",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Layer 5 Intensity",
+    "ui_tooltip": "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry."
+   }
+  },
+  {
+   "name": "BLOOM_LAYER_MULT_6",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.01
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Layer 6 Intensity",
+    "ui_tooltip": "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry."
+   }
+  },
+  {
+   "name": "BLOOM_LAYER_MULT_7",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.01
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Layer 7 Intensity",
+    "ui_tooltip": "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry."
+   }
+  },
+  {
+   "name": "BLOOM_ADAPT_STRENGTH",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Bloom Scene Adaptation Sensitivity",
+    "ui_tooltip": "Amount of adaptation applied, 0 means same exposure for all scenes, 1 means complete autoexposure."
+   }
+  },
+  {
+   "name": "BLOOM_ADAPT_EXPOSURE",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     -5
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Bloom Scene Exposure Bias",
+    "ui_tooltip": "qUINT bloom employs eye adaptation to tune bloom intensity for scene differences.\nThis parameter adjusts the final scene exposure."
+   }
+  },
+  {
+   "name": "BLOOM_ADAPT_SPEED",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     10
+    ],
+    "ui_label": "Bloom Scene Adaptation Speed",
+    "ui_tooltip": "Eye adaptation data is created by exponential moving average with last frame data.\nThis parameter controls the adjustment speed.\nHigher parameters let the image adjust more quickly."
+   }
+  },
+  {
+   "name": "BLOOM_ADAPT_MODE",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Adapt bloom only"
+   }
+  },
+  {
+   "name": "BLOOM_TONEMAP_COMPRESSION",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    4
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ],
+    "ui_label": "Bloom Tonemap Compression",
+    "ui_tooltip": "Lower values compress a larger color range."
+   }
+  },
+  {
+   "name": "FRAME_TIME",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  },
+  {
+   "name": "FRAME_COUNT",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  }
+ ],
+ "total_uniform_size": 68
+}

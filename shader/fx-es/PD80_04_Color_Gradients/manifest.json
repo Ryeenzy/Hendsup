@@ -1,0 +1,778 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_04_ColorGradient",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_ColorGradients_xPS_WriteLuma",
+     "w": 256,
+     "h": 256,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_ColorGradients__texLuma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_ColorGradients_xPS_WriteLuma.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_ColorGradients_xPS_AvgLuma",
+     "w": 1,
+     "h": 1,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_ColorGradients__texAvgLuma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      },
+      {
+       "index": 7,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_ColorGradients_xPS_AvgLuma.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_ColorGradients_xPS_ColorGradients",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 6,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_ColorGradients_xPS_ColorGradients.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_ColorGradients_xPS_PrevAvgLuma",
+     "w": 1,
+     "h": 1,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_ColorGradients__texPrevAvgLuma",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 6,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_ColorGradients_xPS_PrevAvgLuma.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNoiseRGB",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texGaussNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_ColorGradients__texLuma",
+   "w": 256,
+   "h": 256,
+   "levels": 8,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_ColorGradients__texAvgLuma",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_ColorGradients__texPrevAvgLuma",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 54,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerNoise",
+   "tex": "V__texNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerRGBNoise",
+   "tex": "V__texNoiseRGB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerGaussNoise",
+   "tex": "V__texGaussNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_ColorGradients__samplerLuma",
+   "tex": "V__pd80_ColorGradients__texLuma",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_ColorGradients__samplerAvgLuma",
+   "tex": "V__pd80_ColorGradients__texAvgLuma",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_ColorGradients__samplerPrevAvgLuma",
+   "tex": "V__pd80_ColorGradients__texPrevAvgLuma",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "pp",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "luma_mode",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Luma Mode",
+    "ui_tooltip": "Luma Mode",
+    "ui_category": "Global",
+    "ui_items": "Use Average\nUse Perceived Luma\nUse Max Value\n"
+   }
+  },
+  {
+   "name": "separation_mode",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Luma Separation Mode",
+    "ui_tooltip": "Luma Separation Mode",
+    "ui_category": "Global",
+    "ui_items": "Harsh Separation\nSmooth Separation\n"
+   }
+  },
+  {
+   "name": "enable_dither",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Enable Dithering",
+    "ui_tooltip": "Enable Dithering",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "dither_strength",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Dither Strength",
+    "ui_tooltip": "Dither Strength",
+    "ui_category": "Global",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "CGdesat",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Desaturate Base Image",
+    "ui_tooltip": "Desaturate Base Image",
+    "ui_category": "Mixing Values",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "finalmix",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.333
+   ],
+   "ann": {
+    "ui_label": "Mix with Original",
+    "ui_tooltip": "Mix with Original",
+    "ui_category": "Mixing Values",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "blendcolor_ls_m",
+   "offset": 32,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.98,
+    0.588,
+    0
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color",
+    "ui_tooltip": "Light Scene: Midtone Color",
+    "ui_category": "Light Scene: Midtone Color"
+   }
+  },
+  {
+   "name": "blendmode_ls_m",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    10
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Blendmode",
+    "ui_tooltip": "Light Scene: Midtone Color Blendmode",
+    "ui_category": "Light Scene: Midtone Color",
+    "ui_items": "Default\nDarken\nMultiply\nLinearburn\nColorburn\nLighten\nScreen\nColordodge\nLineardodge\nOverlay\nSoftlight\nVividlight\nLinearlight\nPinlight\nHardmix\nReflect\nGlow\nHue\nSaturation\nColor\nLuminosity\n"
+   }
+  },
+  {
+   "name": "opacity_ls_m",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Opacity",
+    "ui_tooltip": "Light Scene: Midtone Color Opacity",
+    "ui_category": "Light Scene: Midtone Color",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "blendcolor_ls_s",
+   "offset": 64,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0.365,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color",
+    "ui_tooltip": "Light Scene: Shadow Color",
+    "ui_category": "Light Scene: Shadow Color"
+   }
+  },
+  {
+   "name": "blendmode_ls_s",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    5
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Blendmode",
+    "ui_tooltip": "Light Scene: Shadow Color Blendmode",
+    "ui_category": "Light Scene: Shadow Color",
+    "ui_items": "Default\nDarken\nMultiply\nLinearburn\nColorburn\nLighten\nScreen\nColordodge\nLineardodge\nOverlay\nSoftlight\nVividlight\nLinearlight\nPinlight\nHardmix\nReflect\nGlow\nHue\nSaturation\nColor\nLuminosity\n"
+   }
+  },
+  {
+   "name": "opacity_ls_s",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.3
+   ],
+   "ann": {
+    "ui_label": "Opacity",
+    "ui_tooltip": "Light Scene: Shadow Color Opacity",
+    "ui_category": "Light Scene: Shadow Color",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "enable_ds",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_text": "-------------------------------------\nEnables transitions of gradients\ndepending on average scene luminance.\nTo simulate Day-Night color grading.\n-------------------------------------",
+    "ui_label": "Enable Color Transitions",
+    "ui_tooltip": "Enable Color Transitions",
+    "ui_category": "Enable Color Transitions"
+   }
+  },
+  {
+   "name": "blendcolor_ds_m",
+   "offset": 96,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0.365,
+    1
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color",
+    "ui_tooltip": "Dark Scene: Midtone Color",
+    "ui_category": "Dark Scene: Midtone Color"
+   }
+  },
+  {
+   "name": "blendmode_ds_m",
+   "offset": 108,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    10
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Blendmode",
+    "ui_tooltip": "Dark Scene: Midtone Color Blendmode",
+    "ui_category": "Dark Scene: Midtone Color",
+    "ui_items": "Default\nDarken\nMultiply\nLinearburn\nColorburn\nLighten\nScreen\nColordodge\nLineardodge\nOverlay\nSoftlight\nVividlight\nLinearlight\nPinlight\nHardmix\nReflect\nGlow\nHue\nSaturation\nColor\nLuminosity\n"
+   }
+  },
+  {
+   "name": "opacity_ds_m",
+   "offset": 112,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Opacity",
+    "ui_tooltip": "Dark Scene: Midtone Color Opacity",
+    "ui_category": "Dark Scene: Midtone Color",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "blendcolor_ds_s",
+   "offset": 128,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0.039,
+    0.588
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Color",
+    "ui_tooltip": "Dark Scene: Shadow Color",
+    "ui_category": "Dark Scene: Shadow Color"
+   }
+  },
+  {
+   "name": "blendmode_ds_s",
+   "offset": 140,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    10
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Blendmode",
+    "ui_tooltip": "Dark Scene: Shadow Color Blendmode",
+    "ui_category": "Dark Scene: Shadow Color",
+    "ui_items": "Default\nDarken\nMultiply\nLinearburn\nColorburn\nLighten\nScreen\nColordodge\nLineardodge\nOverlay\nSoftlight\nVividlight\nLinearlight\nPinlight\nHardmix\nReflect\nGlow\nHue\nSaturation\nColor\nLuminosity\n"
+   }
+  },
+  {
+   "name": "opacity_ds_s",
+   "offset": 144,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Opacity",
+    "ui_tooltip": "Dark Scene: Shadow Color Opacity",
+    "ui_category": "Dark Scene: Shadow Color",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "minlevel",
+   "offset": 148,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.125
+   ],
+   "ann": {
+    "ui_label": "Pure Dark Scene Level",
+    "ui_tooltip": "Pure Dark Scene Level",
+    "ui_category": "Scene Luminance Adaptation",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "maxlevel",
+   "offset": 152,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.3
+   ],
+   "ann": {
+    "ui_label": "Pure Light Scene Level",
+    "ui_tooltip": "Pure Light Scene Level",
+    "ui_category": "Scene Luminance Adaptation",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "Frametime",
+   "offset": 156,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  },
+  {
+   "name": "pingpong",
+   "offset": 160,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 168
+}

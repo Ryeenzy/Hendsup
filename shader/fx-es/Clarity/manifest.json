@@ -1,0 +1,403 @@
+{
+ "techniques": [
+  {
+   "name": "Clarity",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xClarity1",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__ClarityTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xClarity1.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xClarity2",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__ClarityTex2",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xClarity2.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xClarity3",
+     "w": 480,
+     "h": 270,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__ClarityTex3",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xClarity3.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xClarityFinal",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xClarityFinal.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ClarityTex",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 61,
+   "semantic": ""
+  },
+  {
+   "name": "V__ClarityTex2",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 61,
+   "semantic": ""
+  },
+  {
+   "name": "V__ClarityTex3",
+   "w": 480,
+   "h": 270,
+   "levels": 1,
+   "fmt": 61,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__BackBuffer",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ClaritySampler",
+   "tex": "V__ClarityTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ClaritySampler2",
+   "tex": "V__ClarityTex2",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ClaritySampler3",
+   "tex": "V__ClarityTex3",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "ClarityRadius",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    3
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     4
+    ],
+    "ui_tooltip": "[0|1|2|3|4] Higher values will increase the radius of the effect.",
+    "ui_step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "ClarityOffset",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_tooltip": "Additional adjustment for the blur radius. Increasing the value will increase the radius.",
+    "ui_step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "ClarityBlendMode",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Soft Light\nOverlay\nHard Light\nMultiply\nVivid Light\nLinear Light\nAddition",
+    "ui_tooltip": "Blend modes determine how the clarity mask is applied to the original image"
+   }
+  },
+  {
+   "name": "ClarityBlendIfDark",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    50
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     255
+    ],
+    "ui_tooltip": "Any pixels below this value will be excluded from the effect. Set to 50 to target mid-tones.",
+    "ui_step": [
+     5
+    ]
+   }
+  },
+  {
+   "name": "ClarityBlendIfLight",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    205
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     255
+    ],
+    "ui_tooltip": "Any pixels above this value will be excluded from the effect. Set to 205 to target mid-tones.",
+    "ui_step": [
+     5
+    ]
+   }
+  },
+  {
+   "name": "ClarityViewBlendIfMask",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_tooltip": "The mask used for BlendIf settings. The effect will not be applied to areas covered in black"
+   }
+  },
+  {
+   "name": "ClarityStrength",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.4
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Adjusts the strength of the effect"
+   }
+  },
+  {
+   "name": "ClarityDarkIntensity",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.4
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Adjusts the strength of dark halos."
+   }
+  },
+  {
+   "name": "ClarityLightIntensity",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Adjusts the strength of light halos."
+   }
+  },
+  {
+   "name": "ClarityViewMask",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_tooltip": "The mask is what creates the effect. View it when making adjustments to get a better idea of how your changes will affect the image."
+   }
+  }
+ ],
+ "total_uniform_size": 40
+}

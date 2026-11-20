@@ -1,0 +1,376 @@
+{
+ "techniques": [
+  {
+   "name": "Monocular_Cues",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xH_Blur_DC",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texHB_DC",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xH_Blur_DC.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xDepthCues",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__texDC",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xDepthCues.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOut_DC",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOut_DC.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__texHB_DC",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 61,
+   "semantic": ""
+  },
+  {
+   "name": "V__texDC",
+   "w": 1920,
+   "h": 1080,
+   "levels": 3,
+   "fmt": 61,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__DepthBuffer_DC",
+   "tex": "V__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBuffer_DC",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerHB_DC",
+   "tex": "V__texHB_DC",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__SamplerDC",
+   "tex": "V__texDC",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Depth_Map",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Normal\nReverse\n",
+    "ui_label": "Custom Depth Map",
+    "ui_tooltip": "Pick your Depth Map.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Depth_Map_Adjust",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    250
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     1000
+    ],
+    "ui_step": [
+     0.125
+    ],
+    "ui_label": "Depth Map Adjustment",
+    "ui_tooltip": "Adjust the depth map and sharpness distance.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Depth_Map_Flip",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Depth Map Flip",
+    "ui_tooltip": "Flip the depth map if it is upside down.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "DEPTH_DEBUG",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "View Depth",
+    "ui_tooltip": "Shows depth, you want close objects to be black and far objects to be white for things to work properly.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "No_Depth_Map",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "No Depth Map",
+    "ui_tooltip": "If you have No Depth Buffer turn this On.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Shade_Power",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0.25
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Shade Power",
+    "ui_tooltip": "Adjust the Shade Power This improves AO, Shadows, & Darker Areas in game.\nNumber 0.5 is default.",
+    "ui_category": "Depth Cues"
+   }
+  },
+  {
+   "name": "Blur_Cues",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Blur Shade",
+    "ui_tooltip": "Adjust the to make Shade Softer in the Image.\nNumber 0.5 is default.",
+    "ui_category": "Depth Cues"
+   }
+  },
+  {
+   "name": "Spread",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    10
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     25
+    ],
+    "ui_step": [
+     0.25
+    ],
+    "ui_label": "Shade Fill",
+    "ui_tooltip": "Adjust This to have the shade effect to fill in areas gives fakeAO effect.\nThis is used for gap filling.\nNumber 10.0 is default.",
+    "ui_category": "Depth Cues"
+   }
+  },
+  {
+   "name": "Debug_View",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Depth Cues Debug",
+    "ui_tooltip": "Depth Cues Debug output the shadeded output.",
+    "ui_category": "Depth Cues"
+   }
+  },
+  {
+   "name": "timer",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  }
+ ],
+ "total_uniform_size": 40
+}

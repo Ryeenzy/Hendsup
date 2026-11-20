@@ -1,0 +1,1020 @@
+{
+ "techniques": [
+  {
+   "name": "PandaFX",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPandaFX_xPS_PrePass",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PandaFX__prePassLayer",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPandaFX_xPS_PrePass.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPandaFX_xPS_HorizontalPass",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PandaFX__blurLayerHorizontal",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPandaFX_xPS_HorizontalPass.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPandaFX_xPS_VerticalPass",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PandaFX__blurLayerVertical",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPandaFX_xPS_VerticalPass.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPandaFX_xPS_HorizontalPassMedRes",
+     "w": 120,
+     "h": 67,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PandaFX__blurLayerHorizontalMedRes",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPandaFX_xPS_HorizontalPassMedRes.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPandaFX_xPS_VerticalPassMedRes",
+     "w": 120,
+     "h": 67,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PandaFX__blurLayerVerticalMedRes",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 6,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPandaFX_xPS_VerticalPassMedRes.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPandaFX_xPS_HorizontalPassLoRes",
+     "w": 30,
+     "h": 16,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PandaFX__blurLayerHorizontalLoRes",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 7,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPandaFX_xPS_HorizontalPassLoRes.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPandaFX_xPS_VerticalPassLoRes",
+     "w": 30,
+     "h": 16,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PandaFX__blurLayerVerticalLoRes",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 8,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPandaFX_xPS_VerticalPassLoRes.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPandaFX_xPS_Composition",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      },
+      {
+       "index": 5,
+       "binding": 3
+      },
+      {
+       "index": 7,
+       "binding": 4
+      },
+      {
+       "index": 9,
+       "binding": 5
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPandaFX_xPS_Composition.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__PandaFX__NoiseTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PandaFX__prePassLayer",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PandaFX__blurLayerHorizontal",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PandaFX__blurLayerVertical",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PandaFX__blurLayerHorizontalMedRes",
+   "w": 120,
+   "h": 67,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PandaFX__blurLayerVerticalMedRes",
+   "w": 120,
+   "h": 67,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PandaFX__blurLayerHorizontalLoRes",
+   "w": 30,
+   "h": 16,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__PandaFX__blurLayerVerticalLoRes",
+   "w": 30,
+   "h": 16,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PandaFX__NoiseSampler",
+   "tex": "V__PandaFX__NoiseTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PandaFX__PFX_PrePassLayer",
+   "tex": "V__PandaFX__prePassLayer",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PandaFX__PFX_blurHorizontalLayer",
+   "tex": "V__PandaFX__blurLayerHorizontal",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PandaFX__PFX_blurVerticalLayer",
+   "tex": "V__PandaFX__blurLayerVertical",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PandaFX__PFX_blurHorizontalLayerMedRes",
+   "tex": "V__PandaFX__blurLayerHorizontalMedRes",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PandaFX__PFX_blurVerticalLayerMedRes",
+   "tex": "V__PandaFX__blurLayerVerticalMedRes",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PandaFX__PFX_blurHorizontalLayerLoRes",
+   "tex": "V__PandaFX__blurLayerHorizontalLoRes",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PandaFX__PFX_blurVerticalLayerLoRes",
+   "tex": "V__PandaFX__blurLayerVerticalLoRes",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Enable_Diffusion",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Enable the lens diffusion effect",
+    "ui_tooltip": "Enable a light diffusion that emulates the glare of a camera lens."
+   }
+  },
+  {
+   "name": "Enable_Bleach_Bypass",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Enable the 'Bleach Bypass' effect",
+    "ui_tooltip": "Enable a cinematic contrast effect that emulates a bleach bypass on film. Used a lot in war movies and gives the image a grittier feel."
+   }
+  },
+  {
+   "name": "Enable_Static_Dither",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Apply static dither",
+    "ui_tooltip": "Dither the diffusion. Only applies a static dither image texture."
+   }
+  },
+  {
+   "name": "Enable_Dither",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Dither the final output",
+    "ui_tooltip": "Dither the final result of the shader."
+   }
+  },
+  {
+   "name": "Blend_Amount",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_label": "Blend Amount",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Blend the effect with the original image."
+   }
+  },
+  {
+   "name": "Bleach_Bypass_Amount",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_label": "Bleach Bypass Amount",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Adjust the amount of the third diffusion layer."
+   }
+  },
+  {
+   "name": "Contrast_R",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.9
+   ],
+   "ann": {
+    "ui_label": "Contrast (Red)",
+    "ui_type": "drag",
+    "ui_min": [
+     1e-05
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Apply contrast to red."
+   }
+  },
+  {
+   "name": "Contrast_G",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.8
+   ],
+   "ann": {
+    "ui_label": "Contrast (Green)",
+    "ui_type": "drag",
+    "ui_min": [
+     1e-05
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Apply contrast to green."
+   }
+  },
+  {
+   "name": "Contrast_B",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.8
+   ],
+   "ann": {
+    "ui_label": "Contrast (Blue)",
+    "ui_type": "drag",
+    "ui_min": [
+     1e-05
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Apply contrast to blue."
+   }
+  },
+  {
+   "name": "Gamma_R",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Gamma (Red)",
+    "ui_type": "drag",
+    "ui_min": [
+     0.02
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Apply Gamma to red."
+   }
+  },
+  {
+   "name": "Gamma_G",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Gamma (Green)",
+    "ui_type": "drag",
+    "ui_min": [
+     0.02
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Apply Gamma to green."
+   }
+  },
+  {
+   "name": "Gamma_B",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.99
+   ],
+   "ann": {
+    "ui_label": "Gamma (Blue)",
+    "ui_type": "drag",
+    "ui_min": [
+     0.02
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Apply Gamma to blue."
+   }
+  },
+  {
+   "name": "Diffusion_1_Amount",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.3
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 1",
+    "ui_label": "Amount",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Adjust the amount of the first diffusion layer."
+   }
+  },
+  {
+   "name": "Diffusion_1_Radius",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    8
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 1",
+    "ui_label": "Radius",
+    "ui_type": "drag",
+    "ui_min": [
+     5
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Set the radius of the first diffusion layer."
+   }
+  },
+  {
+   "name": "Diffusion_1_Gamma",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.7
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 1",
+    "ui_label": "Gamma",
+    "ui_type": "drag",
+    "ui_min": [
+     0.02
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Apply Gamma to first diffusion layer."
+   }
+  },
+  {
+   "name": "Diffusion_1_Quality",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    2
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 1",
+    "ui_label": "Sampling quality",
+    "ui_type": "drag",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     64
+    ],
+    "ui_step": [
+     1
+    ],
+    "ui_tooltip": "Set the quality of the first diffusion layer. Number is the divider of how many times the texture size is divided in half. Lower number = higher quality, but more processing needed. (No need to adjust this.)"
+   }
+  },
+  {
+   "name": "Diffusion_2_Amount",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.2
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 2",
+    "ui_label": "Amount",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Adjust the amount of the second diffusion layer."
+   }
+  },
+  {
+   "name": "Diffusion_2_Radius",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    5
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 2",
+    "ui_label": "Radius",
+    "ui_type": "drag",
+    "ui_min": [
+     5
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Set the radius of the second diffusion layer."
+   }
+  },
+  {
+   "name": "Diffusion_2_Gamma",
+   "offset": 72,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 2",
+    "ui_label": "Gamma",
+    "ui_type": "drag",
+    "ui_min": [
+     0.02
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Apply Gamma to second diffusion layer."
+   }
+  },
+  {
+   "name": "Diffusion_2_Quality",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    16
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 2",
+    "ui_label": "Sampling quality",
+    "ui_type": "drag",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     64
+    ],
+    "ui_step": [
+     1
+    ],
+    "ui_tooltip": "Set the quality of the second diffusion layer. Number is the divider of how many times the texture size is divided in half. Lower number = higher quality, but more processing needed. (No need to adjust this.)"
+   }
+  },
+  {
+   "name": "Diffusion_3_Amount",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 3",
+    "ui_label": "Amount",
+    "ui_type": "drag",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Adjust the amount of the third diffusion layer."
+   }
+  },
+  {
+   "name": "Diffusion_3_Radius",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    7.4
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 3",
+    "ui_label": "Radius",
+    "ui_type": "drag",
+    "ui_min": [
+     5
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Set the radius of the third diffusion layer."
+   }
+  },
+  {
+   "name": "Diffusion_3_Gamma",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    5
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 3",
+    "ui_label": "Gamma",
+    "ui_type": "drag",
+    "ui_min": [
+     0.02
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_step": [
+     0.01
+    ],
+    "ui_tooltip": "Apply Gamma to third diffusion layer."
+   }
+  },
+  {
+   "name": "Diffusion_3_Quality",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    3
+   ],
+   "ann": {
+    "ui_category": "Diffusion layer 3",
+    "ui_label": "Sampling quality",
+    "ui_type": "drag",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     64
+    ],
+    "ui_step": [
+     1
+    ],
+    "ui_tooltip": "Set the quality of the third diffusion layer. Number is the divider of how many times the texture size is divided in half. Lower number = higher quality, but more processing needed. (No need to adjust this.)"
+   }
+  },
+  {
+   "name": "framecount",
+   "offset": 96,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  }
+ ],
+ "total_uniform_size": 100
+}

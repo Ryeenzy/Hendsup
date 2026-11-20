@@ -1,0 +1,405 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_05_LumaSharpen",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_lumasharpen_xPS_GaussianH",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_lumasharpen__texGaussianH",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_lumasharpen_xPS_GaussianH.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_lumasharpen_xPS_GaussianV",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_lumasharpen__texGaussian",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_lumasharpen_xPS_GaussianV.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_lumasharpen_xPS_LumaSharpen",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_lumasharpen_xPS_LumaSharpen.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__pd80_lumasharpen__texGaussianH",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_lumasharpen__texGaussian",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_lumasharpen__samplerGaussianH",
+   "tex": "V__pd80_lumasharpen__texGaussianH",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_lumasharpen__samplerGaussian",
+   "tex": "V__pd80_lumasharpen__texGaussian",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "enableShowEdges",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Show only Sharpening Texture",
+    "ui_tooltip": "Show only Sharpening Texture",
+    "ui_category": "Sharpening"
+   }
+  },
+  {
+   "name": "BlurSigma",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.45
+   ],
+   "ann": {
+    "ui_label": "Sharpening Width",
+    "ui_tooltip": "Sharpening Width",
+    "ui_category": "Sharpening",
+    "ui_type": "slider",
+    "ui_min": [
+     0.3
+    ],
+    "ui_max": [
+     1.2
+    ]
+   }
+  },
+  {
+   "name": "Sharpening",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1.7
+   ],
+   "ann": {
+    "ui_label": "Sharpening Strength",
+    "ui_tooltip": "Sharpening Strength",
+    "ui_category": "Sharpening",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     5
+    ]
+   }
+  },
+  {
+   "name": "Threshold",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Sharpening Threshold",
+    "ui_tooltip": "Sharpening Threshold",
+    "ui_category": "Sharpening",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "limiter",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.03
+   ],
+   "ann": {
+    "ui_label": "Sharpening Highlight Limiter",
+    "ui_tooltip": "Sharpening Highlight Limiter",
+    "ui_category": "Sharpening",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "enable_depth",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Enable depth based adjustments.\nMake sure you have setup your depth buffer correctly.",
+    "ui_tooltip": "Enable depth based adjustments",
+    "ui_category": "Sharpening: Depth"
+   }
+  },
+  {
+   "name": "enable_reverse",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Reverses the effect (sharpen close, or sharpen far)",
+    "ui_tooltip": "Reverses the effect",
+    "ui_category": "Sharpening: Depth"
+   }
+  },
+  {
+   "name": "display_depth",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Show depth texture",
+    "ui_tooltip": "Show depth texture",
+    "ui_category": "Sharpening: Depth"
+   }
+  },
+  {
+   "name": "depthStart",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Change Depth Start Plane",
+    "ui_tooltip": "Change Depth Start Plane",
+    "ui_category": "Sharpening: Depth",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "depthEnd",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Change Depth End Plane",
+    "ui_tooltip": "Change Depth End Plane",
+    "ui_category": "Sharpening: Depth",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "depthCurve",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Depth Curve Adjustment",
+    "ui_tooltip": "Depth Curve Adjustment",
+    "ui_category": "Sharpening: Depth",
+    "ui_type": "slider",
+    "ui_min": [
+     0.05
+    ],
+    "ui_max": [
+     8
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 44
+}

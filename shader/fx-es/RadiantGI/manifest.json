@@ -1,0 +1,1317 @@
+{
+ "techniques": [
+  {
+   "name": "PCGI_One",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPreviousFrame",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PCGIpastTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPreviousFrame.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xCurrentFrame",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PCGIcurrColorTex",
+      "V__PCGIcurrNormalsDepthTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 4,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xCurrentFrame.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPCGI",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__RadiantGITex",
+      "V__RadiantSSTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPCGI.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xCBReconstruction",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PCGIReconstructionTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      },
+      {
+       "index": 6,
+       "binding": 2
+      },
+      {
+       "index": 7,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xCBReconstruction.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xGI_TAA",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      },
+      {
+       "index": 3,
+       "binding": 1
+      },
+      {
+       "index": 5,
+       "binding": 2
+      },
+      {
+       "index": 8,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xGI_TAA.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xAccumulatedFramesGI",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PCGIaccuTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xAccumulatedFramesGI.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xBGU_Hoz",
+     "w": 960,
+     "h": 540,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PCGIHorizontalTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xBGU_Hoz.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xBGU_Ver",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__PCGIVerticalTex",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 5,
+       "binding": 0
+      },
+      {
+       "index": 9,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xBGU_Ver.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOut",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      },
+      {
+       "index": 5,
+       "binding": 1
+      },
+      {
+       "index": 10,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOut.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__PCGIpastTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 5,
+   "fmt": 54,
+   "semantic": ""
+  },
+  {
+   "name": "V__PCGIaccuTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 24,
+   "semantic": ""
+  },
+  {
+   "name": "V__PCGIcurrColorTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 11,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__PCGIcurrNormalsDepthTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 11,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__RadiantGITex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 24,
+   "semantic": ""
+  },
+  {
+   "name": "V__RadiantSSTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  },
+  {
+   "name": "V__PCGIReconstructionTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 8,
+   "fmt": 24,
+   "semantic": ""
+  },
+  {
+   "name": "V__PCGIHorizontalTex",
+   "w": 960,
+   "h": 540,
+   "levels": 1,
+   "fmt": 24,
+   "semantic": ""
+  },
+  {
+   "name": "V__PCGIVerticalTex",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 24,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ZBuffer",
+   "tex": "V__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBufferPCGI",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PCGIpastFrame",
+   "tex": "V__PCGIpastTex",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__PCGIaccuFrames",
+   "tex": "V__PCGIaccuTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PCGIcurrColor",
+   "tex": "V__PCGIcurrColorTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PCGIcurrNormalsDepth",
+   "tex": "V__PCGIcurrNormalsDepthTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PCGI_Info",
+   "tex": "V__RadiantGITex",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__PCSS_Info",
+   "tex": "V__RadiantSSTex",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__PCGIReconstruction_Info",
+   "tex": "V__PCGIReconstructionTex",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__PCGI_BGUHorizontal_Sample",
+   "tex": "V__PCGIHorizontalTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__PCGI_BGUVertical_Sample",
+   "tex": "V__PCGIVerticalTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "RadiantGI",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_text": "RadiantGI is an indirect lighting algorithm based on the disk-to-disk radiance transfer by Michael Bunnell.\nAs you can tell its name is a play on words and it radiates the kind of feeling I want from it one Ray Bounce at a time.\nThis GI shader is free and shouldn't sit behind a paywall. If you paid for this shader ask for a refund right away.\nAs for my self I do want to provide the community with free shaders and any donations will help keep that motivation alive.\nFor more information and help please feel free to visit http://www.Depth3D.info or https://blueskydefender.github.io/AstrayFX\n Help with this shader fuctions specifically visit the WIki @ https://github.com/BlueSkyDefender/AstrayFX/wiki/RadiantGI\nPlease enjoy this shader and Thank You for using RadiantGI.",
+    "ui_category": "RadiantGI",
+    "ui_category_closed": [
+     1
+    ],
+    "ui_label": " ",
+    "ui_type": "radio"
+   }
+  },
+  {
+   "name": "samples",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    6
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     4
+    ],
+    "ui_max": [
+     12
+    ],
+    "ui_step": [
+     1
+    ],
+    "ui_label": "Samples",
+    "ui_tooltip": "GI Sample Quantity is used to increase samples amount as a side effect this reduces noise.",
+    "ui_category": "Global Illumination"
+   }
+  },
+  {
+   "name": "GI_Ray_Length",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    250
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     500
+    ],
+    "ui_step": [
+     1
+    ],
+    "ui_label": "General Ray Length",
+    "ui_tooltip": "General GI Ray Length is used to increase the Sampling Radius.\nThe byproduc of this causes the ray casting distance to extend.\nThis scales automatically with multi level detail.",
+    "ui_category": "Global Illumination"
+   }
+  },
+  {
+   "name": "Target_Lighting",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.05
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Targeted Lighting",
+    "ui_tooltip": "Lets you target the Direct Lighting and/or Indirect Lighting specifically, so the shader can use your adjustment for its own GI calculations.\nNegative values target Indirect lighting and positive values target direct lighting in the image./nDefaults is [0.05] and Zero is full image sampling.",
+    "ui_category": "Global Illumination"
+   }
+  },
+  {
+   "name": "NCD",
+   "offset": 16,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.125,
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Near Details",
+    "ui_tooltip": "Lets you adjust detail of objects near the cam and or like weapon hand GI.\nThe 2nd Option is for Weapon Hands in game that fall out of range.\nDefaults are [Near Details X 0.125] [Weapon Hand Y 0.0]",
+    "ui_category": "Global Illumination"
+   }
+  },
+  {
+   "name": "PCGI_Fade",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Depth Fade-Out",
+    "ui_tooltip": "GI Application Power that is based on Depth scaling for controlled fade In-N-Out.\nCan be set from 0 to 1 and is Set to Zero for No Culling.\nDefault is 0.0.",
+    "ui_category": "Global Illumination"
+   }
+  },
+  {
+   "name": "Reflectivness",
+   "offset": 32,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1,
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Diffusion Amount",
+    "ui_tooltip": "This basicly adds control for how defused the lighting should look on the ground.\nDefault is [1.0 | 0.5]. One is Max Diffusion and the value is length.",
+    "ui_category": "Global Illumination"
+   }
+  },
+  {
+   "name": "Scattering",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Subsurface Light Transport",
+    "ui_tooltip": "Enable The Subsurface Light Transport Function to create a Subsurface Scattering effect.\nDefault is Off.",
+    "ui_category": "Subsurface Scattering"
+   }
+  },
+  {
+   "name": "Wrap",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Upper Scattering",
+    "ui_tooltip": "Control the Light Wrap Form Factor to adjust the Subsurface Scattering effect.\nDefault is [0.5].",
+    "ui_category": "Subsurface Scattering"
+   }
+  },
+  {
+   "name": "Deep_Scattering",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Deep Scattering",
+    "ui_tooltip": "Control Thickness Estimation Form Factor to create a Deep Tissue Scattering effect.\nDefault is [0.1].",
+    "ui_category": "Subsurface Scattering"
+   }
+  },
+  {
+   "name": "Luma_Map",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Tissue Luma Map",
+    "ui_tooltip": "Controls the Luma Map that lets bright lights approximate deep penotration of the tissue.\nDefault is [0.5].",
+    "ui_category": "Subsurface Scattering"
+   }
+  },
+  {
+   "name": "Internals",
+   "offset": 64,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.54,
+    0.01,
+    0.01
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Internal Flesh Color",
+    "ui_tooltip": "Since I can't tell what the internal color of the Deep Tissue you need to set this your self for RGB.\nDefaults are [R 0.25] [B 0.0] [G 0.0] [L 0.5].",
+    "ui_category": "Subsurface Scattering"
+   }
+  },
+  {
+   "name": "Diffusion_Saturation_Power",
+   "offset": 80,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.25,
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Subsurface Blur & Flesh Saturation",
+    "ui_tooltip": "Diffusion Blur is used too softens the lighting and makes the person a little more realistic by mimicking this effect skin has on light.\nSimulate light diffusion favor red blurring over other colors.\nDefault are [0.5] [0.5].",
+    "ui_category": "Subsurface Scattering"
+   }
+  },
+  {
+   "name": "SSS_Seek",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.25
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Skin Detect Distance",
+    "ui_tooltip": "Lets you control how far we need to search and seek with the human skin tone detection algorithm for SSLT.\nThe 2nd option only shows if you use the special LUT for custom and or more accurate skin tone detection.\nYou can get this LUT @ https://github.com/BlueSkyDefender/AstrayFX/wiki/Subsurface-Light-Transport\nDefault is [0.25].",
+    "ui_category": "Subsurface Scattering"
+   }
+  },
+  {
+   "name": "Sky_Emissive_Selection",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Directional Sky & Emissive Mode",
+    "ui_tooltip": "Use this to add Directional Sky and or Emissive Mode.\n\nDirectional Sky Color:\nAllows for the use of Sky Color Contribution to effect the world directly.\n\nEmissive Mode:\nMake all bright objects''Emissive Objects,'' based on approximated information from the emitter.\n\nDefault is Off.",
+    "ui_items": "Off\nDirectional Sky Color\nEmissive Mode\nSky & Emissive Mode\n",
+    "ui_category": "Supplemental Contributions"
+   }
+  },
+  {
+   "name": "GI_Sky_Saturation",
+   "offset": 96,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "Sky Saturation",
+    "ui_tooltip": "Sky Color Saturation.\nDefault is [Power 1.0].",
+    "ui_category": "Supplemental Contributions"
+   }
+  },
+  {
+   "name": "Sky_Adustment",
+   "offset": 100,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    3
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     6
+    ],
+    "ui_label": "Sky Color Averaging",
+    "ui_tooltip": "This lets you Average the sky color so you can have general color.",
+    "ui_category": "Supplemental Contributions"
+   }
+  },
+  {
+   "name": "D_Irradiance",
+   "offset": 104,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Distance Irradiance",
+    "ui_tooltip": "Distance Irradiance Lets you control Irradiance that comes from the Refracted Light from distant ground.\nDefault is [0.0] and Zero is Off.",
+    "ui_category": "Supplemental Contributions"
+   }
+  },
+  {
+   "name": "PCGI_2DTexture_Detail",
+   "offset": 112,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Texture Details & Falloff",
+    "ui_tooltip": "Lets you add Texture Details to PCGI so you can have added 2D texture information applyed to the GI.\nTurn this on by adjusting the first slider and then adjusting it's falloff with the second.\nDefaults are [0.0,0.5] and Zero is Off",
+    "ui_category": "Supplemental Contributions"
+   }
+  },
+  {
+   "name": "Trim",
+   "offset": 120,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Trim",
+    "ui_tooltip": "Trim GI by limiting how far the GI is able to effect the objects around them.\nDirectional Sky Color is negatively impacted by this option.\nUse this mostly for Emissive Mode.\nDefault is [0.0] and Zero is Off.",
+    "ui_category": "Supplemental Contributions"
+   }
+  },
+  {
+   "name": "Blend",
+   "offset": 124,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Blend Mode",
+    "ui_tooltip": "Use this to change the look of GI when applied to the final image.",
+    "ui_items": "Mix\nOverlay\nSoftlight\nAdd\n",
+    "ui_category": "Image"
+   }
+  },
+  {
+   "name": "GI_Power",
+   "offset": 128,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2.5
+    ],
+    "ui_label": "Power",
+    "ui_tooltip": "Main overall GI application power control.\nDefault is [Power 1.0].",
+    "ui_category": "Image"
+   }
+  },
+  {
+   "name": "GI_Saturation",
+   "offset": 132,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     5
+    ],
+    "ui_label": "GI Saturation",
+    "ui_tooltip": "Irradiance Map Saturation.\nDefault is [Power 1.0].",
+    "ui_category": "Image"
+   }
+  },
+  {
+   "name": "HDR_BP",
+   "offset": 136,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "HDR Extraction Power",
+    "ui_tooltip": "Use This to adjust the HDR Power, You can override this value and set it to like 1.5 or something.\nDedault is [0.5] and Zero and is Off.",
+    "ui_category": "Image"
+   }
+  },
+  {
+   "name": "Depth_Map",
+   "offset": 140,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "DM0 Normal\nDM1 Reversed\n",
+    "ui_label": "Depth Map Selection",
+    "ui_tooltip": "Linearization for the zBuffer also known as Depth Map.\nDM0 is Z-Normal and DM1 is Z-Reversed.\n",
+    "ui_category": "Depth Map"
+   }
+  },
+  {
+   "name": "Depth_Map_Adjust",
+   "offset": 144,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    7.5
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     500
+    ],
+    "ui_label": "Depth Map Adjustment",
+    "ui_tooltip": "This allows for you to adjust the DM precision.\nAdjust this to keep it as low as possible.\nDefault is 7.5",
+    "ui_category": "Depth Map"
+   }
+  },
+  {
+   "name": "Offset",
+   "offset": 148,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Depth Map Offset",
+    "ui_tooltip": "Depth Map Offset is for non conforming ZBuffer.\nIt is rare that you would need to use this option.\nUse this to make adjustments to DM 0 or DM 1.\nDefault and starts at Zero and it is Off.",
+    "ui_category": "Depth Map"
+   }
+  },
+  {
+   "name": "Depth_Map_Flip",
+   "offset": 152,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Depth Map Flip",
+    "ui_tooltip": "Flip the depth map if it is upside down.",
+    "ui_category": "Depth Map"
+   }
+  },
+  {
+   "name": "Debug",
+   "offset": 156,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "RadiantGI\nIrradiance Map\nLight Source Map\nDepth & Normals\n",
+    "ui_label": "Debug View",
+    "ui_tooltip": "View Debug Buffers.",
+    "ui_category": "Extra Options"
+   }
+  },
+  {
+   "name": "SamplesXY",
+   "offset": 160,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    6
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_label": "Denoise Power",
+    "ui_tooltip": "This raises or lowers Samples used for the Final DeNoisers which in turn affects Performance.\nThis also has the side effect of smoothing out the image so you get that Normal Like Smoothing.\nDefault is 7 and you can override this a bit.",
+    "ui_category": "Extra Options"
+   }
+  },
+  {
+   "name": "GI_Res",
+   "offset": 164,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.8
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0.5
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Resolution",
+    "ui_tooltip": "GI Resolution is used too increase performance at the cost of quality.\nLarger adjustments from default will reduce noise and vice versa.\nDefault is automaticly adjusted based on current resolution.",
+    "ui_category": "Extra Options"
+   }
+  },
+  {
+   "name": "IGN_Toggle",
+   "offset": 168,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Interleaved Gradient Noise",
+    "ui_tooltip": "In the on position it uses Interleaved Gradient Noise in stead of Regular Noise.",
+    "ui_category": "Extra Options"
+   }
+  },
+  {
+   "name": "PP_Options",
+   "offset": 172,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_text": "Max Depth Cutoff: Sets cutoff point for depth in RadiantGI. \n                  Affects masking for Directional Sky Color.\n        DEFAULT [0.999]        RANGE [0.5] - [0.999]        ",
+    "ui_category": "Preprocessor Options Information",
+    "ui_category_closed": [
+     0
+    ],
+    "ui_label": " ",
+    "ui_type": "radio"
+   }
+  },
+  {
+   "name": "Text_Info",
+   "offset": 176,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "key",
+    "keycode": [
+     93
+    ],
+    "toggle": [
+     1
+    ],
+    "mode": "toggle"
+   }
+  },
+  {
+   "name": "frametime",
+   "offset": 180,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  },
+  {
+   "name": "framecount",
+   "offset": 184,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "framecount"
+   }
+  },
+  {
+   "name": "clock",
+   "offset": 188,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  }
+ ],
+ "total_uniform_size": 192
+}

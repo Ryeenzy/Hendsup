@@ -1,0 +1,303 @@
+{
+ "techniques": [
+  {
+   "name": "Limbo_Mod",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xBuffers_Mip_A",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__Mips_Buffer_A",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 3,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xBuffers_Mip_A.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xBuffers_Mip_B",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__Mips_Buffer_B",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 4,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xBuffers_Mip_B.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOut",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 1,
+       "binding": 0
+      },
+      {
+       "index": 4,
+       "binding": 1
+      },
+      {
+       "index": 5,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOut.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__Mips_Buffer_A",
+   "w": 1920,
+   "h": 1080,
+   "levels": 4,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__Mips_Buffer_B",
+   "w": 1920,
+   "h": 1080,
+   "levels": 4,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__DepthBuffer",
+   "tex": "V__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBuffer",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__MipMaps_A",
+   "tex": "V__Mips_Buffer_A",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__MipMaps_B",
+   "tex": "V__Mips_Buffer_B",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "G_Radius",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Subtle Blur Radius",
+    "ui_tooltip": "Increase persistence of the frames this is really the Temporal Part.\nDefault is 0.625. But, a value around 0.625 is recommended.",
+    "ui_category": "Limbo Lighting"
+   }
+  },
+  {
+   "name": "Target_Lighting",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Target Lighting",
+    "ui_tooltip": "Use this to target the brighter areas of the game.\nDefault is 0.5. But, any value around 0 - 2 can be used.",
+    "ui_category": "Limbo Lighting"
+   }
+  },
+  {
+   "name": "Depth_Map_Adjust",
+   "offset": 8,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.075,
+    0.75
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_label": "Depth Near and Far",
+    "ui_tooltip": "Adjust the depth map precision near and far.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Dither_Bit",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    8
+   ],
+   "ann": {
+    "ui_type": "drag",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     15
+    ],
+    "ui_label": "Dither Bit",
+    "ui_tooltip": "Dither is an intentionally applied form of noise used to randomize quantization error, preventing banding in images.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "frametime",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "frametime"
+   }
+  }
+ ],
+ "total_uniform_size": 24
+}

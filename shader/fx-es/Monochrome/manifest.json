@@ -1,0 +1,131 @@
+{
+ "techniques": [
+  {
+   "name": "Monochrome",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xMonochromePass",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xMonochromePass.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Monochrome_preset",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Preset",
+    "ui_tooltip": "Choose a preset",
+    "ui_items": "Custom\nMonitor or modern TV\nEqual weight\nAgfa 200X\nAgfapan 25\nAgfapan 100\nAgfapan 400\nIlford Delta 100\nIlford Delta 400\nIlford Delta 400 Pro & 3200\nIlford FP4\nIlford HP5\nIlford Pan F\nIlford SFX\nIlford XP2 Super\nKodak Tmax 100\nKodak Tmax 400\nKodak Tri-X\n"
+   }
+  },
+  {
+   "name": "Monochrome_conversion_values",
+   "offset": 16,
+   "size": 12,
+   "rows": 3,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.21,
+    0.72,
+    0.07
+   ],
+   "ann": {
+    "ui_type": "color",
+    "ui_label": "Custom Conversion values"
+   }
+  },
+  {
+   "name": "Monochrome_color_saturation",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Saturation",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 32
+}

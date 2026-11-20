@@ -1,0 +1,829 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_04_ContrastBrightnessSaturation",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_conbrisat_xPS_CBS",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      },
+      {
+       "index": 4,
+       "binding": 3
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_conbrisat_xPS_CBS.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__texNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texNoiseRGB",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__texGaussNoise",
+   "w": 512,
+   "h": 512,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerNoise",
+   "tex": "V__texNoise",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerRGBNoise",
+   "tex": "V__texNoiseRGB",
+   "filter": 0,
+   "srgb": 0
+  },
+  {
+   "name": "V__samplerGaussNoise",
+   "tex": "V__texGaussNoise",
+   "filter": 0,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "pp",
+   "offset": 0,
+   "size": 8,
+   "rows": 2,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0,
+    0
+   ],
+   "ann": {
+    "source": "pingpong",
+    "min": [
+     0
+    ],
+    "max": [
+     128
+    ],
+    "step": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "enable_dither",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Enable Dithering",
+    "ui_tooltip": "Enable Dithering",
+    "ui_category": "Global"
+   }
+  },
+  {
+   "name": "dither_strength",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Dither Strength",
+    "ui_tooltip": "Dither Strength",
+    "ui_category": "Global",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "tint",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Tint",
+    "ui_tooltip": "Tint",
+    "ui_category": "Final Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "exposureN",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Exposure",
+    "ui_tooltip": "Exposure",
+    "ui_category": "Final Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -4
+    ],
+    "ui_max": [
+     4
+    ]
+   }
+  },
+  {
+   "name": "contrast",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Contrast",
+    "ui_tooltip": "Contrast",
+    "ui_category": "Final Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "brightness",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Brightness",
+    "ui_tooltip": "Brightness",
+    "ui_category": "Final Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "saturation",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Saturation",
+    "ui_tooltip": "Saturation",
+    "ui_category": "Final Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "vibrance",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Vibrance",
+    "ui_tooltip": "Vibrance",
+    "ui_category": "Final Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "huemid",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Color Hue",
+    "ui_tooltip": "Custom Color Hue",
+    "ui_category": "Custom Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "huerange",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.167
+   ],
+   "ann": {
+    "ui_label": "Hue Range Selection",
+    "ui_tooltip": "Custom Hue Range Selection",
+    "ui_category": "Custom Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "sat_custom",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Custom Saturation Level",
+    "ui_tooltip": "Custom Saturation Level",
+    "ui_category": "Custom Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "sat_r",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Red Saturation",
+    "ui_tooltip": "Red Saturation",
+    "ui_category": "Color Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "sat_y",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Yellow Saturation",
+    "ui_tooltip": "Yellow Saturation",
+    "ui_category": "Color Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "sat_g",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Green Saturation",
+    "ui_tooltip": "Green Saturation",
+    "ui_category": "Color Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "sat_a",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Aqua Saturation",
+    "ui_tooltip": "Aqua Saturation",
+    "ui_category": "Color Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "sat_b",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Blue Saturation",
+    "ui_tooltip": "Blue Saturation",
+    "ui_category": "Color Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "sat_p",
+   "offset": 72,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Purple Saturation",
+    "ui_tooltip": "Purple Saturation",
+    "ui_category": "Color Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "sat_m",
+   "offset": 76,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Magenta Saturation",
+    "ui_tooltip": "Magenta Saturation",
+    "ui_category": "Color Saturation Adjustments",
+    "ui_type": "slider",
+    "ui_min": [
+     -2
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "enable_depth",
+   "offset": 80,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Enable depth based adjustments.\nMake sure you have setup your depth buffer correctly.",
+    "ui_tooltip": "Enable depth based adjustments",
+    "ui_category": "Final Adjustments: Depth"
+   }
+  },
+  {
+   "name": "display_depth",
+   "offset": 84,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Show depth texture",
+    "ui_tooltip": "Show depth texture",
+    "ui_category": "Final Adjustments: Depth"
+   }
+  },
+  {
+   "name": "depthStart",
+   "offset": 88,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Change Depth Start Plane",
+    "ui_tooltip": "Change Depth Start Plane",
+    "ui_category": "Final Adjustments: Depth",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "depthEnd",
+   "offset": 92,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Change Depth End Plane",
+    "ui_tooltip": "Change Depth End Plane",
+    "ui_category": "Final Adjustments: Depth",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "depthCurve",
+   "offset": 96,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Depth Curve Adjustment",
+    "ui_tooltip": "Depth Curve Adjustment",
+    "ui_category": "Final Adjustments: Depth",
+    "ui_type": "slider",
+    "ui_min": [
+     0.05
+    ],
+    "ui_max": [
+     8
+    ]
+   }
+  },
+  {
+   "name": "exposureD",
+   "offset": 100,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Exposure Far",
+    "ui_tooltip": "Exposure Far",
+    "ui_category": "Final Adjustments: Far",
+    "ui_type": "slider",
+    "ui_min": [
+     -4
+    ],
+    "ui_max": [
+     4
+    ]
+   }
+  },
+  {
+   "name": "contrastD",
+   "offset": 104,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Contrast Far",
+    "ui_tooltip": "Contrast Far",
+    "ui_category": "Final Adjustments: Far",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "brightnessD",
+   "offset": 108,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Brightness Far",
+    "ui_tooltip": "Brightness Far",
+    "ui_category": "Final Adjustments: Far",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1.5
+    ]
+   }
+  },
+  {
+   "name": "saturationD",
+   "offset": 112,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Saturation Far",
+    "ui_tooltip": "Saturation Far",
+    "ui_category": "Final Adjustments: Far",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "vibranceD",
+   "offset": 116,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Vibrance Far",
+    "ui_tooltip": "Vibrance Far",
+    "ui_category": "Final Adjustments: Far",
+    "ui_type": "slider",
+    "ui_min": [
+     -1
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 120
+}

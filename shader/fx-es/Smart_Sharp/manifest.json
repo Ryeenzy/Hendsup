@@ -1,0 +1,361 @@
+{
+ "techniques": [
+  {
+   "name": "Smart_Sharp",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xOut",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xOut.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__DepthBuffer",
+   "tex": "V__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__BackBuffer",
+   "tex": "V__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "Depth_Map",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Normal\nReverse\n",
+    "ui_label": "Custom Depth Map",
+    "ui_tooltip": "Pick your Depth Map.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Depth_Map_Adjust",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    250
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     1000
+    ],
+    "ui_step": [
+     0.125
+    ],
+    "ui_label": "Depth Map Adjustment",
+    "ui_tooltip": "Adjust the depth map and sharpness distance.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Depth_Map_Flip",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Depth Map Flip",
+    "ui_tooltip": "Flip the depth map if it is upside down.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "No_Depth_Map",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "No Depth Map",
+    "ui_tooltip": "If you have No Depth Buffer turn this On.",
+    "ui_category": "Depth Buffer"
+   }
+  },
+  {
+   "name": "Sharpness",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.625
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Sharpening Strength",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     2
+    ],
+    "ui_tooltip": "Scaled by adjusting this slider from Zero to One to increase sharpness of the image.\nZero = No Sharpening, to One = Full Sharpening, and Past One = Extra Crispy.\nNumber 0.625 is Equal to AMD FidelityFX Contrast Adaptive Sharpening at max settings.\nNumber 0.625 is default.",
+    "ui_category": "Bilateral CAS"
+   }
+  },
+  {
+   "name": "B_Grounding",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Coarseness",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Like Coffee pick how rough do you want this shader to be, really just adjusts the radius of the filter.\nFine -> Medium -> Coarse too what ever you think looks good.\nLet me have fun with names and tooltips........\nNumber 0.0 is default.",
+    "ui_category": "Bilateral CAS"
+   }
+  },
+  {
+   "name": "CAM_IOB",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "CAM Ignore Overbright",
+    "ui_tooltip": "Instead of of allowing Overbright in the mask this allows sharpening of this area.\nI think it's more accurate to leave this on.",
+    "ui_category": "Bilateral CAS"
+   }
+  },
+  {
+   "name": "CA_Mask_Boost",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "CAM Boost",
+    "ui_tooltip": "This boosts the power of Contrast Adaptive Masking part of the shader.",
+    "ui_category": "Bilateral CAS"
+   }
+  },
+  {
+   "name": "CA_Removal",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "CAM Removal",
+    "ui_tooltip": "This removes the extra Contrast Adaptive Masking part of the shader.\nKeep in mind This filter already has a level of Contrast Masking.\nThis is for people who like the Raw look of Bilateral Sharpen.\nNoise reduction from the Bilateral Filter applies automatically.",
+    "ui_category": "Bilateral CAS"
+   }
+  },
+  {
+   "name": "Debug_View",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Normal\nSharpen View\nDepth Masking\nCAS Mask\nNoise Mask\n",
+    "ui_label": "Debug View",
+    "ui_tooltip": "This is to DeBug Smart Sharp and lets you fine tune the shader.\nLet me have fun with names and tooltips.......",
+    "ui_category": "Debug"
+   }
+  },
+  {
+   "name": "F_DeNoise",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_items": "Off\nLevel One DeNoiser\nLevel Two DeNoiser\n",
+    "ui_label": "Smart Denoiser Options",
+    "ui_tooltip": "This Denoiser can help with Noise in the image.\nLvL One DeNoiser Works with Smart Sharp Only.\nLvL Two DeNoiser Works with other shaders. But, it's a little stronger.\nLvL Three DeNoiser N/A Future add on.",
+    "ui_category": "Extra Menu"
+   }
+  },
+  {
+   "name": "Denoise_Power",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Denoise Power",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ],
+    "ui_tooltip": "Increase the Sharpening strength of the DeNoiser.\nNumber Zero is default, Off.",
+    "ui_category": "Extra Menu"
+   }
+  },
+  {
+   "name": "ClampSharp",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Clamp Sharpen",
+    "ui_tooltip": "This Clamps the output of the Sharpen Shader.",
+    "ui_category": "Extra Menu"
+   }
+  },
+  {
+   "name": "timer",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  }
+ ],
+ "total_uniform_size": 56
+}

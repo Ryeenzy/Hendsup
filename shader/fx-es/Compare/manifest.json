@@ -1,0 +1,262 @@
+{
+ "techniques": [
+  {
+   "name": "Capture",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Capture",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__OriginalBuffer",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Capture.frag"
+    }
+   ]
+  },
+  {
+   "name": "Restore",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Capture",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__EffectABuffer",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Capture.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Restore",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Restore.frag"
+    }
+   ]
+  },
+  {
+   "name": "Compare",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xPS_Compare",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 2,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xPS_Compare.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__OriginalBuffer",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__EffectABuffer",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__OriginalSampler",
+   "tex": "V__OriginalBuffer",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__EffectASampler",
+   "tex": "V__EffectABuffer",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "ui_instructions",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_category": "Instructions",
+    "ui_type": "radio",
+    "ui_label": " ",
+    "ui_text": "1. Enable 'Capture' technique first\n2. Enable Effect A\n3. Enable 'Restore' technique\n4. Enable Effect B\n5. Enable 'Compare' technique\n\nThe Compare technique will show the differences between Effect A and Effect B using various visualization modes."
+   }
+  },
+  {
+   "name": "compare_mode",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    7
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Mode",
+    "ui_tooltip": "Choose a comparison mode",
+    "ui_spacing": [
+     2
+    ],
+    "ui_items": "Vertical 50/50 split\nVertical 25/50/25 split\nAngled 50/50 split\nAngled 25/50/25 split\nHorizontal 50/50 split\nHorizontal 25/50/25 split\nDiagonal split\nDifference blend (absolute)\nDifference blend (signed)\n"
+   }
+  },
+  {
+   "name": "difference_scale",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    5
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Difference Scale",
+    "ui_tooltip": "Multiplier for difference visibility",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     20
+    ],
+    "ui_step": [
+     0.1
+    ]
+   }
+  }
+ ],
+ "total_uniform_size": 12
+}

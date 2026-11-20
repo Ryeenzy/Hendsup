@@ -1,0 +1,535 @@
+{
+ "techniques": [
+  {
+   "name": "prod80_06_FilmGrain",
+   "passes": [
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_filmgrain_xPS_FilmGrain",
+     "w": 1920,
+     "h": 1080,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "V__pd80_filmgrain__texNoise",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 2,
+       "binding": 0
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_filmgrain_xPS_FilmGrain.frag"
+    },
+    {
+     "vs": "E_xPostProcessVS",
+     "ps": "E_xpd80_filmgrain_xPS_MergeNoise",
+     "w": 0,
+     "h": 0,
+     "clear": 0,
+     "srgb": 0,
+     "rt": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "samplers": [
+      {
+       "index": 0,
+       "binding": 0
+      },
+      {
+       "index": 1,
+       "binding": 1
+      },
+      {
+       "index": 3,
+       "binding": 2
+      }
+     ],
+     "vs_file": "E_xPostProcessVS.vert",
+     "ps_file": "E_xpd80_filmgrain_xPS_MergeNoise.frag"
+    }
+   ]
+  }
+ ],
+ "textures": [
+  {
+   "name": "V__ReShade__BackBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "COLOR"
+  },
+  {
+   "name": "V__ReShade__DepthBufferTex",
+   "w": 1,
+   "h": 1,
+   "levels": 1,
+   "fmt": 0,
+   "semantic": "DEPTH"
+  },
+  {
+   "name": "V__pd80_filmgrain__texPerm",
+   "w": 256,
+   "h": 256,
+   "levels": 1,
+   "fmt": 28,
+   "semantic": ""
+  },
+  {
+   "name": "V__pd80_filmgrain__texNoise",
+   "w": 1920,
+   "h": 1080,
+   "levels": 1,
+   "fmt": 10,
+   "semantic": ""
+  }
+ ],
+ "samplers": [
+  {
+   "name": "V__ReShade__BackBuffer",
+   "tex": "V__ReShade__BackBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__ReShade__DepthBuffer",
+   "tex": "V__ReShade__DepthBufferTex",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_filmgrain__samplerPermTex",
+   "tex": "V__pd80_filmgrain__texPerm",
+   "filter": 21,
+   "srgb": 0
+  },
+  {
+   "name": "V__pd80_filmgrain__samplerNoise",
+   "tex": "V__pd80_filmgrain__texNoise",
+   "filter": 21,
+   "srgb": 0
+  }
+ ],
+ "uniforms": [
+  {
+   "name": "enable_test",
+   "offset": 0,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Enable Setup Mode",
+    "ui_tooltip": "Enable Setup Mode",
+    "ui_category": "Film Grain (simplex)"
+   }
+  },
+  {
+   "name": "grainMotion",
+   "offset": 4,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Grain Motion",
+    "ui_tooltip": "Grain Motion",
+    "ui_category": "Film Grain (simplex)",
+    "ui_items": "Disabled\nEnabled\n"
+   }
+  },
+  {
+   "name": "grainAdjust",
+   "offset": 8,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Grain Pattern Adjust (for still noise)",
+    "ui_tooltip": "Grain Pattern Adjust (for still noise)",
+    "ui_category": "Film Grain (simplex)",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     2
+    ]
+   }
+  },
+  {
+   "name": "grainSize",
+   "offset": 12,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Grain Size",
+    "ui_tooltip": "Grain Size",
+    "ui_category": "Film Grain (simplex)",
+    "ui_min": [
+     1
+    ],
+    "ui_max": [
+     4
+    ]
+   }
+  },
+  {
+   "name": "grainOrigColor",
+   "offset": 16,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 3,
+   "float": 0,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "combo",
+    "ui_label": "Use Original Color",
+    "ui_tooltip": "Use Original Color",
+    "ui_category": "Film Grain (simplex)",
+    "ui_items": "Use Random Color\nUse Original Color\n"
+   }
+  },
+  {
+   "name": "use_negnoise",
+   "offset": 20,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Use Negative Noise (highlights)",
+    "ui_tooltip": "Use Negative Noise (highlights)",
+    "ui_category": "Film Grain (simplex)"
+   }
+  },
+  {
+   "name": "grainColor",
+   "offset": 24,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Grain Color Amount",
+    "ui_tooltip": "Grain Color Amount",
+    "ui_category": "Film Grain (simplex)",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "grainAmount",
+   "offset": 28,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.333
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Grain Amount",
+    "ui_tooltip": "Grain Amount",
+    "ui_category": "Film Grain (simplex)",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "grainIntensity",
+   "offset": 32,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.65
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Grain Intensity",
+    "ui_tooltip": "Grain Intensity",
+    "ui_category": "Film Grain (simplex)",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "grainDensity",
+   "offset": 36,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    10
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Grain Density",
+    "ui_tooltip": "Grain Density",
+    "ui_category": "Film Grain (simplex)",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     10
+    ]
+   }
+  },
+  {
+   "name": "grainIntHigh",
+   "offset": 40,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Grain Intensity Highlights",
+    "ui_tooltip": "Grain Intensity Highlights",
+    "ui_category": "Film Grain (simplex)",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "grainIntLow",
+   "offset": 44,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Grain Intensity Shadows",
+    "ui_tooltip": "Grain Intensity Shadows",
+    "ui_category": "Film Grain (simplex)",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "enable_depth",
+   "offset": 48,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Enable depth based adjustments.\nMake sure you have setup your depth buffer correctly.",
+    "ui_tooltip": "Enable depth based adjustments",
+    "ui_category": "Film Grain (simplex): Depth"
+   }
+  },
+  {
+   "name": "display_depth",
+   "offset": 52,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 1,
+   "float": 0,
+   "bool": 1,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_label": "Show depth texture",
+    "ui_tooltip": "Show depth texture",
+    "ui_category": "Film Grain (simplex): Depth"
+   }
+  },
+  {
+   "name": "depthStart",
+   "offset": 56,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Change Depth Start Plane",
+    "ui_tooltip": "Change Depth Start Plane",
+    "ui_category": "Film Grain (simplex): Depth",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "depthEnd",
+   "offset": 60,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0.1
+   ],
+   "ann": {
+    "ui_type": "slider",
+    "ui_label": "Change Depth End Plane",
+    "ui_tooltip": "Change Depth End Plane",
+    "ui_category": "Film Grain (simplex): Depth",
+    "ui_min": [
+     0
+    ],
+    "ui_max": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "depthCurve",
+   "offset": 64,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    1
+   ],
+   "ann": {
+    "ui_label": "Depth Curve Adjustment",
+    "ui_tooltip": "Depth Curve Adjustment",
+    "ui_category": "Film Grain (simplex): Depth",
+    "ui_type": "slider",
+    "ui_min": [
+     0.05
+    ],
+    "ui_max": [
+     8
+    ]
+   }
+  },
+  {
+   "name": "Timer",
+   "offset": 68,
+   "size": 4,
+   "rows": 1,
+   "cols": 1,
+   "base": 7,
+   "float": 1,
+   "bool": 0,
+   "def": [
+    0
+   ],
+   "ann": {
+    "source": "timer"
+   }
+  }
+ ],
+ "total_uniform_size": 72
+}

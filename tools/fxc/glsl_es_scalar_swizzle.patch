@@ -1,0 +1,20 @@
+diff --git a/source/effect_codegen_glsl.cpp b/source/effect_codegen_glsl.cpp
+index fc28b9f..f0f04a9 100644
+--- a/source/effect_codegen_glsl.cpp
++++ b/source/effect_codegen_glsl.cpp
+@@ -1541,6 +1541,15 @@ protected:
+ 					expr_code += '[' + std::to_string(op.index) + ']';
+ 				break;
+ 			case expression::operation::op_swizzle:
++				if (op.from.is_scalar()) {
++					// GLSL ES tidak mengizinkan swizzle pada skalar: x.xxx -> vec3(x)
++					int n = 0; while (n < 4 && op.swizzle[n] >= 0) ++n;
++					if (n > 1) {
++						const char *vt = op.from.is_floating_point() ? "vec" : (op.from.base == reshadefx::type::t_bool ? "bvec" : (op.from.is_signed() ? "ivec" : "uvec"));
++						expr_code = std::string(vt) + std::to_string(n) + '(' + expr_code + ')';
++					}
++					break;
++				}
+ 				expr_code += '.';
+ 				for (int i = 0; i < 4 && op.swizzle[i] >= 0; ++i)
+ 					expr_code += "xyzw"[op.swizzle[i]];
