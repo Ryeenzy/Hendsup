@@ -2,6 +2,7 @@
 #pragma once
 #include <cmath>
 #include <cstdlib>
+#include <cctype>
 #include <cstring>
 #include <map>
 #include <string>
@@ -106,6 +107,76 @@ inline std::string glNameSampler(const std::string& n) {
     return r;
 }
 inline std::string glNameUniform(const std::string& n) { return "V_x" + glNameSampler(n); }
+
+// Nama uniform di shader = "V_x" + namespace + "_x" + nama ("V_xpd80_conbrisat_xcontrast"), sedangkan manifest hanya memuat nama polos
+// ("contrast"). Tanpa pemetaan ini glGetUniformLocation = -1 dan nilai slider tak pernah sampai ke shader (43 efek terdampak).
+inline std::vector<std::string> declaredUniforms(const std::string& src) {
+    std::vector<std::string> out;
+    size_t pos = 0;
+    while (pos < src.size()) {
+        size_t eol = src.find('\n', pos);
+        if (eol == std::string::npos) eol = src.size();
+        std::string line = src.substr(pos, eol - pos);
+        pos = eol + 1;
+        size_t i = line.find_first_not_of(" \t");
+        if (i == std::string::npos || line.compare(i, 8, "uniform ") != 0) continue;
+        size_t semi = line.find(';', i);
+        if (semi == std::string::npos) continue;
+        std::string body = line.substr(i + 8, semi - i - 8);
+        size_t br = body.find('[');
+        if (br != std::string::npos) body = body.substr(0, br);
+        size_t e = body.find_last_not_of(" \t");
+        if (e == std::string::npos) continue;
+        size_t s = body.find_last_of(" \t", e);
+        out.push_back(body.substr(s == std::string::npos ? 0 : s + 1, e - (s == std::string::npos ? 0 : s + 1) + 1));
+    }
+    return out;
+}
+inline bool endsWith(const std::string& s, const std::string& suf) { return s.size() >= suf.size() && s.compare(s.size() - suf.size(), suf.size(), suf) == 0; }
+inline std::string resolveUniformName(const std::vector<std::string>& declared, const std::string& plain) {
+    const std::string exact = "V_x" + glNameSampler(plain), suf = "_x" + glNameSampler(plain);
+    std::string found;
+    int hits = 0;
+    for (const std::string& d : declared) {
+        if (d == exact) return d;
+        if (d.compare(0, 3, "V_x") == 0 && d.size() > suf.size() && endsWith(d, suf) && d != found) { found = d; hits++; }   // nama sama di beberapa pass dihitung sekali
+    }
+    return hits == 1 ? found : exact;
+}
+
+// Tekstur berbasis gambar (LUT, noise) tidak ikut terkonversi (sumber PNG tidak ada) sehingga terisi nol: LUT -> layar hitam, noise -> mati.
+// Pengganti: LUT identitas (tidak mengubah warna) dan noise acak yang bisa di-tile.
+// Kembalian: 0 = bukan gambar, 1 = LUT strip N*N x N*K, 2 = noise.
+inline int imageKind(const std::string& name, int w, int h, bool rgba8) {
+    if (!rgba8) return 0;
+    std::string l = name;
+    for (char& c : l) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    if (l.find("lut") != std::string::npos) {
+        const int n = static_cast<int>(std::lround(std::sqrt(static_cast<double>(w))));
+        return (n >= 4 && n * n == w && h >= n && h % n == 0) ? 1 : 0;
+    }
+    if (l.find("noise") != std::string::npos || l.find("perm") != std::string::npos) return 2;
+    return 0;
+}
+inline void fillImage(int kind, int w, int h, std::vector<unsigned char>& px) {
+    px.assign(static_cast<size_t>(w) * static_cast<size_t>(h) * 4, 255);
+    if (kind == 1) {
+        const int n = static_cast<int>(std::lround(std::sqrt(static_cast<double>(w))));
+        for (int y = 0; y < h; y++)
+            for (int x = 0; x < w; x++) {
+                unsigned char* p = &px[(static_cast<size_t>(y) * static_cast<size_t>(w) + static_cast<size_t>(x)) * 4];
+                p[0] = static_cast<unsigned char>((x % n) * 255 / (n - 1));
+                p[1] = static_cast<unsigned char>((y % n) * 255 / (n - 1));
+                p[2] = static_cast<unsigned char>((x / n) * 255 / (n - 1));
+            }
+    } else if (kind == 2) {
+        unsigned s = 2463534242u;
+        for (size_t i = 0; i < px.size(); i++) {
+            s ^= s << 13; s ^= s >> 17; s ^= s << 5;
+            px[i] = static_cast<unsigned char>(s >> 11);
+        }
+    }
+}
 
 // ukuran tekstur efek: dikompilasi di BUFFER 1920x1080; skalakan bila ukuran = buffer / 2^k
 inline int scaleDim(int v, int baked, int actual) {

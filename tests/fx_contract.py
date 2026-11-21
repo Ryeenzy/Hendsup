@@ -19,6 +19,11 @@ for e in ui:
         if m is None: bad.append("%s.%s ada di UI tapi tidak di manifest" % (e["id"], u["name"])); continue
         if u["n"] != m["rows"] * m["cols"]: bad.append("%s.%s komponen UI=%d manifest=%d" % (e["id"], u["name"], u["n"], m["rows"] * m["cols"]))
 dirs = {d for d in os.listdir(fxdir) if os.path.isfile(os.path.join(fxdir, d, "manifest.json"))}
+fxsrc = open(os.path.join(R, "native/overlay/com/ryeenzyxnz/overlay/RzFx.java")).read()
+hidden = set(re.search(r"UNSUPPORTED = new HashSet<>\(java.util.Arrays.asList\((.*?)\)\);", fxsrc, re.S).group(1).replace('"', '').replace("\n", "").replace(" ", "").split(","))
+for h in sorted(hidden - dirs): bad.append("UNSUPPORTED menyebut efek yang tidak ada: %s" % h)
+dirs = dirs - hidden
+ids = ids - hidden
 for d in sorted(dirs - ids): bad.append("efek %s ada di runtime tapi tidak di UI (tak terjangkau)" % d)
 print("efek UI=%d runtime=%d" % (len(ids), len(dirs)))
 

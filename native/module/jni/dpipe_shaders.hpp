@@ -147,9 +147,12 @@ void main() {
             vec2 pu = flipUv((pc.xy / pc.w) * 0.5 + 0.5);
             if (pu.x > 0.0 && pu.y > 0.0 && pu.x < 1.0 && pu.y < 1.0) {
                 vec2 h = texture(uHist, pu).xy;
-                float valid = 1.0 - clamp(abs(h.y - pc.w) / (0.04 * pc.w), 0.0, 1.0);
-                float hv = clamp(h.x, ao - 0.3, ao + 0.3);
-                ao = mix(ao, hv, uMx3.y * 0.9 * valid);
+                // Anti-ghosting: objek bergerak (avatar) meninggalkan jejak bila histori dipakai apa adanya.
+                // Tolak histori bila kedalamannya beda (>1%) atau nilai AO-nya jauh beda dari frame sekarang.
+                float valid = 1.0 - clamp(abs(h.y - pc.w) / (0.01 * pc.w), 0.0, 1.0);
+                valid *= 1.0 - smoothstep(0.04, 0.16, abs(h.x - ao));
+                float hv = clamp(h.x, ao - 0.1, ao + 0.1);
+                ao = mix(ao, hv, uMx3.y * 0.8 * valid);
             }
         }
     }
@@ -223,8 +226,10 @@ void main() {
             vec2 pu = flipUv((pc.xy / pc.w) * 0.5 + 0.5);
             if (pu.x > 0.0 && pu.y > 0.0 && pu.x < 1.0 && pu.y < 1.0) {
                 vec4 h = texture(uHist, pu);
-                h.rgb = clamp(h.rgb, res.rgb - 0.3, res.rgb + 0.3);
-                res = mix(res, h, uSs2.x * 0.85);
+                float dc = length(h.rgb - res.rgb);
+                float hvalid = (1.0 - smoothstep(0.08, 0.3, dc)) * (1.0 - smoothstep(0.1, 0.4, abs(h.a - res.a)));
+                h.rgb = clamp(h.rgb, res.rgb - 0.12, res.rgb + 0.12);
+                res = mix(res, h, uSs2.x * 0.7 * hvalid);
             }
         }
     }

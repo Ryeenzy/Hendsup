@@ -972,11 +972,11 @@ out mat2x2 vv_2;
 void main()
 {
 	uint id = uint(gl_VertexID);
-	S_xADOF_VSOUT vv_0 = F_xVS_ADOF(id);
-	gl_Position = vv_0.vpos;
-	vv_0 = vv_0.txcoord;
-	vv_1 = vv_0.offset0;
-	vv_2 = vv_0.offsmat;
+	S_xADOF_VSOUT vso = F_xVS_ADOF(id);   // v23: sebelumnya bernama vv_0 dan bentrok dengan varying vv_0
+	gl_Position = vso.vpos;
+	vv_0 = vso.txcoord;
+	vv_1 = vso.offset0;
+	vv_2 = vso.offsmat;
 	gl_Position.y = -gl_Position.y;
 	return;
 }

@@ -31,3 +31,20 @@ This source update addresses the requested runtime and relog issues.
 - `allow_any_build` default **ON** di `RzState` dan `Config` (native); migrasi `.ui_v23` menyalakannya sekali untuk instalasi lama. Migrasi v22 tidak lagi mematikannya.
 - Safe Mode: `coreSetConfig`/`coreStart` selalu memaksa `safe=false`/`disable=false`; parser menerima kunci lama tetapi mengabaikan nilainya; tombol reset safe mode dihapus.
 - Perlu dibangun ulang lewat GitHub Actions (job `native`) — Java/NDK belum dikompilasi di lingkungan ini (tanpa Android SDK/NDK).
+
+## v24 — perbaikan tab EFFECT (ReShade FX)
+- Akar masalah utama: 43 efek tidak pernah menerima nilai uniform karena nama uniform di UI (`Strength`) tidak sama dengan nama di shader hasil kompilasi (`V_Namespace_Strength`). Sekarang `fxrt` me-resolve nama asli dari deklarasi shader (`resolveUniformName`).
+- Efek LUT sebelumnya hitam: tekstur LUT/noise yang aset gambarnya tidak ada kini diisi LUT identitas / noise acak (`imageKind`/`fillImage`).
+- Sampler POINT (filter=0) kini dihormati; depth & tekstur int dipaksa POINT; noise memakai REPEAT.
+- qUINT_dof: variabel lokal `vv_0` bentrok dengan varying -> shader gagal compile; diganti `vso`.
+- Uniform int/uint vektor (`ivec2/3/4`) kini memakai `glUniform*i/ui` (sebelumnya INVALID_OPERATION, mis. DisplayDepth).
+- Feedback-loop (tekstur dibaca sekaligus jadi render target) dijaga: RadiantGI, SnowScape tidak lagi error.
+- 10 efek disembunyikan karena butuh aset gambar/teknik khusus yang tidak ikut paket: Compare, UIMask, Template, Splitscreen, Layer, GoldenRatio, LUT, MultiLUT, PD80_02_Bonus_LUT_pack, PD80_02_Cinetools_LUT (daftar `RzFx.UNSUPPORTED`). Sisa: 84 efek.
+- Catatan: efek hanya jalan bila Depth Pipeline menangkap frame valid. GloomAO efeknya halus; PrismShade_Skybox butuh langit. Payload native harus di-build ulang lewat GitHub Actions.
+- Tab MAIN tidak diubah.
+
+## v24b — MXAO/SSR "ngejejak" saat avatar bergerak
+- Histori temporal di-reproyeksi dengan asumsi dunia statis, jadi objek bergerak meninggalkan jejak (ghosting).
+- MXAO: histori ditolak bila kedalaman beda >1% (sebelumnya 4%) atau AO histori beda jauh dari frame sekarang; clamp ±0.1 (sebelumnya ±0.3); bobot maks 0.8.
+- SSR: sebelumnya tanpa validasi sama sekali; kini histori ditolak bila warna/alpha beda jauh, clamp ±0.12, bobot maks 0.7.
+- Bila masih terasa, turunkan slider "mx_temp" ke 0 (tanpa temporal sama sekali).

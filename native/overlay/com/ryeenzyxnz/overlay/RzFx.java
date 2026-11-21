@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -49,6 +50,11 @@ final class RzFx {
         List<U> uniforms = new ArrayList<>();
     }
 
+    /** Efek yang butuh aset gambar/teknik khusus yang tidak ikut terkirim: disembunyikan agar tidak ada tombol yang "tidak berfungsi". */
+    static final Set<String> UNSUPPORTED = new HashSet<>(java.util.Arrays.asList(
+        "Compare", "UIMask", "Template", "Splitscreen", "Layer", "GoldenRatio", "LUT", "MultiLUT",
+        "PD80_02_Bonus_LUT_pack", "PD80_02_Cinetools_LUT"));
+
     final List<Fx> effects = new ArrayList<>();
     private final Map<String, float[]> values = new HashMap<>();
     private final Set<String> enabled = new LinkedHashSet<>();
@@ -74,6 +80,7 @@ final class RzFx {
                 JSONObject e = arr.getJSONObject(i);
                 Fx fx = new Fx();
                 fx.id = e.getString("id");
+                if (UNSUPPORTED.contains(fx.id)) continue;
                 JSONArray techs = e.optJSONArray("techs");
                 fx.label = fx.id;
                 if (techs != null && techs.length() > 0) {

@@ -23,8 +23,10 @@ struct TexD {
     std::string sem;
     GLuint id = 0;
     int aw = 0, ah = 0;   // ukuran aktual
+    bool written = false;  // ditulis oleh suatu pass (render target)
+    int image = 0;         // 1 = LUT, 2 = noise (isi pengganti, lihat fxu::imageKind)
 };
-struct SampD { std::string glName; int tex = -1; };
+struct SampD { std::string glName; int tex = -1; bool point = false; };
 struct PassD {
     std::string vsSrc, psSrc, psName;
     int w = 0, h = 0, clear = 0;
@@ -144,6 +146,7 @@ bool loadEffect(Eff& e) {
             d.glName = fxu::glNameSampler(s.str("name"));
             auto it = texIdx.find(s.str("tex"));
             d.tex = it == texIdx.end() ? -1 : it->second;
+            d.point = static_cast<int>(s.num("filter", 21)) == 0;   // D3D11 filter 0 = MIN_MAG_MIP_POINT
             e.samp.push_back(d);
         }
     if (const JV* us = m.get("uniforms"))
@@ -182,6 +185,19 @@ bool loadEffect(Eff& e) {
         }
         e.tech.push_back(std::move(ps));
     }
+    // nama uniform bernamespace -> nama GL sebenarnya (dibaca dari deklarasi di shader)
+    {
+        std::vector<std::string> declared;
+        for (auto& t : e.tech) for (auto& p : t) {
+            for (const std::string& n : fxu::declaredUniforms(p.psSrc)) declared.push_back(n);
+            for (const std::string& n : fxu::declaredUniforms(p.vsSrc)) declared.push_back(n);
+        }
+        for (UniD& u : e.uni) u.glName = fxu::resolveUniformName(declared, u.name);
+    }
+    // tekstur yang ditulis pass vs tekstur berbasis gambar
+    for (auto& t : e.tech) for (auto& p : t) for (int r : p.rt) if (r >= 0) e.tex[static_cast<size_t>(r)].written = true;
+    for (TexD& td : e.tex)
+        if (td.sem.empty() && !td.written) td.image = fxu::imageKind(td.name, td.w, td.h, glFmt(td.fmt) == GL_RGBA8);
     // kompilasi
     for (auto& t : e.tech)
         for (auto& p : t) {
@@ -210,6 +226,23 @@ bool loadEffect(Eff& e) {
     return true;
 }
 
+// Sampler GL sesuai filter manifest (POINT/LINEAR); depth & float32 selalu POINT (LINEAR pada R32F = tekstur tak lengkap -> nol).
+// Bit: 1 = point, 2 = repeat (noise di-tile), 4 = mipmap.
+GLuint g_samp[8] = {0};
+GLuint samplerFor(bool point, bool repeat, bool mip) {
+    const int k = (point ? 1 : 0) | (repeat ? 2 : 0) | (mip && !point ? 4 : 0);
+    if (!g_samp[k]) {
+        glGenSamplers(1, &g_samp[k]);
+        const GLint mn = point ? GL_NEAREST : ((k & 4) ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+        glSamplerParameteri(g_samp[k], GL_TEXTURE_MIN_FILTER, mn);
+        glSamplerParameteri(g_samp[k], GL_TEXTURE_MAG_FILTER, point ? GL_NEAREST : GL_LINEAR);
+        const GLint wr = repeat ? GL_REPEAT : GL_CLAMP_TO_EDGE;
+        glSamplerParameteri(g_samp[k], GL_TEXTURE_WRAP_S, wr);
+        glSamplerParameteri(g_samp[k], GL_TEXTURE_WRAP_T, wr);
+    }
+    return g_samp[k];
+}
+
 void freeEffectGl(Eff& e) {
     for (auto& t : e.tex) if (t.id && t.sem.empty()) { glDeleteTextures(1, &t.id); t.id = 0; }
     for (auto& t : e.tech) for (auto& p : t) if (p.prog) { glDeleteProgram(p.prog); p.prog = 0; }
@@ -229,6 +262,12 @@ bool ensureTex(Eff& e, int W, int H) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        if (t.image) {
+            std::vector<unsigned char> px;
+            fxu::fillImage(t.image, t.aw, t.ah, px);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, t.aw, t.ah, GL_RGBA, GL_UNSIGNED_BYTE, px.data());
+        }
     }
     e.curW = W; e.curH = H;
     return glGetError() == GL_NO_ERROR;
@@ -258,8 +297,13 @@ void setUniforms(const Eff& e, const PassD& p, long frame) {
         }
         const bool isInt = !u.isFloat;
         if (isInt) {
-            if (u.base == 5) glUniform1ui(loc, static_cast<GLuint>(v[0] < 0 ? 0 : v[0]));
-            else glUniform1i(loc, static_cast<GLint>(std::lround(v[0])));
+            auto I = [&](size_t k) { return static_cast<GLint>(std::lround(k < v.size() ? v[k] : 0.f)); };
+            auto U = [&](size_t k) { return static_cast<GLuint>(k < v.size() && v[k] > 0 ? v[k] : 0.f); };
+            if (u.base == 5) {   // uint / uvec
+                switch (u.rows) { case 1: glUniform1ui(loc, U(0)); break; case 2: glUniform2ui(loc, U(0), U(1)); break; case 3: glUniform3ui(loc, U(0), U(1), U(2)); break; default: glUniform4ui(loc, U(0), U(1), U(2), U(3)); break; }
+            } else {             // int / ivec / bool
+                switch (u.rows) { case 1: glUniform1i(loc, I(0)); break; case 2: glUniform2i(loc, I(0), I(1)); break; case 3: glUniform3i(loc, I(0), I(1), I(2)); break; default: glUniform4i(loc, I(0), I(1), I(2), I(3)); break; }
+            }
         } else {
             switch (u.rows) {
                 case 1: glUniform1f(loc, v[0]); break;
@@ -298,6 +342,7 @@ int fxrtEnabled() {
 
 void fxrtReset() {
     g_eff.clear();   // objek GL milik konteks lama sudah tak berlaku
+    for (GLuint& s : g_samp) s = 0;
     g_a = Img(); g_b = Img(); g_fbo = 0;
 }
 
@@ -348,21 +393,29 @@ unsigned fxrtRun(unsigned colorFbo, unsigned depthTex, int W, int H, long frame)
                 glViewport(0, 0, tw, th);
                 if (p.clear) { const GLfloat z[4] = {0, 0, 0, 0}; glClearBufferfv(GL_COLOR, 0, z); }
                 glUseProgram(p.prog);
+                GLuint rtTex[8] = {0};   // tekstur yang sedang jadi target: tidak boleh sekaligus disampel (GL: INVALID_OPERATION; D3D: terbaca nol)
+                for (int i = 0; i < 8; i++) if (!toBack && p.rt[i] >= 0) rtTex[i] = e.tex[static_cast<size_t>(p.rt[i])].id;
                 for (size_t si = 0; si < p.samplers.size(); si++) {
                     const SampD& sd = e.samp[static_cast<size_t>(p.samplers[si].first)];
                     GLuint tex = 0;
+                    bool point = sd.point, repeat = false, mip = false;
                     if (sd.tex >= 0) {
                         const TexD& td = e.tex[static_cast<size_t>(sd.tex)];
                         tex = td.sem == "COLOR" ? cur->tex : (td.sem == "DEPTH" ? depthTex : td.id);
+                        if (td.sem == "DEPTH" || td.fmt == 41) point = true;
+                        repeat = td.image == 2;
+                        mip = td.levels > 1;
+                        for (GLuint r : rtTex) if (r && r == tex) tex = 0;
                     }
                     const int unit = p.samplers[si].second;
                     glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(unit));
                     glBindTexture(GL_TEXTURE_2D, tex);
-                    glBindSampler(static_cast<GLuint>(unit), 0);
+                    glBindSampler(static_cast<GLuint>(unit), samplerFor(point, repeat, mip));
                     if (p.sLoc[si] >= 0) glUniform1i(p.sLoc[si], unit);
                 }
                 setUniforms(e, p, frame);
                 glDrawArrays(GL_TRIANGLES, 0, 3);
+                for (const auto& sp : p.samplers) glBindSampler(static_cast<GLuint>(sp.second), 0);
                 g_passes++;
                 if (!toBack) {
                     for (int i = 0; i < 8; i++) {
