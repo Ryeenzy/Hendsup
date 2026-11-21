@@ -107,6 +107,7 @@ final class RzPanel {
         presets = RzPresets.builtin(dir);
         migrate();
         migrateAllowBuild();
+        migrateV24();
         saveR = new Runnable() { public void run() { st.save(); fx.save(); } };
     }
 
@@ -129,6 +130,16 @@ final class RzPanel {
         File stamp = new File(dir, ".ui_v23");
         if (stamp.exists()) return;
         st.set("allow_any_build", 1);
+        st.save();
+        try { new java.io.FileOutputStream(stamp).close(); } catch (Throwable ignore) { }
+    }
+
+    /** Migrasi v24 (sekali): Depth Pipeline dan Paksa OpenGL ES jadi ON terus; saklarnya pindah ke menu Developer. */
+    private void migrateV24() {
+        File stamp = new File(dir, ".ui_v24");
+        if (stamp.exists()) return;
+        st.set("depth_pipe", 1);
+        st.set("force_gles", 1);
         st.save();
         try { new java.io.FileOutputStream(stamp).close(); } catch (Throwable ignore) { }
     }
@@ -953,6 +964,7 @@ final class RzPanel {
     private void buildHiddenInto(LinearLayout p) {
         section(p, "Mesin");
         toggle(p, "Paksa OpenGL ES (perlu sebelum renderer dimuat)", "force_gles");
+        toggle(p, "Depth Pipeline (SSR, MXAO, DOF, Outline, efek FX)", "depth_pipe");
         toggle(p, "Izinkan versi Roblox lain", "allow_any_build");
         section(p, "Data");
         button(p, "Reset semua ke default", () -> {
@@ -1135,8 +1147,7 @@ final class RzPanel {
     private void buildEffectPage() {
         LinearLayout p = page("EFFECT");
         section(p, "Prasyarat");
-        note(p, "Efek berjalan di dalam Depth Pipeline. Saat satu efek dinyalakan, Depth Pipeline dan ON/OFF Shader ikut dinyalakan otomatis.");
-        toggle(p, "Depth Pipeline (wajib untuk efek)", "depth_pipe");
+        note(p, "Efek berjalan di dalam Depth Pipeline (selalu aktif). Saat satu efek dinyalakan, ON/OFF Shader ikut dinyalakan otomatis.");
         toggle(p, "ON/OFF Shader", "master");
         section(p, "Status");
         fxCount = tv("", 12, TEXT, true);
@@ -1412,10 +1423,6 @@ final class RzPanel {
             st.resetAll(); st.set("enabled", en ? 1 : 0);
             curPreset = "-"; refreshAll(); changed(); notify("Default dipulihkan", true);
         }, false);
-
-        p = group(root0, "Depth Pipeline", "depth_pipe");
-        note(p, "Menyalin depth scene Roblox untuk SSR, MXAO, DOF dan Outline. Hook disiapkan sejak awal; ON/OFF dapat diterapkan saat sesi berjalan. EKSPERIMENTAL: jika layar rusak/hitam, matikan lagi.");
-        toggle(p, "Depth Pipeline (real-time)", "depth_pipe");
 
         p = group(root0, "SSR", "ss_on");
         note(p, "Ray-march depth scene; memantulkan avatar/objek. Butuh Depth Pipeline aktif.");

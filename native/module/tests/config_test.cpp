@@ -17,8 +17,8 @@ int main(int argc, char** argv) {
     rz::Config defaults;
     assert(!defaults.enabled && !defaults.master && !defaults.live);
     assert(!defaults.fogOn && !defaults.rimOn && !defaults.hdrOn);
-    assert(!defaults.depthPipe && !defaults.mxOn && !defaults.ssOn);
-    assert(!defaults.dfOn && !defaults.olOn && !defaults.forceGles);
+    assert(defaults.depthPipe && !defaults.mxOn && !defaults.ssOn);
+    assert(!defaults.dfOn && !defaults.olOn && defaults.forceGles);
 
     rz::LiveParams neutral = rz::liveParams(defaults);
     assert(neutral.u[0][0] == 0.04f && neutral.u[0][1] == 5.f);
@@ -31,8 +31,8 @@ int main(int argc, char** argv) {
         assert(rz::parseConfig(text, parsed));
         assert(!parsed.enabled && !parsed.master && !parsed.live);
         assert(!parsed.fogOn && !parsed.rimOn && !parsed.hdrOn);
-        assert(!parsed.depthPipe && !parsed.mxOn && !parsed.ssOn);
-        assert(!parsed.dfOn && !parsed.olOn && !parsed.forceGles);
+        assert(parsed.depthPipe && !parsed.mxOn && !parsed.ssOn);
+        assert(!parsed.dfOn && !parsed.olOn && parsed.forceGles);
         puts("Java/native config contract OK");
     }
 

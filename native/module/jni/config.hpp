@@ -92,7 +92,7 @@ struct Config {
     float aoRadius = 1.f;        // 0.5..3 radius SSAO bawaan Roblox
     float aoDetail = 1.f;        // 0.5..2 sensitivitas kedalaman SSAO bawaan
     // depth pipeline (dpipe.cpp): AO / SSR / DOF berbasis depth scene
-    bool depthPipe = false;
+    bool depthPipe = true;
     float dpDebug = 0.0f;
     bool dpFlip = false;
     float dpRev = 0.0f;
@@ -183,7 +183,7 @@ struct Config {
     bool clearShaderCache = false;   // delete Roblox's shadercache* files at next start
 
     // engine
-    bool forceGles = false;       // block libvulkan at start so Roblox falls back to GLES (restart Roblox to apply)
+    bool forceGles = true;        // block libvulkan at start so Roblox falls back to GLES (restart Roblox to apply)
     bool allowAnyBuild = true;   // skip the exact build-ID check (default ON: izinkan versi Roblox lain)
     bool disable = false;        // DIPERTAHANKAN hanya demi kompatibilitas berkas lama; selalu dipaksa false
     bool safe = false;           // Safe Mode DIHAPUS: nilai dari berkas diabaikan, selalu false

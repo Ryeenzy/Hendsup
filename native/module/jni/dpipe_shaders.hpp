@@ -174,7 +174,7 @@ void main() {
     float Pw = (uVP * vec4(P, 1.0)).w;
     float fres = 0.04 + 0.96 * pow(1.0 - max(dot(N, -V), 0.0), 5.0);
     float floorMask = mix(1.0, smoothstep(0.55, 0.9, N.y), uSs1.z);
-    float camFade = 1.0 - smoothstep(0.6, 0.98, dot(R, -V));
+    float camFade = 1.0 - smoothstep(0.82, 0.995, dot(R, -V));   // lebih longgar: permukaan avatar yang menghadap kamera tetap memantul
     int steps = int(uSs0.y + 0.5);
     float maxD = uSs0.z;
     float thick = uSs0.w;
@@ -218,7 +218,7 @@ void main() {
     float e = min(min(hitUv.x, 1.0 - hitUv.x), min(hitUv.y, 1.0 - hitUv.y));
     float edge = smoothstep(0.0, uSs1.y * 0.2 + 0.001, e);
     float distFade = mix(1.0, 1.0 - clamp(hitT / maxD, 0.0, 1.0), uSs1.x);
-    float w = uSs0.x * (0.2 + 0.8 * fres) * edge * distFade * floorMask * camFade;
+    float w = uSs0.x * (0.5 + 0.5 * fres) * edge * distFade * floorMask * camFade;   // dasar 0.5 (sebelumnya 0.2): objek tegak seperti avatar tidak lagi tipis
     vec4 res = vec4(col, clamp(w, 0.0, 1.0));
     if (uSs2.x > 0.0) {
         vec4 pc = uPrevVP * vec4(P, 1.0);
@@ -266,6 +266,7 @@ void main() {
         vec4 acc = vec4(0.0);
         float bl = uSs1.w * 8.0;
         float wsum = 0.0;
+        float cA = 0.0;
         for (int i = 0; i < 9; i++) {
             vec2 off = vec2(float(i % 3) - 1.0, float(i / 3) - 1.0) * bl * uView.xy;
             vec4 s = texture(uTexB, vUv + off);
@@ -274,8 +275,9 @@ void main() {
             acc.rgb += s.rgb * s.a * wt;
             acc.a += s.a * wt;
             wsum += wt;
+            if (i == 4) cA = s.a;
         }
-        float a = acc.a / wsum;
+        float a = max(acc.a / wsum, cA);   // jangan encerkan pantulan di tepi objek kecil (avatar) oleh tetangga yang tidak kena
         vec3 rc = acc.a > 0.0001 ? acc.rgb / acc.a : base;
         base = mix(base, rc, clamp(a, 0.0, 1.0));
     }

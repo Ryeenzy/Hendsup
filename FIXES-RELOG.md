@@ -48,3 +48,20 @@ This source update addresses the requested runtime and relog issues.
 - MXAO: histori ditolak bila kedalaman beda >1% (sebelumnya 4%) atau AO histori beda jauh dari frame sekarang; clamp ±0.1 (sebelumnya ±0.3); bobot maks 0.8.
 - SSR: sebelumnya tanpa validasi sama sekali; kini histori ditolak bila warna/alpha beda jauh, clamp ±0.12, bobot maks 0.7.
 - Bila masih terasa, turunkan slider "mx_temp" ke 0 (tanpa temporal sama sekali).
+
+## v24c — efek multi-pass gagal di GPU dengan MAX_DRAW_BUFFERS=4 (dari log HP user)
+- Log: `fx_on=84 fx_run=51 fx_fail=32 ... GL 0x502 di pass ...GaussianH`. Efek yang gagal = efek dengan render-target sendiri (multi-pass); efek 1-pass jalan.
+- Penyebab: `glDrawBuffers(8, ...)` selalu mengirim 8 entri; GPU dengan MAX_DRAW_BUFFERS<8 menolaknya. Sekarang hanya mengirim sebanyak RT yang dipakai, dibatasi MAX_DRAW_BUFFERS.
+- Error GL sisa (dari Roblox/depth pipeline, mis. mapA 0x502) dibuang semua sebelum tiap efek, bukan hanya satu.
+- Status baru di dp_status.txt: `max_draw_buffers=` dan baris `fx_failed=` (daftar efek gagal + kode error + pass).
+
+## v24d — Depth Pipeline & Paksa OpenGL ES jadi ON terus
+- Default `depth_pipe` dan `force_gles` = ON (Java `RzState` dan native `Config`); migrasi satu kali `.ui_v24` menyalakannya di instalasi lama.
+- Saklar Depth Pipeline dihapus dari tab MAIN dan EFFECT; kini hanya ada di menu Developer (ketuk judul "RYEENZYXNZ" 7x di tab CREDIT) bersama "Paksa OpenGL ES".
+- Menyalakan efek di tab EFFECT tetap memastikan Depth Pipeline hidup.
+
+## v24e — SSR di avatar kurang tebal
+- Bobot pantulan dasar 0.2 -> 0.5 (`0.5+0.5*fresnel`): permukaan tegak yang menghadap kamera (avatar) tidak lagi nyaris transparan.
+- `camFade` dilonggarkan (0.6..0.98 -> 0.82..0.995) supaya pantulan pada avatar tidak terpotong.
+- Komposit: alpha tidak lagi diencerkan tetangga yang tidak kena sinar (`max(rata-rata, tengah)`), jadi tepi objek kecil tetap tegas.
+- Catatan: SSR hanya memantulkan apa yang terlihat di layar; permukaan yang menghadap langsung ke kamera memantulkan ke arah kamera sehingga memang tidak ada yang bisa dipantulkan.

@@ -63,6 +63,8 @@ std::map<std::string, std::unique_ptr<Eff>> g_eff;
 Img g_a, g_b;
 GLuint g_fbo = 0;
 long g_runs = 0, g_passes = 0, g_failedPasses = 0;
+GLint g_maxDB = 0;
+std::string g_failList;
 int g_nOn = 0, g_nRun = 0;
 std::chrono::steady_clock::time_point g_t0 = std::chrono::steady_clock::now(), g_tPrev = g_t0;
 float g_frameMs = 16.f;
@@ -343,6 +345,7 @@ int fxrtEnabled() {
 void fxrtReset() {
     g_eff.clear();   // objek GL milik konteks lama sudah tak berlaku
     for (GLuint& s : g_samp) s = 0;
+    g_maxDB = 0;
     g_a = Img(); g_b = Img(); g_fbo = 0;
 }
 
@@ -367,7 +370,7 @@ unsigned fxrtRun(unsigned colorFbo, unsigned depthTex, int W, int H, long frame)
         if (e.failed) continue;
         if (!e.loaded && !loadEffect(e)) { LOG("fxrt: %s gagal: %s", id.c_str(), e.err.c_str()); freeEffectGl(e); g_err = id + ": " + e.err; continue; }
         if (!ensureTex(e, W, H)) { e.failed = true; e.err = "alokasi tekstur gagal"; g_err = id + ": " + e.err; continue; }
-        glGetError();
+        while (glGetError() != GL_NO_ERROR) {}   // buang error sisa dari Roblox/depth pipeline supaya tidak disalahkan ke efek ini
         for (auto& t : e.tech) {
             for (auto& p : t) {
                 if (p.skip || !p.prog) continue;
@@ -383,9 +386,15 @@ unsigned fxrtRun(unsigned colorFbo, unsigned depthTex, int W, int H, long frame)
                         if (i == 0) { tw = td.aw; th = td.ah; }
                     }
                     for (int i = 0; i < 8; i++) if (p.rt[i] < 0) glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(i), GL_TEXTURE_2D, 0, 0);
+                    // Banyak GPU Android (Mali/PowerVR) hanya punya MAX_DRAW_BUFFERS=4; glDrawBuffers(8,...) di sana
+                    // memberi GL_INVALID_OPERATION sehingga SEMUA efek multi-pass gagal. Kirim hanya sebanyak yang dipakai.
+                    if (g_maxDB == 0) { GLint mdb = 4; glGetIntegerv(GL_MAX_DRAW_BUFFERS, &mdb); g_maxDB = mdb < 1 ? 1 : (mdb > 8 ? 8 : mdb); }
+                    int nUsed = 1;
+                    for (int i = 0; i < 8; i++) if (p.rt[i] >= 0) nUsed = i + 1;
+                    if (nUsed > g_maxDB) nUsed = g_maxDB;
                     GLenum all[8];
-                    for (int i = 0; i < 8; i++) all[i] = p.rt[i] >= 0 ? GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(i) : GL_NONE;
-                    glDrawBuffers(8, all);
+                    for (int i = 0; i < nUsed; i++) all[i] = p.rt[i] >= 0 ? GL_COLOR_ATTACHMENT0 + static_cast<GLenum>(i) : GL_NONE;
+                    glDrawBuffers(nUsed, all);
                 } else {
                     GLenum b0 = GL_COLOR_ATTACHMENT0;
                     glDrawBuffers(1, &b0);
@@ -433,6 +442,7 @@ unsigned fxrtRun(unsigned colorFbo, unsigned depthTex, int W, int H, long frame)
                     char b[96];
                     snprintf(b, sizeof b, "GL 0x%x di pass %s", er, p.psName.c_str());
                     e.failed = true; e.err = b; g_err = id + ": " + b; g_failedPasses++;
+                    if (g_failList.size() < 700) g_failList += id + "(0x" + std::to_string(er) + ":" + p.psName + ") ";
                     LOG("fxrt: %s", g_err.c_str());
                     break;
                 }
@@ -450,8 +460,8 @@ unsigned fxrtRun(unsigned colorFbo, unsigned depthTex, int W, int H, long frame)
 }
 
 std::string fxrtStatus() {
-    char b[420];
-    snprintf(b, sizeof b, "fx_on=%d fx_run=%d fx_frames=%ld fx_passes=%ld fx_fail=%ld fx_err=%s", g_nOn, g_nRun, g_runs, g_passes, g_failedPasses, g_err.c_str());
+    char b[1100];
+    snprintf(b, sizeof b, "fx_on=%d fx_run=%d fx_frames=%ld fx_passes=%ld fx_fail=%ld max_draw_buffers=%d fx_err=%s\nfx_failed=%s", g_nOn, g_nRun, g_runs, g_passes, g_failedPasses, g_maxDB, g_err.c_str(), g_failList.c_str());
     return b;
 }
 

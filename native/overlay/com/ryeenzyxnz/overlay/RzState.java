@@ -106,7 +106,7 @@ final class RzState {
         b("perf_ao", false);
         b("hdr_on", false);
         f("quality", 2f, 0f, 3f);
-        b("depth_pipe", false);
+        b("depth_pipe", true);
         f("dp_debug", 0.0f, 0.0f, 6.0f);
         b("dp_flip", false);
         f("dp_rev", 0.0f, 0.0f, 2.0f);
@@ -193,7 +193,7 @@ final class RzState {
         b("shader_rules", false);
         b("block_program_binary", false);
         b("clear_shader_cache", false);
-        b("force_gles", false);
+        b("force_gles", true);
         b("allow_any_build", true);
     }
 
