@@ -158,7 +158,6 @@ def main(argv=None):
     ap.add_argument("--apk", nargs="+", required=True, help="base.apk + split (jika ada)")
     ap.add_argument("--out-dir", default="out")
     ap.add_argument("--preset", help=".ini/.txt ReShade atau .json parameter")
-    ap.add_argument("--glossy", type=float, help="timpa kekuatan glossy 0..1")
     ap.add_argument("--set", nargs="*", default=[], metavar="KUNCI=NILAI",
                     help="timpa parameter, mis. contrast=1.1 saturation=1.2")
     ap.add_argument("--list", action="store_true", help="hanya tampilkan pack yang ditemukan")
@@ -168,8 +167,6 @@ def main(argv=None):
     params, applied, ignored = dict(shader_rules.DEFAULTS), [], []
     if a.preset:
         params, applied, ignored = reshade_ini.load(a.preset)
-    if a.glossy is not None:
-        params["glossy"] = a.glossy
     for kv in a.set:
         k, v = kv.split("=", 1)
         if k not in shader_rules.DEFAULTS:

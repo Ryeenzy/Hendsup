@@ -35,13 +35,7 @@ final class RzState {
         f("curves", 0f, 0f, 1f);
         f("vibrance", 0f, -1f, 1f);
         b("live", false);
-        f("glass", 0f, 0f, 1f);
         f("wet", 0f, 0f, 1f);
-        f("gloss_clarity", 0f, 0f, 1f);
-        f("gloss_sharp", 0f, 0f, 1f);
-        f("gloss_sat", 1f, 0f, 2f);
-        f("gloss_tint", 0f, -1f, 1f);
-        f("gloss_spec", 0f, 0f, 1f);
         f("flat_refl", 0f, 0f, 1f);
         f("gamma", 1f, 0.5f, 2f);
         f("hue", 0f, -0.5f, 0.5f);
@@ -182,8 +176,6 @@ final class RzState {
         f("dof_cx", 0.5f, 0f, 1f);
         f("dof_cy", 0.5f, 0f, 1f);
         f("dof_radius", 0.3f, 0.05f, 0.9f);
-        b("glossy", false);
-        f("glossy_amount", 0.5f, 0f, 1f);
         f("ao", 0f, 0f, 1f);
         b("sunrays", false);
         f("sunrays_amount", 0.5f, 0f, 1f);

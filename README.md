@@ -87,7 +87,7 @@ bukan slider live di dalam Roblox (shader Roblox tidak bisa menerima uniform bar
 2. `bash termux/install.sh`
 3. `bash ~/ryeenzyxnz/termux/patch.sh --preset shader/presets/Rods_TikTok_Shaders.ini --install`
    - tanpa `--install`: hasil ke `~/storage/downloads` (APK split harus dipasang via `adb install-multiple`).
-   - `--glossy 0.7`, `--set contrast=1.1 saturation=1.2` untuk menimpa nilai.
+   - `--set wet=0.6 contrast=1.1 saturation=1.2` untuk menimpa nilai (opsi `--glossy` sudah dihapus).
    - Menu: `bash ui/pilih_preset.sh`
 4. Roblox asli harus di-uninstall dulu (tanda tangan berbeda). Akun tetap aman di server.
 
@@ -200,3 +200,9 @@ See [`FIXES-RELOG.md`](FIXES-RELOG.md) for the default-OFF migration, relog touc
 - **Izinkan versi Roblox lain** (`allow_any_build`) kini default **ON** (Java + native), termasuk migrasi sekali untuk instalasi lama (`.ui_v23`).
 - **Safe Mode dihapus total**: `safe`/`disable` di rz_config.cfg diterima tapi dipaksa false; tombol "Reset safe mode" dihapus.
 - Uji baru: `tests/fx_contract.py` (UI == runtime, panel memuat tab, default, tanpa safe mode) dan asersi tambahan di `config_test.cpp`.
+
+## v25
+- Glossy dan Glass dihapus (panel, engine, patcher, preset). Kunci lama di config/preset tetap diterima dan diabaikan. Pantulan permukaan kini hanya dikendalikan oleh "Basah".
+- Tab EFFECT hanya tampil untuk perangkat developer; untuk pengguna biasa semua efek FX dimatikan.
+- Depth Pipeline dan Paksa OpenGL ES default ON; saklarnya ada di menu Developer.
+- Seluruh keterangan di panel dirapikan agar singkat dan profesional.

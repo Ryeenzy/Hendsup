@@ -26,7 +26,6 @@ PKG = os.environ.get("RZ_PKG", "com.roblox.client")
 PORT = int(os.environ.get("RZ_PORT", "8777"))
 
 SLIDERS = [  # kunci, label, min, max, step
-    ("glossy", "Glossy (pantulan)", 0, 1, 0.01),
     ("wet", "Efek basah (becek)", 0, 1, 0.01),
     ("contrast", "Kontras", 0.5, 1.8, 0.01),
     ("saturation", "Saturasi", 0, 2, 0.01),

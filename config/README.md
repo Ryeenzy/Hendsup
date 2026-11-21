@@ -9,7 +9,6 @@ Kunci yang dikenal (nilai di luar rentang ditolak/dipotong):
 | kunci | rentang | arti |
 |---|---|---|
 | wet | 0..1 | efek basah/becek (roughness turun, highlight kuat) |
-| glossy | 0..1 | kekuatan pantulan material PBR (F0, LOD, gain) |
 | contrast, saturation | 0..2 | grading di shader komposit akhir |
 | brightness | -0.15..0.15 | |
 | warmth | -1..1 | geser merah/biru |

@@ -29,5 +29,5 @@ def main(pack_path, glslang, params):
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1], sys.argv[2], {
-        "glossy": 0.6, "wet": 0.8, "contrast": 1.1, "saturation": 1.1, "brightness": 0.01, "warmth": 0.2,
+        "wet": 0.8, "contrast": 1.1, "saturation": 1.1, "brightness": 0.01, "warmth": 0.2,
         "vibrance": 0.2, "levels_black": 13 / 255, "levels_white": 207 / 255, "curves": 0.27, "bloom_gain": 1.4}))

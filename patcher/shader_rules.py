@@ -8,7 +8,6 @@ import re
 F0_LITERAL = "vec3(0.039999999105930328369140625)"
 
 DEFAULTS = {
-    "glossy": 0.0,          # 0..1  (0 = mati)
     "wet": 0.0,             # 0..1  efek basah: roughness turun + highlight matahari tajam/kuat
     "contrast": 1.0, "saturation": 1.0, "brightness": 0.0,
     "warmth": 0.0, "vibrance": 0.0,
@@ -21,7 +20,7 @@ def _f(x):
     return "%.6f" % float(x)
 
 
-def glossy_params(g):
+def reflection_params(g):
     g = max(0.0, min(1.0, float(g)))
     return {
         "f0": 0.04 + 0.26 * g,          # reflektansi dasar (0.04 = bawaan Roblox)
@@ -31,7 +30,7 @@ def glossy_params(g):
     }
 
 
-# --- GLOSSY -------------------------------------------------------------
+# --- REFLEKSI (dikendalikan "wet") -------------------------------------------------------------
 _LOD_DECL = re.compile(rb"float (_\d+) = (_\d+) \* 5\.0;")
 _STRENGTH = re.compile(
     rb"float (_\d+) = CB0\[31\]\.w \* clamp\(1\.0 - \(VARYING3\.w \* CB0\[28\]\.y\), 0\.0, 1\.0\);")
@@ -56,11 +55,11 @@ def apply_wet(src, w):
     return src, n
 
 
-def apply_glossy(src, g):
+def apply_reflection(src, g):
     """Return (src_baru, jumlah_perubahan). Hanya shader PBR yang punya reflect()+IBL."""
     if g <= 0 or b"PrefilteredEnvTexture" not in src or b"reflect(" not in src:
         return src, 0
-    q = glossy_params(g)
+    q = reflection_params(g)
     n = 0
     if F0_LITERAL.encode() in src:
         c = src.count(F0_LITERAL.encode())
@@ -100,7 +99,7 @@ _BLOOM_MIX = re.compile(rb"vec3\(CB1\[5\]\.x\)")
 
 def _is_identity(p):
     d = DEFAULTS
-    return all(abs(float(p.get(k, d[k])) - d[k]) < 1e-6 for k in d if k not in ("glossy", "wet"))
+    return all(abs(float(p.get(k, d[k])) - d[k]) < 1e-6 for k in d if k != "wet")
 
 
 def grade_function(p):
@@ -144,7 +143,7 @@ def apply_grade(src, p):
 def transform(src, params):
     total = 0
     wet = float(params.get("wet", 0.0))
-    src, a = apply_glossy(src, max(float(params.get("glossy", 0.0)), wet))
+    src, a = apply_reflection(src, wet)
     total += a
     src, a = apply_wet(src, wet)
     total += a

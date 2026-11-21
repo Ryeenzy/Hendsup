@@ -42,6 +42,8 @@ if "Reset safe mode" in panel: bad.append("tombol safe mode masih ada")
 core = open(os.path.join(R, "native/module/jni/core.cpp")).read()
 if core.count("c.safe = false;") < 1 or "g_cfg.safe = false;" not in core: bad.append("core tidak memaksa safe=false")
 
+if "if (builtDev) buildEffectPage();" not in panel or "disableFxForNonDev" not in panel: bad.append("tab EFFECT harus hanya untuk developer")
 if bad:
-    print("GAGAL:"); [print(" -", b) for b in bad]; sys.exit(1)
+    print("GAGAL:"); [print(" -", b) for b in bad]
+    sys.exit(1)
 print("FX CONTRACT PASS")

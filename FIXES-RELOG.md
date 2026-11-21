@@ -65,3 +65,9 @@ This source update addresses the requested runtime and relog issues.
 - `camFade` dilonggarkan (0.6..0.98 -> 0.82..0.995) supaya pantulan pada avatar tidak terpotong.
 - Komposit: alpha tidak lagi diencerkan tetangga yang tidak kena sinar (`max(rata-rata, tengah)`), jadi tepi objek kecil tetap tegas.
 - Catatan: SSR hanya memantulkan apa yang terlihat di layar; permukaan yang menghadap langsung ke kamera memantulkan ke arah kamera sehingga memang tidak ada yang bisa dipantulkan.
+
+## v25 — hapus Glossy/Glass, tab EFFECT khusus developer, rapikan teks
+- Hapus Glossy & Glass: `RzState`, `RzPanel`, `RzIni` (qUINT_ssr kini dipetakan ke `ss_on`/`ss_int`), `config.hpp` (kunci lama diterima lalu diabaikan), `effects.cpp` (blok Glossy layar), `liveshader.hpp`, patcher (`--glossy`, `apply_glossy` -> `apply_reflection` yang dikendalikan "wet"), preset JSON, `config/default.json`, `ui/rz_ui.py`.
+- Tab EFFECT hanya dibangun bila `RzLicense.isDev`; untuk non-developer semua efek FX dimatikan saat panel dibuat. Status developer berubah -> panel dibangun ulang.
+- Teks UI: note/notify/status ditulis ulang singkat dan formal.
+- Tes: `key_contract.py` mengizinkan kunci lama; `fx_contract.py` memeriksa pembatasan developer; `hook_test`/`RzTest` disesuaikan.

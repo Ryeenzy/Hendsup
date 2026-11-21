@@ -71,6 +71,7 @@ final class RzPanel {
     private List<RzPresets.Preset> presets;
     private final RzFx fx;
     private boolean licOk = false;
+    private boolean builtDev = false;   // tab EFFECT dibangun hanya bila perangkat ini developer
     private boolean fxLoaded;
     private LinearLayout fxList;
     private boolean fxOnlyOn;
@@ -108,6 +109,7 @@ final class RzPanel {
         migrate();
         migrateAllowBuild();
         migrateV24();
+        if (!RzLicense.isDev(dir)) disableFxForNonDev();
         saveR = new Runnable() { public void run() { st.save(); fx.save(); } };
     }
 
@@ -142,6 +144,13 @@ final class RzPanel {
         st.set("force_gles", 1);
         st.save();
         try { new java.io.FileOutputStream(stamp).close(); } catch (Throwable ignore) { }
+    }
+
+    /** Tab EFFECT hanya untuk developer: untuk pengguna biasa semua efek FX dipastikan mati agar tidak aktif tanpa kontrol. */
+    private void disableFxForNonDev() {
+        boolean any = false;
+        for (RzFx.Fx f : fx.effects) if (fx.isOn(f)) { fx.setOn(f, false); any = true; }
+        if (any) fx.save();
     }
 
     private android.graphics.Bitmap bitmap(String file) {
@@ -268,7 +277,7 @@ final class RzPanel {
             if (updating) return;
             if (key.equals("master") && on && !licOk) {
                 sw.setChecked(false);
-                notify("Lisensi belum aktif. Buka tab CREDIT untuk masukkan key.", false);
+                notify("Lisensi belum aktif. Masukkan key di tab CREDIT.", false);
                 return;
             }
             st.set(key, on ? 1 : 0); changed();
@@ -440,7 +449,7 @@ final class RzPanel {
     /** Terapkan teks preset format sendiri (.rzp). */
     private boolean applyText(String name, String text) {
         int n = RzPresetStore.apply(text, st, fx);
-        if (n < 0) { notify("Isi bukan preset yang dikenali", false); return false; }
+        if (n < 0) { notify("Format preset tidak dikenali", false); return false; }
         curPreset = name;
         refreshAll(); changed();
         notify("Preset: " + name, true);
@@ -450,7 +459,7 @@ final class RzPanel {
     /** Impor dari teks (.ini / .txt preset pihak lain). */
     private void importText(String name, String text) {
         RzIni.Result r = RzIni.fromText(text);
-        if (r.techniques == 0 && r.applied.isEmpty()) { notify("Isi tidak dikenali sebagai preset", false); return; }
+        if (r.techniques == 0 && r.applied.isEmpty()) { notify("Format preset tidak dikenali", false); return; }
         applyPreset(name, r.cfg);
         refreshAll(); changed();
         SpannableStringBuilder sb = new SpannableStringBuilder(name + " : " + r.techniques + " teknik terbaca" + "\n");
@@ -478,7 +487,7 @@ final class RzPanel {
 
     private void saveCurrent() {
         String n = wantedName();
-        if (n.isEmpty()) { notify("Isi nama preset dulu", false); return; }
+        if (n.isEmpty()) { notify("Masukkan nama preset", false); return; }
         boolean ok = store.save(n, RzPresetStore.build(n, st, fx));
         if (ok) { selPreset = n; curPreset = n; rebuildSaved(); }
         notify(ok ? "Preset disimpan: " + n : "Gagal menyimpan preset", ok);
@@ -498,7 +507,7 @@ final class RzPanel {
                 }
             } catch (Throwable e) { notify("Gagal membaca file", false); }
         });
-        if (!ok) notify("Pemilih file tidak tersedia. Pakai impor teks di bawah", false);
+        if (!ok) notify("Pemilih file tidak tersedia. Gunakan impor teks di bawah", false);
     }
 
     private void exportFile() {
@@ -578,7 +587,7 @@ final class RzPanel {
         if (!(decor instanceof ViewGroup)) return;
         if (root != null && root.getParent() == decor && root.isAttachedToWindow()) return;
         pages.clear(); tabs.clear(); refreshers.clear();
-        fxList = null; savedList = null; nameBox = null;
+        fxList = null; fxStatus = null; fxCount = null; savedList = null; nameBox = null;
         root = new FrameLayout(act);
         root.setClipChildren(false);
         // Root hanya menjadi wadah; area kosong harus meneruskan touch ke Roblox.
@@ -623,6 +632,7 @@ final class RzPanel {
                     licOk = RzLicense.usable(dir);
                     refreshAll();
                     fetchPresetsIfNeeded();
+                    if (RzLicense.isDev(dir) != builtDev) rebuild(curTab);
                 });
             }
             return;
@@ -639,6 +649,7 @@ final class RzPanel {
                 }
                 refreshAll();
                 fetchPresetsIfNeeded();
+                if (RzLicense.isDev(dir) != builtDev) rebuild(curTab);
             });
         } else {
             fetchPresetsIfNeeded();
@@ -777,7 +788,7 @@ final class RzPanel {
         pill.setGravity(Gravity.CENTER);
         pill.setPadding(dp(14), dp(6), dp(14), dp(6));
         pill.setOnClickListener(v -> {
-            if (!st.on("enabled") && !licOk) { notify("Lisensi belum aktif. Buka tab CREDIT untuk masukkan key.", false); return; }
+            if (!st.on("enabled") && !licOk) { notify("Lisensi belum aktif. Masukkan key di tab CREDIT.", false); return; }
             int next = st.on("enabled") ? 0 : 1;
             st.set("enabled", next); st.set("master", next); refreshAll(); changed();
         });
@@ -822,7 +833,8 @@ final class RzPanel {
 
         buildMainPage();
         buildPresetPage();
-        buildEffectPage();
+        builtDev = RzLicense.isDev(dir);
+        if (builtDev) buildEffectPage();
         buildSettingPage();
         buildFeedbackPage();
         buildCreditPage();
@@ -871,7 +883,7 @@ final class RzPanel {
         LinearLayout p = page("PRESET");
         section(p, "Preset bawaan");
         if (presets.isEmpty()) {
-            note(p, "Preset belum termuat dari server. Pastikan lisensi aktif dan koneksi internet tersedia, lalu buka lagi panel ini.");
+            note(p, "Preset belum termuat. Pastikan lisensi aktif dan koneksi internet tersedia, lalu buka panel ini lagi.");
         } else {
             List<String> names = new ArrayList<>();
             for (RzPresets.Preset x : presets) names.add(x.name);
@@ -879,8 +891,8 @@ final class RzPanel {
         }
         section(p, "Preset tersimpan");
         note(p, store.usingPublic
-            ? "Disimpan di folder RYEENZYXNZ (penyimpanan HP), tetap ada walau Roblox di-uninstall lalu dipasang lagi."
-            : "Disimpan di dalam data Roblox saja — bakal ikut terhapus kalau Roblox di-uninstall. HP ini menolak akses folder publik.");
+            ? "Preset disimpan di folder RYEENZYXNZ dan tetap ada setelah Roblox dipasang ulang."
+            : "Preset disimpan di data Roblox dan akan terhapus jika Roblox di-uninstall. Akses folder publik tidak tersedia.");
         savedList = new LinearLayout(act);
         savedList.setOrientation(LinearLayout.VERTICAL);
         p.addView(savedList, lp(-1, -2, 0));
@@ -899,7 +911,7 @@ final class RzPanel {
         button(p, "SAVE  ·  simpan pengaturan sekarang", this::saveCurrent, true, RzIcons.SAVE);
         button(p, "IMPORT  ·  buka dari file", this::importFile, false, RzIcons.IMPORT);
         button(p, "EXPORT  ·  simpan ke file", this::exportFile, false, RzIcons.EXPORT);
-        note(p, "Preset berisi semua nilai fitur di MAIN (termasuk Efek Tambahan). Berkas ekspor berakhiran .rzp dan bisa dibagikan.");
+        note(p, "Preset menyimpan semua pengaturan di tab MAIN. File ekspor berformat .rzp dan dapat dibagikan.");
 
         LinearLayout adv = group(p, "Impor dari teks", null);
         button(adv, "Tempel dari clipboard", () -> {
@@ -907,7 +919,7 @@ final class RzPanel {
                 ClipboardManager cm = (ClipboardManager) act.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData d = cm.getPrimaryClip();
                 String t = (d != null && d.getItemCount() > 0) ? d.getItemAt(0).coerceToText(act).toString() : "";
-                if (t.trim().isEmpty()) notify("Clipboard kosong. Salin isi preset dulu", false);
+                if (t.trim().isEmpty()) notify("Clipboard kosong. Salin preset terlebih dahulu", false);
                 else importAny(t);
             } catch (Throwable e) { notify("Clipboard tidak bisa dibaca", false); }
         }, true);
@@ -955,9 +967,9 @@ final class RzPanel {
         List<String> an = new ArrayList<>();
         for (int i = 0; i < RzUi.ACCENT_NAMES.length; i++) an.add((i == ui.accent ? "● " : "") + RzUi.ACCENT_NAMES[i]);
         chips(g, an, i -> { ui.accent = i; ui.save(); rebuild("SETTING"); });
-        button(g, "Posisi tombol RZ kembali ke awal", () -> { fab.setX(dp(14)); fab.setY(Math.min(dp(110), root.getHeight() - dp(70))); notify("Posisi dikembalikan", true); }, false);
+        button(g, "Posisi tombol RZ kembali ke awal", () -> { fab.setX(dp(14)); fab.setY(Math.min(dp(110), root.getHeight() - dp(70))); notify("Posisi tombol dikembalikan", true); }, false);
         button(g, "Reset tampilan", () -> { ui.reset(); ui.save(); rebuild("SETTING"); }, false, RzIcons.RESET);
-        note(g, "Ukuran tampilan menyesuaikan layar otomatis. Tombol bulat RZ = buka/tutup panel (bisa digeser); geser panel lewat judulnya.");
+        note(g, "Tampilan menyesuaikan ukuran layar. Ketuk tombol RZ untuk membuka atau menutup panel. Geser tombol atau judul panel untuk memindahkannya.");
     }
 
     /** Mesin, Data, Developer: tersembunyi; dibuka dengan mengetuk judul di tab CREDIT 7 kali. */
@@ -970,7 +982,7 @@ final class RzPanel {
         button(p, "Reset semua ke default", () -> {
             boolean en = st.on("enabled");
             st.resetAll(); st.set("enabled", en ? 1 : 0);
-            curPreset = "-"; refreshAll(); changed(); notify("Direset", true);
+            curPreset = "-"; refreshAll(); changed(); notify("Pengaturan direset", true);
         }, false);
         section(p, "Developer");
         buildDevInto(p);
@@ -983,7 +995,7 @@ final class RzPanel {
     private void buildFeedbackPage() {
         LinearLayout p = page("FEEDBACK");
         final String url = RzReport.endpoint(act);
-        note(p, "Ada bug atau saran? Tulis di sini, laporan dikirim langsung ke developer.");
+        note(p, "Sampaikan bug atau saran. Laporan dikirim langsung ke developer.");
         section(p, "Jenis laporan");
         final TextView sel = tv("Dipilih: " + fbCat, 13, accent, true);
         List<String> cats = new ArrayList<>();
@@ -1029,12 +1041,12 @@ final class RzPanel {
         sw.setChecked(fbDiag);
         sw.setOnCheckedChangeListener((b, on) -> fbDiag = on);
         p.addView(sw, lp(-1, -2, 6));
-        note(p, "Yang dikirim: pesan, kontak, model HP, versi Android, dan (kalau dicentang) status engine. Tidak ada data akun Roblox.");
+        note(p, "Data yang dikirim: pesan, kontak, model perangkat, versi Android, dan status engine (opsional). Tidak ada data akun Roblox.");
         final TextView[] btn = new TextView[1];
         btn[0] = button(p, "KIRIM LAPORAN", () -> {
-            if (url.isEmpty()) { notify("Pengiriman belum dikonfigurasi developer", false); return; }
+            if (url.isEmpty()) { notify("Pengiriman belum dikonfigurasi", false); return; }
             final String m = msg.getText().toString().trim();
-            if (m.length() < 10) { notify("Pesan terlalu pendek (minimal 10 huruf)", false); return; }
+            if (m.length() < 10) { notify("Pesan terlalu pendek (minimal 10 karakter)", false); return; }
             long w = RzReport.waitMs(dir);
             if (w > 0) { notify("Tunggu " + (w / 1000 + 1) + " detik lagi", false); return; }
             btn[0].setEnabled(false);
@@ -1046,7 +1058,7 @@ final class RzPanel {
                 notify(text, ok);
             });
         }, true, RzIcons.SEND);
-        if (url.isEmpty()) note(p, "Catatan: alamat penerima laporan belum diisi di APK ini.");
+        if (url.isEmpty()) note(p, "Alamat penerima laporan belum dikonfigurasi.");
     }
 
     // ------------------------------------------------------------------ tab CREDIT
@@ -1107,7 +1119,7 @@ final class RzPanel {
                 if (!RzLicense.isDev(dir)) return; // bukan device developer -> ketuk 7x tidak ngapa-ngapain
                 boolean show = hidden.getVisibility() != View.VISIBLE;
                 hidden.setVisibility(show ? View.VISIBLE : View.GONE);
-                notify(show ? "Menu tersembunyi dibuka" : "Menu tersembunyi ditutup", true);
+                notify(show ? "Menu developer dibuka" : "Menu developer ditutup", true);
             }
         });
         p.addView(c, lp(-1, -2, 10));
@@ -1131,7 +1143,7 @@ final class RzPanel {
         // semua otomatis di background (lihat refreshLicense()/fetchPresetsIfNeeded() di attach()).
         Runnable refresh = () -> {
             RzLicense.Info info = RzLicense.read(dir);
-            if (info.key.isEmpty()) status.setText("Mengaktifkan otomatis...");
+            if (info.key.isEmpty()) status.setText("Mengaktifkan lisensi...");
             else if (licOk) status.setText("Aktif" + (info.exp > 0 ? (" · berlaku sampai " + android.text.format.DateFormat.format("d MMM yyyy", info.exp)) : "") );
             else status.setText(info.note == null || info.note.isEmpty() ? "Tidak aktif" : info.note);
             status.setTextColor(licOk ? OK : (info.key.isEmpty() ? SUB : BAD));
@@ -1147,13 +1159,13 @@ final class RzPanel {
     private void buildEffectPage() {
         LinearLayout p = page("EFFECT");
         section(p, "Prasyarat");
-        note(p, "Efek berjalan di dalam Depth Pipeline (selalu aktif). Saat satu efek dinyalakan, ON/OFF Shader ikut dinyalakan otomatis.");
+        note(p, "Efek berjalan melalui Depth Pipeline. Menyalakan satu efek akan mengaktifkan Shader secara otomatis.");
         toggle(p, "ON/OFF Shader", "master");
         section(p, "Status");
         fxCount = tv("", 12, TEXT, true);
         fxCount.setPadding(dp(4), dp(2), dp(4), 0);
         p.addView(fxCount, lp(-1, -2, 0));
-        fxStatus = tv("menunggu engine...", 11, SUB, false);
+        fxStatus = tv("Menunggu engine...", 11, SUB, false);
         fxStatus.setPadding(dp(4), dp(2), dp(4), dp(4));
         p.addView(fxStatus, lp(-1, -2, 0));
         button(p, "Matikan semua efek", () -> {
@@ -1174,18 +1186,18 @@ final class RzPanel {
         boolean ch = false;
         if (!st.on("depth_pipe")) { st.set("depth_pipe", 1); ch = true; }
         if (!st.on("master")) {
-            if (!licOk) notify("Lisensi belum aktif: efek belum bisa jalan. Buka tab CREDIT.", false);
+            if (!licOk) notify("Lisensi belum aktif. Buka tab CREDIT untuk mengaktifkan.", false);
             else { st.set("master", 1); st.set("enabled", 1); ch = true; }
         }
-        if (ch) { refreshAll(); notify("Depth Pipeline + Shader dinyalakan otomatis (dibutuhkan efek)", true); }
+        if (ch) { refreshAll(); notify("Shader diaktifkan otomatis untuk efek ini", true); }
     }
 
     private void buildFxInto(LinearLayout p) {
         if (!fxLoaded) {
-            note(p, "Daftar efek tambahan (fx_ui.json) tidak ditemukan di APK. Patch ulang dengan versi terbaru (termux/patch.sh --live) agar daftar 90+ efek muncul di sini.");
+            note(p, "Daftar efek tidak ditemukan. Patch ulang menggunakan versi terbaru.");
             return;
         }
-        note(p, "Efek tambahan 90+ buah. Saklar = efek aktif; ketuk nama untuk membuka parameter. EKSPERIMENTAL: butuh Depth Pipeline aktif; efek warna juga jalan di luar game.");
+        note(p, "Nyalakan saklar untuk mengaktifkan efek. Ketuk nama efek untuk mengatur parameter.");
         final EditText q = new EditText(act);
         q.setHint("cari efek...");
         q.setHintTextColor(SUB);
@@ -1383,10 +1395,10 @@ final class RzPanel {
     }
 
     private static final String[] MAIN_KEYS = {
-        "glossy", "glass", "glossy_amount", "gloss_clarity", "bloom", "highlight", "exposure", "contrast", "gamma", "levels_white",
+        "bloom", "highlight", "exposure", "contrast", "gamma", "levels_white",
         "hl_comp", "shadow_strength", "fog_on", "fog_intensity", "fog_density", "fog_start", "fog_opacity", "fog_temp",
         "fog_sat", "fog_bright", "rim_on", "rim_intensity", "rim_r", "rim_g", "rim_b", "rim_rgb", "rim_speed", "rim_width",
-        "rim_sharp", "rim_power", "rim_bias", "rim_light", "rim_spread", "gloss_spec", "rim_fade", "ao", "ao_radius", "ao_detail",
+        "rim_sharp", "rim_power", "rim_bias", "rim_light", "rim_spread", "rim_fade", "ao", "ao_radius", "ao_detail",
         "fog_end", "fog_r", "fog_g", "fog_b", "fog_cmix", "fog_height", "fog_hfall", "fog_dfall", "fog_smooth", "fog_scatter",
         "fog_sky", "fog_adapt", "fog_cam", "rim_soft", "rim_edge", "rim_mat", "refl_rough", "refl_fade", "refl_dist",
         "perf_fps", "perf_batt", "perf_therm", "auto_perf", "fps_target", "perf_ssr", "perf_hdr", "perf_fog", "perf_rim", "perf_ao",
@@ -1411,21 +1423,21 @@ final class RzPanel {
         slider(p, "Global Shader Intensity", "strength", "%.2f");
         toggle(p, "Mode LIVE: ubah shader Roblox langsung (ON/OFF real-time)", "live");
         qualityRow(p);
-        note(p, "Quality: Low = hemat berat (rim mati, HDR/AO ringan), Medium = tanpa ekstra rim/fog, High = penuh, Ultra = pantulan sedikit lebih tajam.");
+        note(p, "Low: hemat performa. Medium: tanpa rim dan fog tambahan. High: kualitas penuh. Ultra: pantulan lebih tajam.");
         toggle(p, "Battery Saver", "perf_batt");
         toggle(p, "Thermal Performance Mode", "perf_therm");
         button(p, "Reset Main Settings", () -> {
             for (String k : MAIN_KEYS) st.set(k, RzState.BY.get(k).def);
-            curPreset = "-"; refreshAll(); changed(); notify("Main direset", true);
+            curPreset = "-"; refreshAll(); changed(); notify("Pengaturan MAIN direset", true);
         }, false);
         button(p, "Restore Defaults", () -> {
             boolean en = st.on("enabled");
             st.resetAll(); st.set("enabled", en ? 1 : 0);
-            curPreset = "-"; refreshAll(); changed(); notify("Default dipulihkan", true);
+            curPreset = "-"; refreshAll(); changed(); notify("Pengaturan awal dipulihkan", true);
         }, false);
 
         p = group(root0, "SSR", "ss_on");
-        note(p, "Ray-march depth scene; memantulkan avatar/objek. Butuh Depth Pipeline aktif.");
+        note(p, "Memantulkan objek dan avatar pada permukaan.");
         toggle(p, "Enable SSR", "ss_on");
         slider(p, "SSR Intensity", "ss_int", "%.2f");
         slider(p, "Reflection Quality", "ss_qual", "%.0f");
@@ -1440,7 +1452,7 @@ final class RzPanel {
         slider(p, "Temporal Stability", "ss_temp", "%.2f");
 
         p = group(root0, "MXAO / Ambient Occlusion", "mx_on");
-        note(p, "AO Intensity/Radius/Detail mengendalikan SSAO bawaan Roblox (bila map menjalankannya). MXAO memakai depth scene (Depth Pipeline).");
+        note(p, "AO Intensity, Radius, dan Detail mengatur SSAO bawaan Roblox. MXAO menambah oklusi berbasis kedalaman.");
         slider(p, "AO Intensity (SSAO bawaan)", "ao", "%.2f");
         slider(p, "AO Radius", "ao_radius", "%.2f");
         slider(p, "Detail Strength (sensitivitas depth)", "ao_detail", "%.2f");
@@ -1464,7 +1476,7 @@ final class RzPanel {
         slider(p, "Temporal Stability", "mx_temp", "%.2f");
 
         p = group(root0, "DOF - Depth of Field", "df_on");
-        note(p, "Blur berdasarkan jarak memakai depth scene (Depth Pipeline).");
+        note(p, "Mengaburkan area sesuai jaraknya dari fokus.");
         toggle(p, "Enable DOF", "df_on");
         slider(p, "DOF Intensity", "df_int", "%.2f");
         toggle(p, "Autofocus (titik tengah layar)", "df_auto");
@@ -1485,7 +1497,7 @@ final class RzPanel {
         toggle(p, "Performance Mode (DOF)", "perf_dof");
 
         p = group(root0, "Outline", "ol_on");
-        note(p, "Garis tepi dari lonjakan depth (siluet/lipatan). Butuh Depth Pipeline.");
+        note(p, "Menggambar garis tepi pada siluet dan lipatan objek.");
         toggle(p, "Enable Outline", "ol_on");
         slider(p, "Strength", "ol_str", "%.2f");
         slider(p, "Thickness", "ol_thick", "%.2f");
@@ -1501,7 +1513,7 @@ final class RzPanel {
         slider(p, "Tampilkan mask (debug)", "ol_debug", "%.0f");
 
         p = group(root0, "Adaptive Fog", "fog_on");
-        note(p, "Tinggi fog memakai asumsi vektor kamera-dunia milik shader; perlu dicek di perangkat.");
+        note(p, "Kabut mengikuti ketinggian. Sesuaikan nilainya di perangkat Anda.");
         toggle(p, "Enable Adaptive Fog", "fog_on");
         slider(p, "Fog Intensity", "fog_intensity", "%.2f");
         slider(p, "Fog Density", "fog_density", "%.2f");
@@ -1526,7 +1538,7 @@ final class RzPanel {
         toggle(p, "Performance Mode (Fog)", "perf_fog");
 
         p = group(root0, "Rimlight", "rim_on");
-        note(p, "Berlaku pada material PBR (butuh normal). Material 'flat' (mis. sebagian baseplate) belum.");
+        note(p, "Berlaku pada material PBR. Material flat belum didukung.");
         toggle(p, "Enable Rimlight", "rim_on");
         slider(p, "Rimlight Intensity", "rim_intensity", "%.2f");
         slider(p, "Rimlight Color: Merah", "rim_r", "%.2f");
@@ -1547,7 +1559,7 @@ final class RzPanel {
         toggle(p, "Performance Mode (Rim: tanpa soft/edge/material)", "perf_rim");
 
         p = group(root0, "HDR & Bloom", "hdr_on");
-        note(p, "Threshold/radius bloom dan lens dirt belum tersedia (pass bloom milik engine Roblox).");
+        note(p, "Threshold, radius, dan lens dirt belum tersedia.");
         toggle(p, "Enable HDR (highlight/kompresi/bayangan)", "hdr_on");
         slider(p, "Bloom Intensity (penguat bloom engine)", "bloom", "%.2f");
         slider(p, "Highlight Intensity", "highlight", "%.2f");
@@ -1632,7 +1644,7 @@ final class RzPanel {
             } catch (Throwable e) { notify("Gagal menyimpan aturan", false); }
         }, true);
         section(p, "Status dari engine");
-        shaderInfo = tv("menunggu engine...", 12, TEXT, false);
+        shaderInfo = tv("Menunggu engine...", 12, TEXT, false);
         shaderInfo.setBackground(rr(0xFF121212, 10));
         shaderInfo.setPadding(dp(12), dp(8), dp(12), dp(8));
         p.addView(shaderInfo, lp(-1, -2, 0));
@@ -1657,9 +1669,9 @@ final class RzPanel {
         boolean cb0 = "1".equals(m.get("cb0_seen"));
         boolean msaa = "1".equals(m.get("msaa"));
         StringBuilder b = new StringBuilder();
-        String[][] live = {{"glossy", "Glossy"}, {"glass", "Glass"}, {"fog_on", "Fog adaptif"}, {"rim_on", "Rimlight"}, {"hdr_on", "HDR/grading"}};
+        String[][] live = {{"fog_on", "Fog adaptif"}, {"rim_on", "Rimlight"}, {"hdr_on", "HDR/grading"}};
         for (String[] f : live) {
-            boolean on = f[0].equals("glass") ? st.get("glass") > 0.01f : st.on(f[0]);
+            boolean on = st.on(f[0]);
             b.append(on ? (hooked ? "[OK] " : "[?]  ") : "[off] ").append(f[1]).append(on && !hooked ? " - engine belum aktif" : "").append('\n');
         }
         String[][] dpf = {{"mx_on", "MXAO"}, {"ss_on", "SSR"}, {"df_on", "DOF"}, {"ol_on", "Outline"}};
@@ -1705,8 +1717,8 @@ final class RzPanel {
                     for (String kv : fxNum.split(" ")) { int e = kv.indexOf('='); if (e > 0) fm.put(kv.substring(0, e), kv.substring(e + 1)); }
                     boolean bad = !err.isEmpty() && !err.equals("-");
                     String fxOn = fm.get("fx_on") == null ? "0" : fm.get("fx_on");
-                    fxStatus.setText(fxl.isEmpty() ? "Engine belum melapor. Nyalakan Depth Pipeline lalu masuk ke dalam game."
-                            : "Di engine: aktif " + fxOn + " · jalan " + fm.get("fx_run") + " · frame " + fm.get("fx_frames") + " · pass " + fm.get("fx_passes") + " · gagal " + fm.get("fx_fail") + (bad ? "\nError: " + err : ""));
+                    fxStatus.setText(fxl.isEmpty() ? "Menunggu data engine. Masuk ke dalam game."
+                            : "Aktif " + fxOn + " · berjalan " + fm.get("fx_run") + " · gagal " + fm.get("fx_fail") + (bad ? "\nError: " + err : ""));
                     fxStatus.setTextColor(fxl.isEmpty() ? SUB : (bad || !"0".equals(fm.get("fx_fail")) ? BAD : OK));
                 }
                 String rep = featureReport(line == null ? "" : line, dpTxt);

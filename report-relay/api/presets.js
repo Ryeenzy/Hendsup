@@ -4,7 +4,7 @@
 //
 // Format env PRESET_DATA (JSON):
 //   [
-//     { "name": "Preset 1", "values": { "glossy": 1, "wet": 0.9, "contrast": 0.15, ... } },
+//     { "name": "Preset 1", "values": { "wet": 0.9, "contrast": 0.15, ... } },
 //     { "name": "Preset 2", "values": { "depth_pipe": 1, "ss_int": 2.0, ... } }
 //   ]
 // Nama kunci di "values" harus sama dengan kunci di module/jni/config.hpp (lihat RzState.java).

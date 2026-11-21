@@ -25,13 +25,7 @@ struct Config {
 
     // LIVE: tulis ulang shader Roblox sendiri (liveshader.hpp) dengan uniform hidup; tanpa pass layar
     bool live = false;           // aktif saat shader dikompilasi (restart Roblox setelah mengubahnya)
-    float glass = 0.f;           // 0..1 mode kaca: semua material memantul (tekstur asli tidak diubah)
     float wet = 0.f;             // 0..1 efek basah/becek (kekasaran turun)
-    float glossClarity = 0.f;    // 0..1 kejernihan pantulan (LOD lebih rendah = lebih tajam)
-    float glossSharp = 0.f;      // 0..1 ketajaman/kontras pantulan
-    float glossSat = 1.f;        // 0..2 kekayaan warna pantulan (1 = asli)
-    float glossTint = 0.f;       // -1..1 dingin/hangat pada pantulan
-    float glossSpec = 0.f;       // 0..1 highlight matahari
     float flatRefl = 0.f;        // 0..1 pantulan langit di material 'flat' (lantai/baseplate)
     float gamma = 1.f;           // 0.5..2 gamma warna (1 = asli)
     float hue = 0.f;             // -0.5..0.5 geser hue (putaran penuh = 1)
@@ -164,9 +158,6 @@ struct Config {
     float dofCy = 0.5f;          // 0..1
     float dofRadius = 0.3f;      // 0.05..0.9 sharp area radius (fraction of screen height)
 
-    // glossy (sharpen + specular highlight lift on every surface: parts and avatars alike)
-    bool glossy = false;
-    float glossyAmount = 0.5f;   // 0..1
     // ambient occlusion approximation (darkens creases)
     float ao = 0.f;              // 0..1
 
@@ -230,13 +221,11 @@ inline bool parseConfig(const std::string& text, Config& cfg) {
         else if (k == "curves") ok = parseFloat(s, 0.f, 1.f, c.curves);
         else if (k == "vibrance") ok = parseFloat(s, -1.f, 1.f, c.vibrance);
         else if (k == "live") ok = parseBool(s, c.live);
-        else if (k == "glass") ok = parseFloat(s, 0.f, 1.f, c.glass);
+        // Glossy & Glass sudah dihapus: kunci lama tetap diterima (agar preset/config lama tidak ditolak) tetapi diabaikan.
+        else if (k == "glass" || k == "gloss_clarity" || k == "gloss_sharp" || k == "gloss_sat" || k == "gloss_tint" || k == "gloss_spec" || k == "glossy" || k == "glossy_amount") {
+            float ignored = 0.f; ok = parseFloat(s, -1.f, 2.f, ignored);
+        }
         else if (k == "wet") ok = parseFloat(s, 0.f, 1.f, c.wet);
-        else if (k == "gloss_clarity") ok = parseFloat(s, 0.f, 1.f, c.glossClarity);
-        else if (k == "gloss_sharp") ok = parseFloat(s, 0.f, 1.f, c.glossSharp);
-        else if (k == "gloss_sat") ok = parseFloat(s, 0.f, 2.f, c.glossSat);
-        else if (k == "gloss_tint") ok = parseFloat(s, -1.f, 1.f, c.glossTint);
-        else if (k == "gloss_spec") ok = parseFloat(s, 0.f, 1.f, c.glossSpec);
         else if (k == "flat_refl") ok = parseFloat(s, 0.f, 1.f, c.flatRefl);
         else if (k == "gamma") ok = parseFloat(s, 0.5f, 2.f, c.gamma);
         else if (k == "hue") ok = parseFloat(s, -0.5f, 0.5f, c.hue);
@@ -377,8 +366,6 @@ inline bool parseConfig(const std::string& text, Config& cfg) {
         else if (k == "dof_cx") ok = parseFloat(s, 0.f, 1.f, c.dofCx);
         else if (k == "dof_cy") ok = parseFloat(s, 0.f, 1.f, c.dofCy);
         else if (k == "dof_radius") ok = parseFloat(s, 0.05f, 0.9f, c.dofRadius);
-        else if (k == "glossy") ok = parseBool(s, c.glossy);
-        else if (k == "glossy_amount") ok = parseFloat(s, 0.f, 1.f, c.glossyAmount);
         else if (k == "ao") ok = parseFloat(s, 0.f, 1.f, c.ao);
         else if (k == "sunrays") ok = parseBool(s, c.sunrays);
         else if (k == "sunrays_amount") ok = parseFloat(s, 0.f, 1.f, c.sunraysAmount);

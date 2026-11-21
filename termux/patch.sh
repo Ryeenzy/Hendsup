@@ -3,7 +3,7 @@
 #
 #   bash patch.sh                          pakai Roblox terpasang (pm path) + preset Rods
 #   bash patch.sh --apk base.apk split_config.arm64_v8a.apk
-#   bash patch.sh --preset ../shader/presets/Rods_TikTok_Shaders.ini --glossy 0.6
+#   bash patch.sh --preset ../shader/presets/Rods_TikTok_Shaders.ini --set wet=0.6
 #   bash patch.sh --install                lanjut pasang via adb (wireless debugging)
 #   bash patch.sh --live --apk ~/apks/*.apk --install   MODE LIVE: panel mengambang di dalam Roblox (payload native)
 set -euo pipefail
@@ -16,7 +16,6 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --apk) shift; while [ $# -gt 0 ] && [[ "$1" != --* ]]; do APKS+=("$1"); shift; done; continue ;;
     --preset) PRESET="$2"; shift ;;
-    --glossy) EXTRA+=(--glossy "$2"); shift ;;
     --set) shift; EXTRA+=(--set); while [ $# -gt 0 ] && [[ "$1" != --* ]]; do EXTRA+=("$1"); shift; done; continue ;;
     --install) INSTALL=1 ;;
     --live) LIVE=1 ;;

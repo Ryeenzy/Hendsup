@@ -36,8 +36,8 @@ int main() {
     printf("HOOK ENGINE OK\n");
 
     rz::Config c;
-    assert(rz::parseConfig("enabled=1\nglossy=1\nglossy_amount=0.7\nbloom=0.2\n", c));
-    assert(c.enabled && c.glossy && c.glossyAmount > 0.69f && c.glossyAmount < 0.71f);
+    assert(rz::parseConfig("enabled=1\nglossy=1\nglossy_amount=0.7\nglass=0.5\nbloom=0.2\n", c));   // kunci Glossy/Glass lama: diterima, diabaikan
+    assert(c.enabled && c.bloom > 0.19f && c.bloom < 0.21f);
     rz::Config keep = c;
     assert(!rz::parseConfig("bloom=5\n", c));             // out of range
     assert(!rz::parseConfig("evil=1\n", c));              // unknown key

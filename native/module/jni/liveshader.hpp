@@ -46,14 +46,8 @@ inline LiveParams liveParams(const Config& cin, int autoLevel = 0) {
     if (pSsr) c.flatRefl = 0.f;
     if (pAo && c.aoRadius > 1.f) c.aoRadius = 1.f;
     float s = std::min(std::max(c.strength, 0.f), 1.5f);
-    const float gl = std::min(1.f, std::max(0.f, c.glass)) * std::min(1.f, s);
-    if (gl > 0.f) c.flatRefl = std::max(c.flatRefl, gl);
-    float g = std::max((c.glossy ? c.glossyAmount : 0.f) * s, gl);
-    float w = std::min(1.f, std::max(c.wet * s, gl * 0.9f));
-    float ge = std::min(1.f, std::max(g, w));
-    float cl = std::min(1.f, c.glossClarity * s), sh = std::min(1.f, c.glossSharp * s);
-    float spec = std::min(1.f, std::max(w, c.glossSpec * s));
-    if (gl > 0.f) cl = std::max(cl, gl * 0.7f);
+    const float w = std::min(1.f, c.wet * s);   // efek basah: satu-satunya pengatur kilap pantulan
+    const float ge = w, spec = w;
     float contrast = 1.f + c.contrast * s, sat = 1.f + c.saturation * s;
     float bright = c.brightness * 0.3f * s, vib = c.vibrance * s, warm = c.warmth * s;
     float lb = c.levelsBlack * s, lw = 1.f - (1.f - c.levelsWhite) * s, curves = std::min(1.f, c.curves * s);
@@ -64,7 +58,7 @@ inline LiveParams liveParams(const Config& cin, int autoLevel = 0) {
                  std::fabs(warm) > 1e-4f || std::fabs(expo - 1.f) > 1e-4f || std::fabs(gam - 1.f) > 1e-4f ||
                  std::fabs(hue) > 1e-4f || std::fabs(ss) > 1e-4f || std::fabs(sh2) > 1e-4f ||
                  c.highlight > 1e-4f || c.hlComp > 1e-4f || std::fabs(c.shadowStrength) > 1e-4f;
-    float lod = 5.f * (1.f - 0.7f * ge) * (1.f - 0.8f * cl);
+    float lod = 5.f * (1.f - 0.7f * ge);
     if (c.quality > 2.5f) lod *= 0.85f;          // Ultra: pantulan sedikit lebih tajam
     if (pSsr) lod = std::max(lod, 3.f);          // lebih murah (mip lebih rendah)
     float v[kRzCount][4] = {
@@ -74,7 +68,7 @@ inline LiveParams liveParams(const Config& cin, int autoLevel = 0) {
         {bright, sat, vib, warm},
         {1.f + c.bloom * s, std::pow(expo, 0.4545f), (grade && !gradeOff) ? 1.f : 0.f, gam},
         {hue, ss, sh2, 0.f},
-        {std::min(2.f, 1.f + (c.glossSat - 1.f) * s), c.glossTint * s, 1.f + 1.0f * sh, std::min(1.f, c.flatRefl * s)},
+        {1.f, 0.f, 1.f, std::min(1.f, c.flatRefl * s)},
         {std::max(0.f, lod * 0.6f), 0.f, 0.f, 0.f},
         {c.fogOn ? c.fogIntensity : 1.f, c.fogOn ? c.fogDensity : 1.f, c.fogOn ? c.fogStart : 0.f, c.fogOn ? c.fogOpacity : 1.f},
         {c.fogOn ? c.fogTemp : 0.f, c.fogOn ? c.fogSat : 1.f, c.fogOn ? c.fogBright : 1.f, (c.fogOn && !pFog) ? c.fogCmix : 0.f},

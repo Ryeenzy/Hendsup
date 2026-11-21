@@ -1,7 +1,7 @@
 """RYEENZYXNZ - preset ReShade (.ini/.txt) -> parameter shader pack.
 
 Hanya efek yang punya padanan nyata di pipeline Roblox yang dipetakan:
-  BloomingHDR -> bloom_gain/kontras/saturasi/gamma, qUINT_ssr -> glossy,
+  BloomingHDR -> bloom_gain/kontras/saturasi/gamma, qUINT_ssr -> (diabaikan; pakai SSR layar),
   Clarity -> kontras, Curves, Levels (tepat), Vibrance, Tonemap.
 Sisanya (Deband, FXAA, SMAA, LumaSharpen, MXAO, ADOF) dilaporkan sebagai tidak diterapkan.
 """
@@ -77,8 +77,7 @@ def from_text(text):
             c["saturation"] += clamp(p.n("saturate", 1) - 1, -1, 1)
             applied.append("BloomingHDR -> bloom_gain %.2f + koreksi warna" % c["bloom_gain"])
         elif s == "quint_ssr":
-            c["glossy"] = clamp(p.n("ssr_reflection_intensity", 1) * 0.5, 0, 1)
-            applied.append("qUINT_ssr -> glossy %.2f (pantulan IBL shader PBR, bukan SSR layar)" % c["glossy"])
+            ignored.append("qUINT_ssr: belum ada padanan di patcher (gunakan SSR di panel)")
         elif s == "clarity":
             st = p.n("claritystrength", 0)
             if st > 0:

@@ -16,7 +16,7 @@ public class RzTest {
         Map<String, Float> c = r.cfg;
         check(near(c.get("levels_black"), 13f / 255) && near(c.get("levels_white"), 207f / 255), "Levels 13/207 tepat");
         check(near(c.get("bloom"), 0.48f) && near(c.get("bloom_threshold"), 0.70f), "Bloom 0.48 / thr 0.70");
-        check(near(c.get("glossy_amount"), 0.5f) && c.get("glossy") == 1f, "SSR -> glossy 0.5");
+        check(c.get("ss_on") == 1f && c.get("ss_int") != null && c.get("ss_int") > 0f, "SSR -> ss_on/ss_int: " + c.get("ss_int"));
         check(near(c.get("ao"), 0.47f), "MXAO -> ao 0.47: " + c.get("ao"));
         check(c.get("dof") == 1f && near(c.get("dof_amount"), 0.49f) && near(c.get("dof_radius"), 0.31f), "DOF 0.49 / radius 0.31");
         check(near(c.get("curves"), 0.27f), "Curves 0.27: " + c.get("curves"));
@@ -24,9 +24,9 @@ public class RzTest {
         for (String l : r.ignored) System.out.println("  - " + l);
 
         // CRLF + BOM + komentar + section tanpa Techniques
-        RzIni.Result r2 = RzIni.fromText("﻿; komentar\r\n[Levels.fx]\r\nBlackPoint=20\r\nWhitePoint=230\r\n[RYEENZYXNZ]\r\nglossy=0.4\r\ndof=1\r\nsunrays=0.2\r\n");
+        RzIni.Result r2 = RzIni.fromText("﻿; komentar\r\n[Levels.fx]\r\nBlackPoint=20\r\nWhitePoint=230\r\n[RYEENZYXNZ]\r\ndof=1\r\nsunrays=0.2\r\n");
         check(r2.techniques == 1 && near(r2.cfg.get("levels_black"), 20f / 255), "CRLF/BOM/tanpa Techniques");
-        check(near(r2.cfg.get("glossy_amount"), 0.4f) && r2.cfg.get("dof") == 1f && near(r2.cfg.get("sunrays_amount"), 0.2f), "[RYEENZYXNZ] glossy/dof/sunrays");
+        check(r2.cfg.get("dof") == 1f && near(r2.cfg.get("sunrays_amount"), 0.2f), "[RYEENZYXNZ] dof/sunrays");
         RzIni.Result r3 = RzIni.fromText("sampah === \n[[[");
         check(r3.techniques == 0 && r3.applied.isEmpty(), "sampah tidak bikin crash");
 

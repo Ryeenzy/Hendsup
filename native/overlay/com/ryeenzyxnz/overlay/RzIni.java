@@ -119,9 +119,9 @@ final class RzIni {
                     break;
                 }
                 case "quint_ssr": {
-                    float a = clamp(p.n("ssr_reflection_intensity", 1) * 0.5f, 0, 1);
-                    c.put("glossy", 1f); c.put("glossy_amount", a);
-                    msg = String.format(Locale.US, "Glossy semua permukaan (kekuatan %.2f)", a);
+                    float a = clamp(p.n("ssr_reflection_intensity", 1), 0, 2);
+                    c.put("ss_on", 1f); c.put("ss_int", a);
+                    msg = String.format(Locale.US, "SSR layar (intensitas %.2f)", a);
                     break;
                 }
                 case "quint_mxao": {
@@ -176,7 +176,7 @@ final class RzIni {
                 }
                 case "deband": why = "Roblox tidak punya padanan (banding ditangani engine)"; break;
                 case "fxaa": case "smaa": why = "anti-aliasing diatur engine Roblox"; break;
-                case "lumasharpen": why = "tidak ada efek sharpen terpisah (pakai Glossy)"; break;
+                case "lumasharpen": why = "belum ada padanan di engine"; break;
                 default: why = "belum ada padanan di engine"; break;
             }
             if (msg != null) r.applied.add(s + " : " + msg); else r.ignored.add(s + " : " + why);
@@ -186,11 +186,10 @@ final class RzIni {
         if (nat != null) {
             P p = new P(nat);
             int n = 0;
-            if (p.has("glossy")) { float v = p.n("glossy", 0); c.put("glossy", v > 0 ? 1f : 0f); if (v > 0) c.put("glossy_amount", clamp(v, 0, 1)); n++; }
             if (p.has("sunrays")) { float v = p.n("sunrays", 0); c.put("sunrays", v > 0 ? 1f : 0f); if (v > 0) c.put("sunrays_amount", clamp(v, 0, 1)); n++; }
             for (Map.Entry<String, String> e : nat.entrySet()) {
                 String k = e.getKey();
-                if (k.equals("glossy") || k.equals("sunrays") || !RzState.BY.containsKey(k) || RzState.userOwned(k)) continue;
+                if (k.equals("sunrays") || !RzState.BY.containsKey(k) || RzState.userOwned(k)) continue;
                 c.put(k, p.n(k, RzState.BY.get(k).def)); n++;
             }
             r.applied.add("[RYEENZYXNZ] : " + n + " nilai langsung");

@@ -23,7 +23,6 @@ void main() {
 // Screen-space post pass (no scene depth available from the final framebuffer):
 //  DOF   = blur that grows with distance from a focus point (tilt/radial depth-of-field look)
 //  AO    = darkens pixels darker than their neighbourhood (crease darkening)
-//  Glossy= unsharp mask + specular highlight lift, applied to every pixel (map parts and avatars alike)
 //  Bloom = bright-pass glow, Levels/Curves/exposure/grade are exact per-pixel operations.
 const char* kFrag = R"(#version 300 es
 precision highp float;
@@ -33,7 +32,7 @@ uniform vec4 uA;   // brightness, contrast, saturation, warmth
 uniform vec4 uB;   // exposure(EV), levelsBlack, levelsWhite, curves
 uniform vec4 uC;   // bloom, bloomThreshold, bloomRadius, ao
 uniform vec4 uD;   // dofAmount, dofCx, dofCy, dofRadius
-uniform vec4 uE;   // glossy, sunrays, 0, 0
+uniform vec4 uE;   // (x dicadangkan), sunrays, 0, 0
 uniform vec2 uSun;
 in vec2 vUv;
 out vec4 o;
@@ -79,15 +78,6 @@ void main() {
         avg /= 16.0;
         float occ = clamp((avg - l0) * 2.2, 0.0, 1.0);
         c *= 1.0 - occ * uC.w * 0.9;
-    }
-
-    // ---- Glossy
-    if (uE.x > 0.0) {
-        vec3 blur = (tap(vUv + vec2(uTexel.x, 0.0)) + tap(vUv - vec2(uTexel.x, 0.0)) +
-                     tap(vUv + vec2(0.0, uTexel.y)) + tap(vUv - vec2(0.0, uTexel.y))) * 0.25;
-        c += (src - blur) * (uE.x * 1.4);
-        float l = lum(src);
-        c += vec3(smoothstep(0.70, 1.0, l)) * (uE.x * 0.30);
     }
 
     // ---- Bloom
@@ -317,7 +307,7 @@ bool Effects::render(const Config& cfg, int w, int h) {
         glUniform4f(uB_, cl(cfg.exposure * k, -2.f, 2.f), cfg.levelsBlack * k, 1.f - (1.f - cfg.levelsWhite) * k, cl(cfg.curves * k, 0.f, 1.f));
         glUniform4f(uC_, cfg.bloom * k, cfg.bloomThreshold, cfg.bloomRadius, cl(cfg.ao * k, 0.f, 1.f));
         glUniform4f(uD_, cfg.dof ? cl(cfg.dofAmount * k, 0.f, 1.f) : 0.f, cfg.dofCx, 1.f - cfg.dofCy, cfg.dofRadius);
-        glUniform4f(uE_, cfg.glossy ? cl(cfg.glossyAmount * k, 0.f, 1.5f) : 0.f, cfg.sunrays ? cl(cfg.sunraysAmount * k, 0.f, 1.f) : 0.f, 0.f, 0.f);
+        glUniform4f(uE_, 0.f, cfg.sunrays ? cl(cfg.sunraysAmount * k, 0.f, 1.f) : 0.f, 0.f, 0.f);
         glUniform2f(uSun_, cfg.sunX, cfg.sunY);
         glBindVertexArray(vao_);
         glDrawArrays(GL_TRIANGLES, 0, 3);
