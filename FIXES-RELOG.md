@@ -82,3 +82,8 @@ This source update addresses the requested runtime and relog issues.
 ## v28b — pratinjau GIF bawaan APK
 - `RzScene` memuat `ryeenzyxnz/preview.gif` dari aset; berhenti saat panel tidak terlihat; fallback ke gambar senja. Tahan-untuk-bandingkan dimatikan pada mode GIF.
 - `termux/patch.sh` menyalin `preview.gif`; `fx_contract.py` memeriksa file itu ada.
+
+## v28c — auto scale & bayangan
+- Penyebab tab terpotong: `auto` dibatasi minimal 0.8 dan tinggi panel dipotong 90% layar sementara isi tetap berukuran penuh. Kini `auto` dihitung dari ukuran desain sehingga panel selalu muat; `ui.scale` memakai `setScaleX/Y`.
+- Penyebab bayangan tidak muncul: `GradientDrawable.getOutline` memberi alpha 0 untuk warna tembus pandang / stroke beda alpha. `elev()` kini memakai `ViewOutlineProvider` dengan alpha 0.9.
+- Belum dicoba di HP; perilaku bayangan bergantung pada versi Android.

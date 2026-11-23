@@ -11,7 +11,10 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.graphics.Typeface;
+import android.graphics.Outline;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.view.ViewOutlineProvider;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -61,6 +64,7 @@ final class RzPanel {
     private final RzUi ui;
     private final RzPresetStore store;
     private int accent, accent2;
+    private static final float DESIGN_W = 620f, DESIGN_H = 424f;
     private final float auto;
     private Typeface fBody, fBold, fTitle, fMono;
     private final Map<View, GradientDrawable> tabBg = new java.util.HashMap<>();
@@ -106,8 +110,10 @@ final class RzPanel {
         android.util.Log.i("RYEENZYXNZ", "device=" + RzLicense.deviceId(a));
         android.util.DisplayMetrics dm = a.getResources().getDisplayMetrics();
         density = dm.density;
-        float longDp = Math.max(dm.widthPixels, dm.heightPixels) / dm.density, shortDp = Math.min(dm.widthPixels, dm.heightPixels) / dm.density;
-        auto = Math.max(0.8f, Math.min(1.3f, Math.min(longDp / 700f, shortDp / 400f)));
+        // Auto scale: seluruh panel (ukuran desain DESIGN_W x DESIGN_H dp) harus muat di layar, sekecil apa pun layarnya.
+        float longPx = Math.max(dm.widthPixels, dm.heightPixels), shortPx = Math.min(dm.widthPixels, dm.heightPixels);
+        float fit = Math.min(longPx * 0.94f / (DESIGN_W * dm.density), shortPx * 0.90f / (DESIGN_H * dm.density));
+        auto = Math.max(0.4f, Math.min(1.3f, fit));
         ui = new RzUi(filesDir);
         store = new RzPresetStore(filesDir);
         accent = RzUi.ACCENTS[ui.accent];
@@ -216,7 +222,7 @@ final class RzPanel {
     private TextView tv(String text, float sp, int color, boolean bold) {
         TextView t = new TextView(act);
         t.setText(text);
-        t.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp * 1.1f * auto);
+        t.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp * 1.1f * auto * density);
         t.setTextColor(color);
         t.setTypeface(bold ? fBold : fBody);
         return t;
@@ -316,6 +322,16 @@ final class RzPanel {
     /** Shadow lewat elevation. Di Android 9+ warna bayangan bisa diatur (dipakai untuk glow aksen). */
     private void elev(View v, float d, int spot) {
         v.setElevation(dp(d));
+        // Outline bawaan dari background memberi alpha 0 bila warna latar tembus pandang atau garis tepinya transparan,
+        // sehingga bayangan tidak tampil sama sekali. Alpha dipatok 0.9 (di bawah 1 agar bayangan tidak tembus ke dalam kaca).
+        v.setOutlineProvider(new ViewOutlineProvider() {
+            @Override public void getOutline(View view, Outline o) {
+                Drawable bg = view.getBackground();
+                if (bg != null) bg.getOutline(o);
+                if (o.isEmpty()) o.setRect(0, 0, view.getWidth(), view.getHeight());
+                o.setAlpha(0.9f);
+            }
+        });
         if (Build.VERSION.SDK_INT >= 28) {
             v.setOutlineSpotShadowColor(spot);
             v.setOutlineAmbientShadowColor(0xFF000000);
@@ -411,7 +427,7 @@ final class RzPanel {
         final Switch sw = new Switch(act);
         sw.setText(label);
         sw.setTextColor(TEXT);
-        sw.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * auto);
+        sw.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14 * auto * density);
         sw.setTypeface(fBody);
         sw.setBackground(rr(ROW, 8));
         sw.setPadding(dp(12), dp(12), dp(12), dp(12));
@@ -611,6 +627,11 @@ final class RzPanel {
             t.addView(iv, new LinearLayout.LayoutParams(dp(16), dp(16)));
             TextView lbl = tv(name.charAt(0) + name.substring(1).toLowerCase(Locale.US), 11, SUB, true);
             lbl.setSingleLine(true);
+            {   // kecilkan teks bila tidak muat di sel tab (248dp / 3 kolom, dikurangi ikon dan jarak)
+                float availPx = (dp(248) - dp(8)) / 3f - dp(16) - dp(4) - dp(8);
+                float tw = lbl.getPaint().measureText(lbl.getText().toString());
+                if (tw > availPx && tw > 0) lbl.setTextSize(TypedValue.COMPLEX_UNIT_PX, lbl.getTextSize() * availPx / tw);
+            }
             LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(-2, -2);
             lp2.leftMargin = dp(4);
             t.addView(lbl, lp2);
@@ -1099,9 +1120,16 @@ final class RzPanel {
         int w = root.getWidth(), hh = root.getHeight();
         if (w <= 0) return;
         ViewGroup.LayoutParams lpP = panel.getLayoutParams();
-        lpP.width = Math.min(dp(620 * ui.scale), (int) (w * 0.94f));
-        lpP.height = Math.min(dp(410 * ui.scale), (int) (hh * 0.9f));
+        lpP.width = dp(DESIGN_W);
+        lpP.height = dp(DESIGN_H);
         panel.setLayoutParams(lpP);
+        // Skala tambahan dari pengaturan "Ukuran panel", dibatasi agar panel tidak pernah keluar dari layar.
+        float fitS = Math.min(w * 0.97f / lpP.width, hh * 0.95f / lpP.height);
+        float sc = Math.max(0.3f, Math.min(ui.scale, fitS));
+        panel.setPivotX(lpP.width / 2f);
+        panel.setPivotY(lpP.height / 2f);
+        panel.setScaleX(sc);
+        panel.setScaleY(sc);
         panel.setAlpha(ui.opacity);
         fab.setAlpha(ui.fabOpacity);
         ViewGroup.LayoutParams fp = fab.getLayoutParams();
@@ -1146,7 +1174,7 @@ final class RzPanel {
             fab.setBackground(new RzLogo(logoFab, 0x33FFFFFF, dp(1)));
         } else {
             fab.setText(on ? "×" : "RZ");
-            fab.setTextSize(TypedValue.COMPLEX_UNIT_SP, (on ? 24 : 16) * auto);
+            fab.setTextSize(TypedValue.COMPLEX_UNIT_PX, (on ? 24 : 16) * auto * density);
             GradientDrawable g = rr(accent, 0);
             g.setShape(GradientDrawable.OVAL);
             g.setStroke(dp(1), 0x33FFFFFF);
@@ -1388,7 +1416,7 @@ final class RzPanel {
         nameBox.setTextColor(TEXT);
         nameBox.setTypeface(fBody);
         nameBox.setSingleLine(true);
-        nameBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        nameBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, 15 * auto * density);
         nameBox.setBackground(rr(ROW, 8));
         nameBox.setPadding(dp(12), dp(10), dp(12), dp(10));
         p.addView(nameBox, lp(-1, -2, 6));
@@ -1411,7 +1439,7 @@ final class RzPanel {
         box.setHint("...atau tempel isi preset di sini");
         box.setHintTextColor(SUB);
         box.setTextColor(TEXT);
-        box.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+        box.setTextSize(TypedValue.COMPLEX_UNIT_PX, 11 * auto * density);
         box.setTypeface(Typeface.MONOSPACE);
         box.setBackground(rr(ROW, 8));
         box.setPadding(dp(10), dp(8), dp(10), dp(8));
@@ -1444,7 +1472,7 @@ final class RzPanel {
         chips(g, th, i -> { ui.theme = i; ui.save(); rebuild("SETTING"); });
         section(g, "Tampilan panel");
         fxSlider(g, "Transparansi panel", 0.5f, 1f, true, new float[] { ui.opacity }, v -> { ui.opacity = v; panel.setAlpha(v); ui.save(); });
-        fxSlider(g, "Ukuran panel", 0.65f, 1.1f, true, new float[] { ui.scale }, v -> { ui.scale = v; sizePanel(); ui.save(); });
+        fxSlider(g, "Ukuran panel", 0.65f, 1.05f, true, new float[] { ui.scale }, v -> { ui.scale = v; sizePanel(); ui.save(); });
         fxSlider(g, "Ukuran tombol RZ", 40f, 80f, false, new float[] { ui.fabSize }, v -> { ui.fabSize = v; sizePanel(); ui.save(); });
         fxSlider(g, "Transparansi tombol RZ", 0.3f, 1f, true, new float[] { ui.fabOpacity }, v -> { ui.fabOpacity = v; fab.setAlpha(v); ui.save(); });
         section(g, "Font");
@@ -1496,7 +1524,7 @@ final class RzPanel {
         msg.setHintTextColor(SUB);
         msg.setTextColor(TEXT);
         msg.setTypeface(fBody);
-        msg.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * auto);
+        msg.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14 * auto * density);
         msg.setBackground(rr(ROW, 8));
         msg.setPadding(dp(12), dp(10), dp(12), dp(10));
         msg.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
@@ -1511,7 +1539,7 @@ final class RzPanel {
         contact.setTextColor(TEXT);
         contact.setTypeface(fBody);
         contact.setSingleLine(true);
-        contact.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * auto);
+        contact.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14 * auto * density);
         contact.setBackground(rr(ROW, 8));
         contact.setPadding(dp(12), dp(10), dp(12), dp(10));
         contact.setFilters(new android.text.InputFilter[] { new android.text.InputFilter.LengthFilter(80) });
@@ -1520,7 +1548,7 @@ final class RzPanel {
         sw.setText("Sertakan info perangkat dan status engine");
         sw.setTextColor(TEXT);
         sw.setTypeface(fBody);
-        sw.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * auto);
+        sw.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14 * auto * density);
         sw.setBackground(rr(ROW, 8));
         sw.setPadding(dp(12), dp(10), dp(12), dp(10));
         int[][] states = { { android.R.attr.state_checked }, {} };
@@ -1687,7 +1715,7 @@ final class RzPanel {
         q.setHintTextColor(SUB);
         q.setTextColor(TEXT);
         q.setSingleLine(true);
-        q.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        q.setTextSize(TypedValue.COMPLEX_UNIT_PX, 13 * auto * density);
         q.setBackground(rr(ROW, 8));
         q.setPadding(dp(10), dp(8), dp(10), dp(8));
         q.addTextChangedListener(new android.text.TextWatcher() {
@@ -1776,7 +1804,7 @@ final class RzPanel {
             final Switch sw = new Switch(act);
             sw.setText(u.label);
             sw.setTextColor(TEXT);
-            sw.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            sw.setTextSize(TypedValue.COMPLEX_UNIT_PX, 12 * auto * density);
             sw.setPadding(dp(8), dp(6), dp(8), dp(6));
             int[][] states = { { android.R.attr.state_checked }, {} };
             sw.setThumbTintList(new ColorStateList(states, new int[] { DARK, 0xFF8E9196 }));
@@ -2140,7 +2168,7 @@ final class RzPanel {
         rules.setHint("[contains:TEKS] CARI ==> GANTI");
         rules.setHintTextColor(SUB);
         rules.setTextColor(TEXT);
-        rules.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+        rules.setTextSize(TypedValue.COMPLEX_UNIT_PX, 11 * auto * density);
         rules.setTypeface(Typeface.MONOSPACE);
         rules.setBackground(rr(ROW, 8));
         rules.setPadding(dp(10), dp(8), dp(10), dp(8));

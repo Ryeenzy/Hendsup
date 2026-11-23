@@ -219,3 +219,8 @@ See [`FIXES-RELOG.md`](FIXES-RELOG.md) for the default-OFF migration, relog touc
 ## v28b
 - Pratinjau panel diganti GIF (`assets-ui/preview.gif`), dibundel di dalam APK sebagai aset `ryeenzyxnz/preview.gif`. Tidak ada pengaturan atau folder yang bisa dipakai pengguna untuk menggantinya. Gambar senja lama tetap dipakai hanya jika GIF gagal dimuat.
 - GIF diputar hanya saat panel terlihat. Android 9+ memakai `AnimatedImageDrawable`, di bawahnya `Movie`.
+
+## v28c
+- Auto scale: seluruh panel (ukuran desain 620x424 dp) otomatis diskalakan agar selalu muat di layar; tab dan isi kolom kiri tidak terpotong lagi. Teks memakai piksel terskala (tidak ikut ukuran font sistem). "Ukuran panel" kini menskalakan seluruh panel, bukan hanya bingkainya, dan dibatasi agar tidak keluar layar.
+- Bayangan: outline dipatok alpha 0.9 supaya elevation shadow tampil pada kartu/panel (sebelumnya alpha 0 karena latar tembus pandang dan garis tepi transparan).
+- Label tab otomatis mengecil bila tidak muat.
