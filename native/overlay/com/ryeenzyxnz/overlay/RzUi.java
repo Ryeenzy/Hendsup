@@ -12,10 +12,11 @@ final class RzUi {
     static final String[] FONT_NAMES = { "Chakra Petch", "Rajdhani", "Share Tech Mono" };
     static final String[] FONT_MED = { "ChakraPetch-Medium.ttf", "Rajdhani-Medium.ttf", "ShareTechMono-Regular.ttf" };
     static final String[] FONT_BOLD = { "ChakraPetch-SemiBold.ttf", "Rajdhani-SemiBold.ttf", "ShareTechMono-Regular.ttf" };
+    static final String[] THEME_NAMES = { "Liquid Glass", "Solid" };
     static final String[] ACCENT_NAMES = { "Hijau", "Perak", "Tosca", "Biru", "Emas" };
 
     float opacity = 0.97f, scale = 1f, fabSize = 54f, fabOpacity = 1f;
-    int accent = 0, font = 0;
+    int accent = 0, font = 0, theme = 0;
     private final File f;
 
     RzUi(File dir) {
@@ -34,6 +35,7 @@ final class RzUi {
                     else if (k.equals("fab_opacity")) fabOpacity = Math.max(0.3f, Math.min(1f, x));
                     else if (k.equals("accent")) accent = Math.max(0, Math.min(ACCENTS.length - 1, (int) x));
                     else if (k.equals("font")) font = Math.max(0, Math.min(FONT_NAMES.length - 1, (int) x));
+                    else if (k.equals("theme")) theme = Math.max(0, Math.min(THEME_NAMES.length - 1, (int) x));
                 } catch (NumberFormatException ignore) { }
             }
         } catch (Throwable ignore) { }
@@ -42,10 +44,10 @@ final class RzUi {
     void save() {
         try {
             FileOutputStream o = new FileOutputStream(f);
-            o.write(String.format(Locale.US, "opacity=%.3f\nscale=%.3f\nfab_size=%.1f\nfab_opacity=%.3f\naccent=%d\nfont=%d\n", opacity, scale, fabSize, fabOpacity, accent, font).getBytes("UTF-8"));
+            o.write(String.format(Locale.US, "opacity=%.3f\nscale=%.3f\nfab_size=%.1f\nfab_opacity=%.3f\naccent=%d\nfont=%d\ntheme=%d\n", opacity, scale, fabSize, fabOpacity, accent, font, theme).getBytes("UTF-8"));
             o.close();
         } catch (Throwable ignore) { }
     }
 
-    void reset() { opacity = 0.97f; scale = 1f; fabSize = 54f; fabOpacity = 1f; accent = 0; font = 0; }
+    void reset() { opacity = 0.97f; scale = 1f; fabSize = 54f; fabOpacity = 1f; accent = 0; font = 0; theme = 0; }
 }

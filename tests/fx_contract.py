@@ -43,6 +43,8 @@ core = open(os.path.join(R, "native/module/jni/core.cpp")).read()
 if core.count("c.safe = false;") < 1 or "g_cfg.safe = false;" not in core: bad.append("core tidak memaksa safe=false")
 
 if "if (builtDev) buildEffectPage();" not in panel or "disableFxForNonDev" not in panel: bad.append("tab EFFECT harus hanya untuk developer")
+if not os.path.isfile(os.path.join(R, "assets-ui/preview.gif")) or "preview.gif" not in open(os.path.join(R, "termux/patch.sh")).read():
+    bad.append("assets-ui/preview.gif harus ada dan disalin oleh termux/patch.sh")
 if bad:
     print("GAGAL:"); [print(" -", b) for b in bad]
     sys.exit(1)

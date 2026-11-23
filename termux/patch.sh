@@ -48,7 +48,7 @@ rm -rf "$ASSETS"; mkdir -p "$ASSETS"
 [ -f "$HERE/assets-ui/activate_url.txt" ] && cp "$HERE/assets-ui/activate_url.txt" "$ASSETS/activate_url.txt"
 [ -f "$HERE/assets-ui/presets_url.txt" ] && cp "$HERE/assets-ui/presets_url.txt" "$ASSETS/presets_url.txt"
 [ -f "$HERE/assets-ui/devices_url.txt" ] && cp "$HERE/assets-ui/devices_url.txt" "$ASSETS/devices_url.txt"
-for f in logo_fab.png logo_full.png; do [ -f "$HERE/assets-ui/$f" ] && cp "$HERE/assets-ui/$f" "$ASSETS/$f"; done
+for f in logo_fab.png logo_full.png preview.gif; do [ -f "$HERE/assets-ui/$f" ] && cp "$HERE/assets-ui/$f" "$ASSETS/$f"; done
   python3 -I "$HERE/native/tools/patch_roblox.py" --apks "${APKS[@]}" --payload "$PAYLOAD" --out "$WORK/live" $( [ -d "$HERE/shader/fx-ui" ] && echo --assets-dir "$ASSETS" )
   SIGNED="$WORK/live/signed"
   if [ "$INSTALL" = 1 ]; then

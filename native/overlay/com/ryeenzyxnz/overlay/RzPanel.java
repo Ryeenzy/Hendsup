@@ -12,6 +12,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.InputType;
@@ -45,9 +46,9 @@ import java.util.Map;
 /** Tombol bulat + panel RYEENZYXNZ yang digambar sebagai View Android di dalam jendela Roblox. */
 /** Tombol bulat + panel RYEENZYXNZ yang digambar sebagai View Android di dalam jendela Roblox. */
 final class RzPanel {
-    private static final int BG = 0xFF0C0C0D, ROW = 0xFF151516, ROWHI = 0xFF1F1F21,
-            TEXT = 0xFFEDEDEE, SUB = 0xFF9B9DA2, MUTED = 0xFF65676C, OK = 0xFF86D26B, BAD = 0xFFE5786D, OFF = 0xFF2A2A2D,
-            STROKE = 0xFF232326, HAIR = 0xFF1E1E21, DARK = 0xFF0B1005, SIDE = 0xFF0F0F10, CARD = 0xFF111112;
+    private static final int TEXT = 0xFFEDEDEE, OK = 0xFF86D26B, BAD = 0xFFE5786D, OFF = 0xFF2A2A2D, DARK = 0xFF0B1005;
+    // Warna ini berubah mengikuti tema (Liquid Glass / Solid); diisi oleh applyTheme().
+    private int BG, ROW, ROWHI, SUB, MUTED, STROKE, HAIR, SIDE, CARD, DETAILBG;
     private static final android.view.animation.Interpolator EASE = new android.view.animation.PathInterpolator(0.22f, 1f, 0.36f, 1f);
 
     private final Activity act;
@@ -111,6 +112,7 @@ final class RzPanel {
         store = new RzPresetStore(filesDir);
         accent = RzUi.ACCENTS[ui.accent];
         accent2 = RzUi.ACCENTS2[ui.accent];
+        applyTheme();
         fBody = font(RzUi.FONT_MED[ui.font], Typeface.create("sans-serif-condensed", Typeface.NORMAL));
         fBold = font(RzUi.FONT_BOLD[ui.font], Typeface.create("sans-serif-condensed", Typeface.BOLD));
         fTitle = font("ChakraPetch-SemiBold.ttf", Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -279,6 +281,57 @@ final class RzPanel {
         });
     }
 
+    // ------------------------------------------------------------------ tema dan shadow
+    private boolean glass() { return ui.theme == 0; }
+
+    private void applyTheme() {
+        if (glass()) {
+            BG = 0x7A0E0E16; ROW = 0x17FFFFFF; ROWHI = 0x2DFFFFFF; SUB = 0xFFC9CBD2; MUTED = 0xFFA3A6AF;
+            STROKE = 0x40FFFFFF; HAIR = 0x24FFFFFF; SIDE = 0x00000000; CARD = 0x14FFFFFF; DETAILBG = 0xF5101018;
+        } else {
+            BG = 0xFF0C0C0D; ROW = 0xFF151516; ROWHI = 0xFF1F1F21; SUB = 0xFF9B9DA2; MUTED = 0xFF65676C;
+            STROKE = 0xFF34343A; HAIR = 0xFF2A2A2F; SIDE = 0xFF0F0F10; CARD = 0xFF111112; DETAILBG = 0xFF0C0C0D;
+        }
+    }
+
+    private static int blend(int a, int b, float t) { return (Integer) new ArgbEvaluator().evaluate(t, b, a); }
+
+    /** Permukaan bergradasi (terang di kiri atas, gelap di kanan bawah) dengan garis tepi tipis. */
+    private GradientDrawable surface(float rDp) {
+        GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
+                glass() ? new int[] { 0x26FFFFFF, 0x0AFFFFFF } : new int[] { 0xFF242428, 0xFF141416 });
+        g.setCornerRadius(dp(rDp));
+        g.setStroke(dp(1), HAIR);
+        return g;
+    }
+
+    private int[] cardOn() {
+        return glass() ? new int[] { (accent & 0x00FFFFFF) | 0x4D000000, 0x14FFFFFF } : new int[] { blend(accent, 0xFF1A1A1E, 0.26f), 0xFF141416 };
+    }
+
+    private int[] cardOff() {
+        return glass() ? new int[] { 0x26FFFFFF, 0x0AFFFFFF } : new int[] { 0xFF242428, 0xFF141416 };
+    }
+
+    /** Shadow lewat elevation. Di Android 9+ warna bayangan bisa diatur (dipakai untuk glow aksen). */
+    private void elev(View v, float d, int spot) {
+        v.setElevation(dp(d));
+        if (Build.VERSION.SDK_INT >= 28) {
+            v.setOutlineSpotShadowColor(spot);
+            v.setOutlineAmbientShadowColor(0xFF000000);
+        }
+    }
+
+    /** Kartu terangkat dan mengecil sedikit saat disentuh. */
+    private void lift(final View v) {
+        v.setOnTouchListener((x, e) -> {
+            int a = e.getActionMasked();
+            if (a == MotionEvent.ACTION_DOWN) x.animate().scaleX(0.97f).scaleY(0.97f).translationZ(dp(6)).setDuration(90).start();
+            else if (a == MotionEvent.ACTION_UP || a == MotionEvent.ACTION_CANCEL) x.animate().scaleX(1f).scaleY(1f).translationZ(0f).setDuration(200).setInterpolator(EASE).start();
+            return false;
+        });
+    }
+
     // ------------------------------------------------------------------ animasi
     private void press(final View v) {
         v.setOnTouchListener((x, e) -> {
@@ -434,6 +487,7 @@ final class RzPanel {
         b.setPadding(dp(12), dp(12), dp(12), dp(12));
         b.setOnClickListener(v -> r.run());
         press(b);
+        elev(b, hot ? 4 : 2, hot ? accent : 0xFF000000);
         p.addView(b, lp(-1, -2, 4));
         return b;
     }
@@ -482,7 +536,10 @@ final class RzPanel {
         sv.setVerticalScrollBarEnabled(false);
         LinearLayout col = new LinearLayout(act);
         col.setOrientation(LinearLayout.VERTICAL);
-        col.setPadding(dp(12), dp(4), dp(12), dp(76));
+        col.setPadding(dp(12), dp(4), dp(12), dp(12));
+        col.setClipChildren(false);
+        sv.setClipToPadding(false);
+        sv.setClipChildren(false);
         sv.addView(col, new ViewGroup.LayoutParams(-1, -2));
         sv.setVisibility(View.GONE);
         pages.put(name, sv);
@@ -496,20 +553,12 @@ final class RzPanel {
         for (Map.Entry<String, View> e : pages.entrySet()) e.getValue().setVisibility(e.getKey().equals(name) ? View.VISIBLE : View.GONE);
         for (Map.Entry<String, LinearLayout> e : tabs.entrySet()) {
             boolean on = e.getKey().equals(name);
-            LinearLayout t = e.getValue();
-            Object[] o = (Object[]) t.getTag();
-            RzIcons ic = (RzIcons) o[0];
-            TextView lbl = (TextView) o[1];
-            GradientDrawable g = tabBg.get(t);
-            Integer prev = tabCol.get(t);
-            int to = on ? ROWHI : TAB_OFF;
-            boolean was = prev != null && prev == ROWHI;
-            if (g != null) tint(g, prev == null ? TAB_OFF : prev, to);
-            tabCol.put(t, to);
-            ic.setColor(on ? accent : SUB);
-            if (on != was) labelAnim(lbl, on);
+            Object[] o = (Object[]) e.getValue().getTag();
+            ((RzIcons) o[0]).setColor(on ? accent : SUB);
+            ((TextView) o[1]).setTextColor(on ? TEXT : SUB);
         }
         curTab = name;
+        moveTabInd(switched);
         if (switched) {
             View pg = pages.get(name);
             pg.setAlpha(0f);
@@ -517,6 +566,78 @@ final class RzPanel {
             pg.animate().alpha(1f).translationY(0f).setDuration(240).setInterpolator(EASE).start();
             stagger(pg);
         }
+    }
+
+    private FrameLayout tabsBox;
+    private View tabInd;
+
+    /** Tab 3 kolom x 2 baris di bawah pilihan kualitas; penanda aktif meluncur antar sel. */
+    private void buildTabs(LinearLayout left) {
+        tabsBox = new FrameLayout(act);
+        tabsBox.setPadding(dp(4), dp(4), dp(4), dp(4));
+        tabsBox.setBackground(surface(14));
+        tabsBox.setClipChildren(false);
+        elev(tabsBox, 4, 0xFF000000);
+        tabInd = new View(act);
+        GradientDrawable ig = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                glass() ? new int[] { 0x57FFFFFF, 0x24FFFFFF } : new int[] { 0xFF3A3A41, 0xFF26262B });
+        ig.setCornerRadius(dp(10));
+        tabInd.setBackground(ig);
+        tabInd.setElevation(dp(3));
+        tabsBox.addView(tabInd, new FrameLayout.LayoutParams(dp(10), dp(34)));
+        LinearLayout grid = new LinearLayout(act);
+        grid.setOrientation(LinearLayout.VERTICAL);
+        grid.setClipChildren(false);
+        grid.setElevation(dp(4));
+        tabsBox.addView(grid, new FrameLayout.LayoutParams(-1, -2));
+        final List<String> names = new ArrayList<>(pages.keySet());
+        LinearLayout row = null;
+        for (int i = 0; i < 6; i++) {
+            if (i % 3 == 0) {
+                row = new LinearLayout(act);
+                row.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams rp2 = new LinearLayout.LayoutParams(-1, dp(34));
+                if (i > 0) rp2.topMargin = dp(2);
+                grid.addView(row, rp2);
+            }
+            if (i >= names.size()) { row.addView(new View(act), new LinearLayout.LayoutParams(0, -1, 1f)); continue; }
+            final String name = names.get(i);
+            LinearLayout t = new LinearLayout(act);
+            t.setOrientation(LinearLayout.HORIZONTAL);
+            t.setGravity(Gravity.CENTER);
+            RzIcons ic = new RzIcons(tabIcon(name), dp(16), SUB);
+            android.widget.ImageView iv = new android.widget.ImageView(act);
+            iv.setImageDrawable(ic);
+            t.addView(iv, new LinearLayout.LayoutParams(dp(16), dp(16)));
+            TextView lbl = tv(name.charAt(0) + name.substring(1).toLowerCase(Locale.US), 11, SUB, true);
+            lbl.setSingleLine(true);
+            LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(-2, -2);
+            lp2.leftMargin = dp(4);
+            t.addView(lbl, lp2);
+            t.setTag(new Object[] { ic, lbl });
+            t.setContentDescription(name);
+            t.setClickable(true);
+            t.setOnClickListener(v -> showTab(name));
+            press(t);
+            tabs.put(name, t);
+            row.addView(t, new LinearLayout.LayoutParams(0, -1, 1f));
+        }
+        left.addView(tabsBox, lp(-1, -2, 8));
+        tabsBox.addOnLayoutChangeListener((v, l, tp, r, b, ol, ot, or, ob) -> { if (r - l != or - ol) moveTabInd(false); });
+    }
+
+    private void moveTabInd(boolean animate) {
+        if (tabsBox == null || tabInd == null || tabsBox.getWidth() == 0) return;
+        int idx = 0, k = 0;
+        for (String n : tabs.keySet()) { if (n.equals(curTab)) idx = k; k++; }
+        int pad = dp(4), ch = dp(34);
+        float cw = (tabsBox.getWidth() - 2 * pad) / 3f;
+        ViewGroup.LayoutParams lpi = tabInd.getLayoutParams();
+        if (lpi.width != Math.round(cw) || lpi.height != ch) { lpi.width = Math.round(cw); lpi.height = ch; tabInd.setLayoutParams(lpi); }
+        float x = pad + (idx % 3) * cw, y = pad + (idx / 3) * (ch + dp(2));
+        tabInd.animate().cancel();
+        if (animate) tabInd.animate().translationX(x).translationY(y).setDuration(450).setInterpolator(EASE).start();
+        else { tabInd.setTranslationX(x); tabInd.setTranslationY(y); }
     }
 
     /** Label tab aktif melebar dan memudar masuk. */
@@ -571,11 +692,14 @@ final class RzPanel {
     private LinearLayout detail(final String title, final String onKey, final String valKey, int icon, boolean wide) {
         final ScrollView sv = new ScrollView(act);
         sv.setVerticalScrollBarEnabled(false);
-        sv.setBackgroundColor(BG);
+        sv.setBackgroundColor(DETAILBG);
         sv.setVisibility(View.GONE);
+        sv.setClipToPadding(false);
+        sv.setClipChildren(false);
         LinearLayout col = new LinearLayout(act);
         col.setOrientation(LinearLayout.VERTICAL);
-        col.setPadding(dp(12), dp(4), dp(12), dp(76));
+        col.setClipChildren(false);
+        col.setPadding(dp(12), dp(4), dp(12), dp(12));
         sv.addView(col, new ViewGroup.LayoutParams(-1, -2));
         details.add(sv);
 
@@ -599,11 +723,11 @@ final class RzPanel {
         final LinearLayout tile = new LinearLayout(act);
         tile.setOrientation(LinearLayout.VERTICAL);
         tile.setPadding(dp(12), dp(12), dp(12), dp(12));
-        final GradientDrawable tbg = rr(CARD, 14);
-        tbg.setStroke(dp(1), HAIR);
+        final GradientDrawable tbg = surface(14);
         tile.setBackground(tbg);
+        elev(tile, 5, 0xFF000000);
         tile.setClickable(true);
-        press(tile);
+        lift(tile);
         tile.setOnClickListener(v -> openDetail(sv));
         LinearLayout top = new LinearLayout(act);
         top.setOrientation(LinearLayout.HORIZONTAL);
@@ -626,7 +750,9 @@ final class RzPanel {
             boolean on = onKey != null && st.on(onKey);
             ibg.setColor(on ? accent : ROW);
             ric.setColor(on ? DARK : SUB);
+            tbg.setColors(on ? cardOn() : cardOff());
             tbg.setStroke(dp(1), on ? ((accent & 0x00FFFFFF) | 0x80000000) : HAIR);
+            if (Build.VERSION.SDK_INT >= 28) tile.setOutlineSpotShadowColor(on ? ((accent & 0x00FFFFFF) | 0xCC000000) : 0xFF000000);
             sub.setTextColor(on ? SUB : MUTED);
             sub.setText(onKey == null ? "Warna dan kurva" : !on ? "Nonaktif" : valKey == null ? "Aktif" : String.format(Locale.US, "Intensitas %.2f", st.get(valKey)));
         });
@@ -641,6 +767,7 @@ final class RzPanel {
             if (tileRow == null || tileRow.getChildCount() >= 2) {
                 tileRow = new LinearLayout(act);
                 tileRow.setOrientation(LinearLayout.HORIZONTAL);
+                tileRow.setClipChildren(false);
                 mainCol.addView(tileRow, lp(-1, -2, 8));
             }
             LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(0, -2, 1f);
@@ -664,9 +791,8 @@ final class RzPanel {
     private LinearLayout group(LinearLayout pg, String title, final String onKey) {
         final LinearLayout card = new LinearLayout(act);
         card.setOrientation(LinearLayout.VERTICAL);
-        GradientDrawable cg = rr(CARD, 14);
-        cg.setStroke(dp(1), HAIR);
-        card.setBackground(cg);
+        card.setBackground(surface(14));
+        elev(card, 4, 0xFF000000);
         LinearLayout head = new LinearLayout(act);
         head.setOrientation(LinearLayout.HORIZONTAL);
         head.setGravity(Gravity.CENTER_VERTICAL);
@@ -851,6 +977,7 @@ final class RzPanel {
         View decor = act.getWindow() == null ? null : act.getWindow().getDecorView();
         if (!(decor instanceof ViewGroup)) return;
         if (root != null && root.getParent() == decor && root.isAttachedToWindow()) return;
+        applyTheme();
         pages.clear(); tabs.clear(); refreshers.clear(); details.clear(); curDetail = null; tileRow = null;
         fxList = null; fxStatus = null; fxCount = null; savedList = null; nameBox = null;
         root = new FrameLayout(act);
@@ -973,7 +1100,7 @@ final class RzPanel {
         if (w <= 0) return;
         ViewGroup.LayoutParams lpP = panel.getLayoutParams();
         lpP.width = Math.min(dp(620 * ui.scale), (int) (w * 0.94f));
-        lpP.height = Math.min(dp(400 * ui.scale), (int) (hh * 0.88f));
+        lpP.height = Math.min(dp(410 * ui.scale), (int) (hh * 0.9f));
         panel.setLayoutParams(lpP);
         panel.setAlpha(ui.opacity);
         fab.setAlpha(ui.fabOpacity);
@@ -1048,11 +1175,13 @@ final class RzPanel {
     private void buildPanel() {
         panel = new LinearLayout(act);
         panel.setOrientation(LinearLayout.VERTICAL);
-        GradientDrawable bg = rr(BG, 20);
+        GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
+                glass() ? new int[] { 0xA6202030, 0x7A0E0E16, 0x8C181824 } : new int[] { 0xFF1C1C20, 0xFF0C0C0D, 0xFF18181C });
+        bg.setCornerRadius(dp(20));
         bg.setStroke(dp(1), STROKE);
         panel.setBackground(bg);
         panel.setClipToOutline(true);
-        panel.setElevation(dp(24));
+        elev(panel, 32, 0xFF000000);
         panel.setClickable(true);
         panel.setFocusable(true);
         root.addView(panel, new FrameLayout.LayoutParams(dp(300), dp(320)));
@@ -1143,17 +1272,20 @@ final class RzPanel {
         LinearLayout main = new LinearLayout(act);
         main.setOrientation(LinearLayout.HORIZONTAL);
         main.setPadding(dp(12), 0, dp(12), dp(12));
+        main.setClipChildren(false);
         panel.addView(main, new LinearLayout.LayoutParams(-1, 0, 1f));
 
         // kolom kiri: pratinjau live, FPS, kualitas
         LinearLayout left = new LinearLayout(act);
         left.setOrientation(LinearLayout.VERTICAL);
-        main.addView(left, new LinearLayout.LayoutParams(dp(224), -1));
+        left.setClipChildren(false);
+        main.addView(left, new LinearLayout.LayoutParams(dp(248), -1));
         FrameLayout sf = new FrameLayout(act);
         GradientDrawable sbg = rr(0xFF000000, 14);
         sbg.setStroke(dp(1), HAIR);
         sf.setBackground(sbg);
         sf.setClipToOutline(true);
+        elev(sf, 6, 0xFF000000);
         scene = new RzScene(act, st);
         sf.addView(scene, new FrameLayout.LayoutParams(-1, -2));
         sceneTag = tv("shader aktif", 10, 0xFFD7D7DA, false);
@@ -1171,6 +1303,7 @@ final class RzPanel {
         };
         refreshers.add(() -> { tagUpd.run(); scene.invalidate(); });
         scene.setOnTouchListener((v, e) -> {
+            if (scene.gifMode()) return false;   // GIF tidak punya versi "tanpa shader"
             int a = e.getActionMasked();
             if (a == MotionEvent.ACTION_DOWN) { scene.raw = true; tagUpd.run(); scene.invalidate(); }
             else if (a == MotionEvent.ACTION_UP || a == MotionEvent.ACTION_CANCEL) { scene.raw = false; tagUpd.run(); scene.invalidate(); }
@@ -1181,10 +1314,9 @@ final class RzPanel {
         LinearLayout fc = new LinearLayout(act);
         fc.setOrientation(LinearLayout.HORIZONTAL);
         fc.setGravity(Gravity.CENTER_VERTICAL);
-        fc.setPadding(dp(12), dp(8), dp(12), dp(8));
-        GradientDrawable fcb = rr(CARD, 12);
-        fcb.setStroke(dp(1), HAIR);
-        fc.setBackground(fcb);
+        fc.setPadding(dp(12), dp(6), dp(12), dp(6));
+        fc.setBackground(surface(12));
+        elev(fc, 3, 0xFF000000);
         LinearLayout ft = new LinearLayout(act);
         ft.setOrientation(LinearLayout.VERTICAL);
         ft.addView(tv("Frame rate", 11, SUB, false));
@@ -1214,50 +1346,11 @@ final class RzPanel {
         for (String name : pages.keySet()) rightFrame.addView(pages.get(name), new FrameLayout.LayoutParams(-1, -1));
         for (View d : details) rightFrame.addView(d, new FrameLayout.LayoutParams(-1, -1));
 
-        LinearLayout dock = new LinearLayout(act);
-        dock.setOrientation(LinearLayout.HORIZONTAL);
-        dock.setPadding(dp(4), dp(4), dp(4), dp(4));
-        GradientDrawable dbg = rr(0xEE141416, 18);
-        dbg.setStroke(dp(1), STROKE);
-        dock.setBackground(dbg);
-        dock.setElevation(dp(8));
-        boolean first = true;
-        for (final String name : pages.keySet()) {
-            LinearLayout t = new LinearLayout(act);
-            t.setOrientation(LinearLayout.HORIZONTAL);
-            t.setGravity(Gravity.CENTER_VERTICAL);
-            t.setPadding(dp(11), 0, dp(11), 0);
-            GradientDrawable tb = rr(TAB_OFF, 14);
-            t.setBackground(tb);
-            tabBg.put(t, tb);
-            tabCol.put(t, TAB_OFF);
-            RzIcons ic = new RzIcons(tabIcon(name), dp(18), SUB);
-            android.widget.ImageView iv = new android.widget.ImageView(act);
-            iv.setImageDrawable(ic);
-            t.addView(iv, new LinearLayout.LayoutParams(dp(18), dp(18)));
-            TextView lbl = tv(name.charAt(0) + name.substring(1).toLowerCase(Locale.US), 12, TEXT, true);
-            lbl.setSingleLine(true);
-            lbl.setPadding(dp(8), 0, 0, 0);
-            lbl.setAlpha(0f);
-            t.addView(lbl, new LinearLayout.LayoutParams(0, -2));
-            t.setTag(new Object[] { ic, lbl });
-            t.setContentDescription(name);
-            t.setClickable(true);
-            t.setOnClickListener(v -> showTab(name));
-            press(t);
-            tabs.put(name, t);
-            LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(-2, dp(40));
-            tp.leftMargin = first ? 0 : dp(2);
-            first = false;
-            dock.addView(t, tp);
-        }
-        FrameLayout.LayoutParams dl = new FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-        dl.bottomMargin = dp(12);
-        rightFrame.addView(dock, dl);
+        buildTabs(left);
 
         toast = tv("", 12, TEXT, true);
         toast.setGravity(Gravity.CENTER);
-        GradientDrawable tbg = rr(ROWHI, 10);
+        GradientDrawable tbg = rr(glass() ? 0xF21C1C26 : 0xFF202023, 10);
         tbg.setStroke(dp(1), STROKE);
         toast.setBackground(tbg);
         toast.setPadding(dp(16), dp(8), dp(16), dp(8));
@@ -1345,6 +1438,10 @@ final class RzPanel {
     // ------------------------------------------------------------------ tab SETTING
     private void buildSettingPage() {
         LinearLayout g = page("SETTING");
+        section(g, "Tema panel");
+        List<String> th = new ArrayList<>();
+        for (int i = 0; i < RzUi.THEME_NAMES.length; i++) th.add((i == ui.theme ? "● " : "") + RzUi.THEME_NAMES[i]);
+        chips(g, th, i -> { ui.theme = i; ui.save(); rebuild("SETTING"); });
         section(g, "Tampilan panel");
         fxSlider(g, "Transparansi panel", 0.5f, 1f, true, new float[] { ui.opacity }, v -> { ui.opacity = v; panel.setAlpha(v); ui.save(); });
         fxSlider(g, "Ukuran panel", 0.65f, 1.1f, true, new float[] { ui.scale }, v -> { ui.scale = v; sizePanel(); ui.save(); });

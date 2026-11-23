@@ -75,3 +75,10 @@ This source update addresses the requested runtime and relog issues.
 ## v27 — UI diganti dengan desain baru
 - `RzPanel`, `RzIcons`, `RzUi` diganti; `RzScene` (pratinjau, grafik FPS, saklar) baru; font Orbitron dihapus.
 - Dicek sebelum dipasang: `RzState` identik, semua fitur v25 (tab EFFECT khusus developer, migrasi, teks formal) masih ada, 164 kunci config sama, tes lokal lulus. Belum dicompile dengan Android SDK dan belum dicoba di HP.
+
+## v28 — UI diganti desain v28 (tema Liquid Glass/Solid)
+- Diganti: `RzPanel`, `RzScene`, `RzUi` (tambah `theme`). `RzState` identik; 164 kunci config sama; fitur v25 (tab EFFECT dev-only, migrasi, teks formal) masih ada; "Glass" di panel hanya nama tema. Tes lokal lulus; belum dicompile dengan Android SDK dan belum dicoba di HP.
+
+## v28b — pratinjau GIF bawaan APK
+- `RzScene` memuat `ryeenzyxnz/preview.gif` dari aset; berhenti saat panel tidak terlihat; fallback ke gambar senja. Tahan-untuk-bandingkan dimatikan pada mode GIF.
+- `termux/patch.sh` menyalin `preview.gif`; `fx_contract.py` memeriksa file itu ada.

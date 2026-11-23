@@ -211,3 +211,11 @@ See [`FIXES-RELOG.md`](FIXES-RELOG.md) for the default-OFF migration, relog touc
 - Panel memakai desain baru (pratinjau live, kartu efek, dock tab, aksen hijau, font Chakra Petch). Config dan engine native tidak berubah.
 - Tab EFFECT tetap khusus developer; Depth Pipeline dan Paksa OpenGL ES tetap di menu Developer.
 - Tiruan interaktif desain ada di `ui/preview/preview-ui-v27.html`.
+
+## v28 (UI)
+- Tema panel: Liquid Glass (default) atau Solid, dipilih di tab SETTING > Tema panel (`theme=` di `rz_ui.cfg`). Tab 3x2 dengan penanda meluncur, bayangan berwarna aksen di Android 9+.
+- Tab EFFECT tetap khusus developer. Pratinjau desain: `ui/preview/preview-ui-v29.html`.
+
+## v28b
+- Pratinjau panel diganti GIF (`assets-ui/preview.gif`), dibundel di dalam APK sebagai aset `ryeenzyxnz/preview.gif`. Tidak ada pengaturan atau folder yang bisa dipakai pengguna untuk menggantinya. Gambar senja lama tetap dipakai hanya jika GIF gagal dimuat.
+- GIF diputar hanya saat panel terlihat. Android 9+ memakai `AnimatedImageDrawable`, di bawahnya `Movie`.

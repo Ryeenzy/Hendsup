@@ -12,6 +12,11 @@ import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.Movie;
+import android.graphics.drawable.AnimatedImageDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.animation.PathInterpolator;
 
@@ -31,10 +36,72 @@ final class RzScene extends View {
     private final Shader sky, lake, farG, nearG, sun, vig, fog, bloom;
     private final ColorMatrix cm = new ColorMatrix(), tm = new ColorMatrix();
 
+    // Pratinjau GIF: dibaca dari aset APK (ryeenzyxnz/preview.gif), tidak dapat diganti pengguna dari panel.
+    // Android 9+ memakai AnimatedImageDrawable; di bawahnya memakai Movie. Bila gagal dimuat, dipakai gambar senja.
+    private Drawable anim;
+    private Movie movie;
+    private long movieT0;
+
+    boolean gifMode() { return anim != null || movie != null; }
+
+    private void loadGif(Context c) {
+        try {
+            if (Build.VERSION.SDK_INT >= 28) {
+                android.graphics.ImageDecoder.Source src = android.graphics.ImageDecoder.createSource(c.getAssets(), "ryeenzyxnz/preview.gif");
+                Drawable d = android.graphics.ImageDecoder.decodeDrawable(src);
+                if (d instanceof AnimatedImageDrawable) ((AnimatedImageDrawable) d).setRepeatCount(AnimatedImageDrawable.REPEAT_INFINITE);
+                d.setCallback(this);
+                anim = d;
+            } else {
+                java.io.InputStream in = c.getAssets().open("ryeenzyxnz/preview.gif");
+                try { movie = Movie.decodeStream(in); } finally { in.close(); }
+            }
+        } catch (Throwable t) { anim = null; movie = null; }
+    }
+
+    /** Jalankan GIF hanya saat panel benar-benar terlihat agar tidak membebani FPS game. */
+    private void updatePlay() {
+        if (!(anim instanceof AnimatedImageDrawable)) return;
+        AnimatedImageDrawable a = (AnimatedImageDrawable) anim;
+        boolean play = isAttachedToWindow() && isShown() && getWindowVisibility() == VISIBLE;
+        if (play && !a.isRunning()) a.start();
+        else if (!play && a.isRunning()) a.stop();
+    }
+
+    @Override protected boolean verifyDrawable(Drawable who) { return who == anim || super.verifyDrawable(who); }
+    @Override protected void onAttachedToWindow() { super.onAttachedToWindow(); updatePlay(); }
+    @Override protected void onDetachedFromWindow() { super.onDetachedFromWindow(); updatePlay(); }
+    @Override protected void onVisibilityChanged(View v, int vis) { super.onVisibilityChanged(v, vis); updatePlay(); }
+    @Override protected void onWindowVisibilityChanged(int vis) { super.onWindowVisibilityChanged(vis); updatePlay(); }
+
+    private boolean drawGif(Canvas c, float w, float h) {
+        if (anim != null) {
+            anim.setBounds(0, 0, Math.round(w), Math.round(h));
+            anim.draw(c);
+            return true;
+        }
+        if (movie != null && movie.width() > 0 && movie.height() > 0) {
+            int dur = movie.duration();
+            if (dur > 0) {
+                long now = SystemClock.uptimeMillis();
+                if (movieT0 == 0) movieT0 = now;
+                movie.setTime((int) ((now - movieT0) % dur));
+            }
+            c.save();
+            c.scale(w / movie.width(), h / movie.height());
+            movie.draw(c, 0, 0);
+            c.restore();
+            if (dur > 0 && isShown()) postInvalidateOnAnimation();
+            return true;
+        }
+        return false;
+    }
+
     RzScene(Context c, RzState s) {
         super(c);
         st = s;
-        setLayerType(LAYER_TYPE_SOFTWARE, null);
+        loadGif(c);
+        setLayerType(anim != null ? LAYER_TYPE_NONE : LAYER_TYPE_SOFTWARE, null);
         Shader.TileMode cl = Shader.TileMode.CLAMP;
         sky = new LinearGradient(0, 0, 0, 120, new int[] { 0xFF16224A, 0xFF8A4F6B, 0xFFE9855A, 0xFFF6C27A }, new float[] { 0f, .45f, .75f, 1f }, cl);
         lake = new LinearGradient(0, 120, 0, 200, new int[] { 0xFFE9855A, 0xFF4A3A63, 0xFF141A33 }, new float[] { 0f, .5f, 1f }, cl);
@@ -57,7 +124,7 @@ final class RzScene extends View {
     @Override
     protected void onMeasure(int wSpec, int hSpec) {
         int w = View.MeasureSpec.getSize(wSpec);
-        setMeasuredDimension(w, Math.round(w * 0.625f));
+        setMeasuredDimension(w, Math.round(w * 0.5625f));
     }
 
     private float n(String key) {
@@ -72,6 +139,7 @@ final class RzScene extends View {
     protected void onDraw(Canvas c) {
         float w = getWidth(), h = getHeight();
         if (w <= 0 || h <= 0) return;
+        if (drawGif(c, w, h)) return;
         boolean on = !raw && st.on("enabled");
         float str = on ? Math.max(0f, Math.min(1f, st.get("strength"))) : 0f;
         float ssr = fx(on, "ss_on", "ss_int") * str, ao = fx(on, "mx_on", "mx_int") * str, dof = fx(on, "df_on", "df_int") * str;
