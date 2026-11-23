@@ -10,7 +10,8 @@ import android.graphics.drawable.Drawable;
 
 /** Ikon garis sederhana yang digambar lewat Canvas (tanpa berkas gambar). */
 final class RzIcons extends Drawable {
-    static final int MAIN = 0, PRESET = 1, SETTING = 2, CREDIT = 3, FEEDBACK = 4, SAVE = 5, IMPORT = 6, EXPORT = 7, SEND = 8, RESET = 9, EFFECT = 10;
+    static final int MAIN = 0, PRESET = 1, SETTING = 2, CREDIT = 3, FEEDBACK = 4, SAVE = 5, IMPORT = 6, EXPORT = 7, SEND = 8, RESET = 9, EFFECT = 10, CHEVRON = 11,
+            BACK = 12, POWER = 13, GLOBAL = 14, SSR = 15, AO = 16, DOF = 17, OL = 18, FOG = 19, RIM = 20, HDR = 21, GRADE = 22;
 
     private final int type;
     private final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -67,9 +68,15 @@ final class RzIcons extends Drawable {
                 }
                 break;
             }
-            case EFFECT: {   // bintang percikan (efek)
-                q.moveTo(mid, a); q.lineTo(s * 0.60f, s * 0.40f); q.lineTo(b, mid); q.lineTo(s * 0.60f, s * 0.60f);
-                q.lineTo(mid, b); q.lineTo(s * 0.40f, s * 0.60f); q.lineTo(a, mid); q.lineTo(s * 0.40f, s * 0.40f); q.close();
+            case EFFECT: {   // lingkaran setengah isi (kontras / grading)
+                c.drawCircle(mid, mid, mid - m, p);
+                p.setStyle(Paint.Style.FILL);
+                c.drawArc(new RectF(a, a, b, b), 90, 180, true, p);
+                p.setStyle(Paint.Style.STROKE);
+                break;
+            }
+            case CHEVRON: {   // panah kecil ke kanan
+                q.moveTo(s * 0.38f, s * 0.24f); q.lineTo(s * 0.64f, mid); q.lineTo(s * 0.38f, s * 0.76f);
                 c.drawPath(q, p);
                 break;
             }
@@ -117,6 +124,69 @@ final class RzIcons extends Drawable {
                 c.drawArc(new RectF(a, a, b, b), 40, 280, false, p);
                 q.moveTo(s * 0.66f, s * 0.12f); q.lineTo(s * 0.74f, s * 0.32f); q.lineTo(s * 0.54f, s * 0.30f);
                 c.drawPath(q, p);
+                break;
+            }
+            case BACK: {
+                q.moveTo(s * 0.62f, s * 0.24f); q.lineTo(s * 0.36f, mid); q.lineTo(s * 0.62f, s * 0.76f);
+                c.drawPath(q, p);
+                break;
+            }
+            case POWER: {
+                c.drawArc(new RectF(a, a, b, b), -60, 300, false, p);
+                c.drawLine(mid, a, mid, mid, p);
+                break;
+            }
+            case GLOBAL: {
+                c.drawCircle(mid, mid, mid - m, p);
+                c.drawLine(a, mid, b, mid, p);
+                c.drawOval(new RectF(s * 0.36f, a, s * 0.64f, b), p);
+                break;
+            }
+            case SSR: {
+                c.drawLine(a, s * 0.62f, b, s * 0.62f, p);
+                c.drawLine(s * 0.28f, s * 0.80f, s * 0.72f, s * 0.80f, p);
+                c.drawCircle(mid, s * 0.30f, s * 0.10f, p);
+                break;
+            }
+            case AO: {
+                c.drawCircle(mid, mid, mid - m, p);
+                c.drawCircle(mid, mid, (mid - m) * 0.45f, p);
+                break;
+            }
+            case DOF: {
+                c.drawCircle(s * 0.40f, mid, s * 0.24f, p);
+                c.drawCircle(s * 0.62f, mid, s * 0.24f, p);
+                break;
+            }
+            case OL: {
+                q.moveTo(a, b); q.lineTo(a, s * 0.40f); q.lineTo(mid, a); q.lineTo(b, s * 0.40f); q.lineTo(b, b); q.close();
+                c.drawPath(q, p);
+                break;
+            }
+            case FOG: {
+                c.drawLine(a, s * 0.30f, s * 0.70f, s * 0.30f, p);
+                c.drawLine(s * 0.30f, mid, b, mid, p);
+                c.drawLine(a, s * 0.70f, s * 0.62f, s * 0.70f, p);
+                break;
+            }
+            case RIM: {
+                c.drawCircle(mid, mid, mid - m, p);
+                c.drawArc(new RectF(s * 0.30f, s * 0.30f, s * 0.70f, s * 0.70f), 200, 110, false, p);
+                break;
+            }
+            case HDR: {
+                c.drawCircle(mid, mid, s * 0.17f, p);
+                for (int k = 0; k < 8; k++) {
+                    double ang = Math.PI / 4 * k;
+                    c.drawLine(mid + (float) Math.cos(ang) * s * 0.29f, mid + (float) Math.sin(ang) * s * 0.29f,
+                            mid + (float) Math.cos(ang) * s * 0.40f, mid + (float) Math.sin(ang) * s * 0.40f, p);
+                }
+                break;
+            }
+            case GRADE: {
+                c.drawCircle(s * 0.38f, s * 0.40f, s * 0.22f, p);
+                c.drawCircle(s * 0.62f, s * 0.40f, s * 0.22f, p);
+                c.drawCircle(mid, s * 0.62f, s * 0.22f, p);
                 break;
             }
             default: break;

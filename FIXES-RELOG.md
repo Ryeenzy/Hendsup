@@ -71,3 +71,7 @@ This source update addresses the requested runtime and relog issues.
 - Tab EFFECT hanya dibangun bila `RzLicense.isDev`; untuk non-developer semua efek FX dimatikan saat panel dibuat. Status developer berubah -> panel dibangun ulang.
 - Teks UI: note/notify/status ditulis ulang singkat dan formal.
 - Tes: `key_contract.py` mengizinkan kunci lama; `fx_contract.py` memeriksa pembatasan developer; `hook_test`/`RzTest` disesuaikan.
+
+## v27 — UI diganti dengan desain baru
+- `RzPanel`, `RzIcons`, `RzUi` diganti; `RzScene` (pratinjau, grafik FPS, saklar) baru; font Orbitron dihapus.
+- Dicek sebelum dipasang: `RzState` identik, semua fitur v25 (tab EFFECT khusus developer, migrasi, teks formal) masih ada, 164 kunci config sama, tes lokal lulus. Belum dicompile dengan Android SDK dan belum dicoba di HP.

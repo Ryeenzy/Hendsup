@@ -175,7 +175,7 @@ Analisis APK (struktur): `python3 patcher/apk_analyzer.py --adb`. Daftar pack: `
 - Tab di samping: MAIN, PRESET, SETTING, CREDIT. Semua fitur shader ada di MAIN sebagai dropdown (Global, Depth Pipeline, Glossy & Glass, SSR, MXAO, DOF, Outline, Fog, Rimlight, HDR & Bloom, Warna, Efek Tambahan).
 - PRESET: daftar bawaan + tersimpan (`<files>/presets/*.rzp`), nama preset, SAVE, IMPORT dari file, EXPORT ke file (Storage Access Framework lewat `RzFilePick`).
 - SETTING: transparansi/ukuran panel, ukuran/transparansi tombol RZ, warna aksen (`rz_ui.cfg`), mesin, data, developer.
-- Font Rajdhani + Orbitron (OFL) dari `assets-ui/fonts`, dipasang ke APK oleh `termux/patch.sh`.
+- Font Chakra Petch + Rajdhani (OFL) dari `assets-ui/fonts`, dipasang ke APK oleh `termux/patch.sh`.
 
 ## v21
 - Efek Tambahan, Glossy & Glass disembunyikan (dimatikan sekali saat pertama dibuka); Auto Quality & FPS Priority dimatikan; Depth Pipeline hanya saklar.
@@ -206,3 +206,8 @@ See [`FIXES-RELOG.md`](FIXES-RELOG.md) for the default-OFF migration, relog touc
 - Tab EFFECT hanya tampil untuk perangkat developer; untuk pengguna biasa semua efek FX dimatikan.
 - Depth Pipeline dan Paksa OpenGL ES default ON; saklarnya ada di menu Developer.
 - Seluruh keterangan di panel dirapikan agar singkat dan profesional.
+
+## v27 (UI)
+- Panel memakai desain baru (pratinjau live, kartu efek, dock tab, aksen hijau, font Chakra Petch). Config dan engine native tidak berubah.
+- Tab EFFECT tetap khusus developer; Depth Pipeline dan Paksa OpenGL ES tetap di menu Developer.
+- Tiruan interaktif desain ada di `ui/preview/preview-ui-v27.html`.

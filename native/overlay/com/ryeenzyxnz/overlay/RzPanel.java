@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -43,9 +45,10 @@ import java.util.Map;
 /** Tombol bulat + panel RYEENZYXNZ yang digambar sebagai View Android di dalam jendela Roblox. */
 /** Tombol bulat + panel RYEENZYXNZ yang digambar sebagai View Android di dalam jendela Roblox. */
 final class RzPanel {
-    private static final int BG = 0xFF050505, ROW = 0xFF141414, ROWHI = 0xFF202020,
-            TEXT = 0xFFEDEDEF, SUB = 0xFF8E9196, OK = 0xFFE4E4E7, BAD = 0xFFE07070, OFF = 0xFF2A2A2A, STROKE = 0xFF3A3A3D,
-            DARK = 0xFF0A0A0A, SIDE = 0xFF0A0A0A, CARD = 0xFF0E0E0F;
+    private static final int BG = 0xFF0C0C0D, ROW = 0xFF151516, ROWHI = 0xFF1F1F21,
+            TEXT = 0xFFEDEDEE, SUB = 0xFF9B9DA2, MUTED = 0xFF65676C, OK = 0xFF86D26B, BAD = 0xFFE5786D, OFF = 0xFF2A2A2D,
+            STROKE = 0xFF232326, HAIR = 0xFF1E1E21, DARK = 0xFF0B1005, SIDE = 0xFF0F0F10, CARD = 0xFF111112;
+    private static final android.view.animation.Interpolator EASE = new android.view.animation.PathInterpolator(0.22f, 1f, 0.36f, 1f);
 
     private final Activity act;
     private final RzState st;
@@ -58,14 +61,28 @@ final class RzPanel {
     private final RzPresetStore store;
     private int accent, accent2;
     private final float auto;
-    private Typeface fBody, fBold, fTitle;
+    private Typeface fBody, fBold, fTitle, fMono;
+    private final Map<View, GradientDrawable> tabBg = new java.util.HashMap<>();
+    private final Map<View, Integer> tabCol = new java.util.HashMap<>();
+    private GradientDrawable pillBg, statusDot;
+    private static final int TAB_OFF = 0x001F1F21;
+    private int pillCol = ROW;
+    private ValueAnimator dotPulse;
     private android.graphics.Bitmap logoFab, logoFull;
 
     private FrameLayout root;
-    private TextView fab, pill, statusTv, toast, reportTv;
+    private TextView fab, statusTv, toast, reportTv, pillLbl, fpsTv, sceneTag;
+    private LinearLayout pill, mainCol, tileRow;
+    private RzScene scene;
+    private RzSpark spark;
+    private FrameLayout rightFrame;
+    private android.widget.ImageView pwrIv;
+    private GradientDrawable pwrBg;
+    private final List<View> details = new ArrayList<>();
+    private View curDetail;
     private LinearLayout panel;
     private final LinkedHashMap<String, View> pages = new LinkedHashMap<>();
-    private final LinkedHashMap<String, TextView> tabs = new LinkedHashMap<>();
+    private final LinkedHashMap<String, LinearLayout> tabs = new LinkedHashMap<>();
     private boolean updating = false;
     private String curPreset = "-";
     private List<RzPresets.Preset> presets;
@@ -96,7 +113,8 @@ final class RzPanel {
         accent2 = RzUi.ACCENTS2[ui.accent];
         fBody = font(RzUi.FONT_MED[ui.font], Typeface.create("sans-serif-condensed", Typeface.NORMAL));
         fBold = font(RzUi.FONT_BOLD[ui.font], Typeface.create("sans-serif-condensed", Typeface.BOLD));
-        fTitle = font("Orbitron.ttf", Typeface.create("sans-serif-black", Typeface.NORMAL));
+        fTitle = font("ChakraPetch-SemiBold.ttf", Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        fMono = font("ShareTechMono-Regular.ttf", Typeface.MONOSPACE);
         logoFab = bitmap("logo_fab.png");
         logoFull = bitmap("logo_full.png");
         fx = new RzFx(filesDir);
@@ -208,7 +226,7 @@ final class RzPanel {
         return p;
     }
 
-    private void changed() { h.removeCallbacks(saveR); h.postDelayed(saveR, 150); }
+    private void changed() { if (scene != null) scene.invalidate(); h.removeCallbacks(saveR); h.postDelayed(saveR, 150); }
 
     private void refreshAll() {
         updating = true;
@@ -219,11 +237,18 @@ final class RzPanel {
     void notify(String msg, boolean good) {
         toast.setText(msg);
         toast.setTextColor(good ? TEXT : BAD);
+        toast.animate().cancel();
         toast.setVisibility(View.VISIBLE);
+        toast.setAlpha(0f);
+        toast.setTranslationY(dp(8));
+        toast.animate().alpha(1f).translationY(0f).setDuration(200).setInterpolator(EASE).start();
         h.removeCallbacks(hideToast);
         h.postDelayed(hideToast, 2600);
     }
-    private final Runnable hideToast = new Runnable() { public void run() { if (toast != null) toast.setVisibility(View.GONE); } };
+    private final Runnable hideToast = new Runnable() { public void run() {
+        if (toast == null) return;
+        toast.animate().alpha(0f).setDuration(180).withEndAction(new Runnable() { public void run() { if (toast != null) toast.setVisibility(View.GONE); } }).start();
+    } };
 
     // ------------------------------------------------------------------ dragging
     private void drag(final View handle, final View target, final Runnable onClick) {
@@ -254,11 +279,78 @@ final class RzPanel {
         });
     }
 
+    // ------------------------------------------------------------------ animasi
+    private void press(final View v) {
+        v.setOnTouchListener((x, e) -> {
+            int a = e.getActionMasked();
+            if (a == MotionEvent.ACTION_DOWN) x.animate().scaleX(0.97f).scaleY(0.97f).setDuration(90).start();
+            else if (a == MotionEvent.ACTION_UP || a == MotionEvent.ACTION_CANCEL) x.animate().scaleX(1f).scaleY(1f).setDuration(160).setInterpolator(EASE).start();
+            return false;
+        });
+    }
+
+    private void tint(final GradientDrawable g, int from, int to) {
+        if (from == to) { g.setColor(to); return; }
+        ValueAnimator a = ValueAnimator.ofObject(new ArgbEvaluator(), from, to);
+        a.setDuration(180);
+        a.addUpdateListener(v -> g.setColor((Integer) v.getAnimatedValue()));
+        a.start();
+    }
+
+    private GradientDrawable dotDrawable(int color) {
+        GradientDrawable g = new GradientDrawable();
+        g.setShape(GradientDrawable.OVAL);
+        g.setColor(color);
+        g.setSize(dp(7), dp(7));
+        g.setBounds(0, 0, dp(7), dp(7));
+        return g;
+    }
+
+    /** Elemen halaman masuk bergantian: pudar + naik sedikit. */
+    private void stagger(View pg) {
+        if (!(pg instanceof ScrollView)) return;
+        View c = ((ScrollView) pg).getChildAt(0);
+        if (!(c instanceof LinearLayout)) return;
+        LinearLayout col = (LinearLayout) c;
+        int n = Math.min(col.getChildCount(), 9);
+        for (int i = 0; i < n; i++) {
+            View k = col.getChildAt(i);
+            k.setAlpha(0f);
+            k.setTranslationY(dp(10));
+            k.animate().alpha(1f).translationY(0f).setStartDelay(40 + i * 35L).setDuration(260).setInterpolator(EASE).start();
+        }
+    }
+
+    /** Buka/tutup isi grup dengan tinggi yang meluncur. */
+    private void slide(final View v, final boolean open, int widthPx) {
+        final ViewGroup.LayoutParams lpv = v.getLayoutParams();
+        v.measure(View.MeasureSpec.makeMeasureSpec(widthPx, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        final int full = v.getMeasuredHeight();
+        if (open) { lpv.height = 0; v.setAlpha(0f); v.setVisibility(View.VISIBLE); }
+        ValueAnimator a = open ? ValueAnimator.ofInt(0, full) : ValueAnimator.ofInt(full, 0);
+        a.setDuration(Math.min(380, 200 + full / 12));
+        a.setInterpolator(EASE);
+        a.addUpdateListener(x -> {
+            lpv.height = (Integer) x.getAnimatedValue();
+            float f = full == 0 ? 1f : lpv.height / (float) full;
+            v.setAlpha(f);
+            v.setLayoutParams(lpv);
+        });
+        a.addListener(new android.animation.AnimatorListenerAdapter() {
+            public void onAnimationEnd(android.animation.Animator an) {
+                lpv.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                v.setAlpha(1f);
+                if (!open) v.setVisibility(View.GONE);
+                v.setLayoutParams(lpv);
+            }
+        });
+        a.start();
+    }
+
     // ------------------------------------------------------------------ widgets
     private void section(LinearLayout p, String text) {
-        TextView t = tv(text.toUpperCase(Locale.US), 11, accent, true);
-        t.setLetterSpacing(0.1f);
-        t.setPadding(dp(4), dp(9), 0, dp(2));
+        TextView t = tv(text, 12, SUB, true);
+        t.setPadding(dp(4), dp(16), 0, dp(4));
         p.addView(t, lp(-1, -2, 0));
     }
 
@@ -268,10 +360,10 @@ final class RzPanel {
         sw.setTextColor(TEXT);
         sw.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * auto);
         sw.setTypeface(fBody);
-        sw.setBackground(rr(ROW, 10));
-        sw.setPadding(dp(12), dp(10), dp(12), dp(10));
+        sw.setBackground(rr(ROW, 8));
+        sw.setPadding(dp(12), dp(12), dp(12), dp(12));
         int[][] states = { { android.R.attr.state_checked }, {} };
-        sw.setThumbTintList(new ColorStateList(states, new int[] { DARK, 0xFF8E9196 }));
+        sw.setThumbTintList(new ColorStateList(states, new int[] { TEXT, MUTED }));
         sw.setTrackTintList(new ColorStateList(states, new int[] { accent, OFF }));
         sw.setOnCheckedChangeListener((b, on) -> {
             if (updating) return;
@@ -283,26 +375,27 @@ final class RzPanel {
             st.set(key, on ? 1 : 0); changed();
         });
         refreshers.add(() -> sw.setChecked(st.on(key)));
-        p.addView(sw, lp(-1, -2, 6));
+        p.addView(sw, lp(-1, -2, 4));
     }
 
     private void slider(LinearLayout p, String label, final String key, final String fmt) {
         final RzState.Key k = RzState.BY.get(key);
         LinearLayout box = new LinearLayout(act);
         box.setOrientation(LinearLayout.VERTICAL);
-        box.setBackground(rr(ROW, 10));
-        box.setPadding(dp(12), dp(8), dp(12), dp(6));
+        box.setBackground(rr(ROW, 8));
+        box.setPadding(dp(12), dp(12), dp(12), dp(8));
         LinearLayout top = new LinearLayout(act);
         top.setOrientation(LinearLayout.HORIZONTAL);
         TextView name = tv(label, 13, TEXT, false);
-        final TextView val = tv("", 12, accent, true);
+        final TextView val = tv("", 12, TEXT, false);
+        val.setTypeface(fMono);
         top.addView(name, new LinearLayout.LayoutParams(0, -2, 1f));
         top.addView(val, new LinearLayout.LayoutParams(-2, -2));
         box.addView(top, lp(-1, -2, 0));
         final SeekBar sb = new SeekBar(act);
         sb.setMax(1000);
         sb.setProgressTintList(ColorStateList.valueOf(accent));
-        sb.setThumbTintList(ColorStateList.valueOf(Color.WHITE));
+        sb.setThumbTintList(ColorStateList.valueOf(TEXT));
         sb.setProgressBackgroundTintList(ColorStateList.valueOf(OFF));
         box.addView(sb, lp(-1, -2, 2));
         final Runnable show = () -> val.setText(String.format(Locale.US, fmt, st.get(key)));
@@ -316,7 +409,7 @@ final class RzPanel {
             public void onStopTrackingTouch(SeekBar s) { }
         });
         refreshers.add(() -> { sb.setProgress(Math.round((st.get(key) - k.lo) / (k.hi - k.lo) * 1000f)); show.run(); });
-        p.addView(box, lp(-1, -2, 6));
+        p.addView(box, lp(-1, -2, 4));
     }
 
     private TextView button(LinearLayout p, String text, final Runnable r, boolean hot, int icon) {
@@ -334,11 +427,14 @@ final class RzPanel {
         b.setSingleLine(true);
         b.setMaxLines(1);
         b.setAutoSizeTextTypeUniformWithConfiguration(8, 14, 1, TypedValue.COMPLEX_UNIT_SP);
-        b.setBackground(rr(hot ? accent : ROW, 10));
+        GradientDrawable bb = rr(hot ? accent : ROW, 8);
+        if (!hot) bb.setStroke(dp(1), HAIR);
+        b.setBackground(bb);
         b.setTextColor(hot ? DARK : TEXT);
-        b.setPadding(dp(12), dp(10), dp(12), dp(10));
+        b.setPadding(dp(12), dp(12), dp(12), dp(12));
         b.setOnClickListener(v -> r.run());
-        p.addView(b, lp(-1, -2, 6));
+        press(b);
+        p.addView(b, lp(-1, -2, 4));
         return b;
     }
 
@@ -358,19 +454,25 @@ final class RzPanel {
             if (i % 2 == 0) {
                 rowL = new LinearLayout(act);
                 rowL.setOrientation(LinearLayout.HORIZONTAL);
-                grid.addView(rowL, lp(-1, -2, 6));
+                grid.addView(rowL, lp(-1, -2, 4));
             }
             final int idx = i;
-            TextView c = tv(labels.get(i), 12, TEXT, true);
+            String lbl = labels.get(i);
+            boolean sel = lbl.startsWith("● ");
+            if (sel) lbl = lbl.substring(2);
+            TextView c = tv(lbl, 12, sel ? accent : TEXT, true);
             c.setGravity(Gravity.CENTER);
             c.setSingleLine(true);
             c.setMaxLines(1);
             c.setAutoSizeTextTypeUniformWithConfiguration(8, 13, 1, TypedValue.COMPLEX_UNIT_SP);
-            c.setBackground(rr(ROW, 10));
-            c.setPadding(dp(8), dp(10), dp(8), dp(10));
+            GradientDrawable cb = rr(sel ? ROWHI : ROW, 8);
+            cb.setStroke(dp(1), sel ? ((accent & 0x00FFFFFF) | 0x99000000) : HAIR);
+            c.setBackground(cb);
+            c.setPadding(dp(8), dp(12), dp(8), dp(12));
+            press(c);
             c.setOnClickListener(v -> pick.on(idx));
             LinearLayout.LayoutParams cp = new LinearLayout.LayoutParams(0, -2, 1f);
-            cp.leftMargin = (i % 2 == 1) ? dp(6) : 0;
+            cp.leftMargin = (i % 2 == 1) ? dp(4) : 0;
             rowL.addView(c, cp);
         }
     }
@@ -380,7 +482,7 @@ final class RzPanel {
         sv.setVerticalScrollBarEnabled(false);
         LinearLayout col = new LinearLayout(act);
         col.setOrientation(LinearLayout.VERTICAL);
-        col.setPadding(dp(10), dp(2), dp(10), dp(48));
+        col.setPadding(dp(12), dp(4), dp(12), dp(76));
         sv.addView(col, new ViewGroup.LayoutParams(-1, -2));
         sv.setVisibility(View.GONE);
         pages.put(name, sv);
@@ -389,52 +491,215 @@ final class RzPanel {
 
     private void showTab(String name) {
         if (!pages.containsKey(name)) name = "MAIN";
+        boolean switched = !name.equals(curTab);
+        if (curDetail != null) { View d = curDetail; curDetail = null; d.animate().cancel(); d.setVisibility(View.GONE); }
         for (Map.Entry<String, View> e : pages.entrySet()) e.getValue().setVisibility(e.getKey().equals(name) ? View.VISIBLE : View.GONE);
-        for (Map.Entry<String, TextView> e : tabs.entrySet()) {
+        for (Map.Entry<String, LinearLayout> e : tabs.entrySet()) {
             boolean on = e.getKey().equals(name);
-            e.getValue().setBackground(rr(on ? accent : SIDE, 10));
-            e.getValue().setTextColor(on ? DARK : SUB);
-            Object ic = e.getValue().getTag();
-            if (ic instanceof RzIcons) ((RzIcons) ic).setColor(on ? DARK : SUB);
+            LinearLayout t = e.getValue();
+            Object[] o = (Object[]) t.getTag();
+            RzIcons ic = (RzIcons) o[0];
+            TextView lbl = (TextView) o[1];
+            GradientDrawable g = tabBg.get(t);
+            Integer prev = tabCol.get(t);
+            int to = on ? ROWHI : TAB_OFF;
+            boolean was = prev != null && prev == ROWHI;
+            if (g != null) tint(g, prev == null ? TAB_OFF : prev, to);
+            tabCol.put(t, to);
+            ic.setColor(on ? accent : SUB);
+            if (on != was) labelAnim(lbl, on);
         }
         curTab = name;
+        if (switched) {
+            View pg = pages.get(name);
+            pg.setAlpha(0f);
+            pg.setTranslationY(dp(8));
+            pg.animate().alpha(1f).translationY(0f).setDuration(240).setInterpolator(EASE).start();
+            stagger(pg);
+        }
+    }
+
+    /** Label tab aktif melebar dan memudar masuk. */
+    private void labelAnim(final TextView lbl, final boolean show) {
+        lbl.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        final int full = lbl.getMeasuredWidth();
+        final ViewGroup.LayoutParams lpl = lbl.getLayoutParams();
+        ValueAnimator a = ValueAnimator.ofInt(Math.max(0, lpl.width), show ? full : 0);
+        a.setDuration(320);
+        a.setInterpolator(EASE);
+        a.addUpdateListener(x -> {
+            lpl.width = (Integer) x.getAnimatedValue();
+            lbl.setAlpha(full == 0 ? 0f : Math.min(1f, lpl.width / (float) full));
+            lbl.setLayoutParams(lpl);
+        });
+        a.start();
+    }
+
+    private RzSwitch bindSwitch(final String key) {
+        final RzSwitch sw = new RzSwitch(act, density * auto, accent);
+        sw.setClickable(true);
+        sw.setOnClickListener(v -> {
+            boolean on = !st.on(key);
+            if (key.equals("master") && on && !licOk) { notify("Lisensi belum aktif. Masukkan key di tab CREDIT.", false); return; }
+            st.set(key, on ? 1 : 0); changed(); refreshAll();
+        });
+        refreshers.add(() -> sw.setOn(st.on(key), true));
+        return sw;
+    }
+
+    private void openDetail(View d) {
+        if (curDetail != null) return;
+        curDetail = d;
+        d.animate().cancel();
+        d.setVisibility(View.VISIBLE);
+        d.setTranslationX(rightFrame.getWidth());
+        d.scrollTo(0, 0);
+        d.animate().translationX(0f).setDuration(420).setInterpolator(EASE).start();
+    }
+
+    private void closeDetail() {
+        if (curDetail == null) return;
+        final View d = curDetail;
+        curDetail = null;
+        d.animate().cancel();
+        d.animate().translationX(rightFrame.getWidth()).setDuration(320).setInterpolator(EASE)
+                .withEndAction(new Runnable() { public void run() { if (curDetail != d) d.setVisibility(View.GONE); } }).start();
+        refreshAll();
+    }
+
+    /** Satu efek: kartu di grid halaman MAIN + halaman detail yang meluncur dari kanan. Mengembalikan kolom isi detail. */
+    private LinearLayout detail(final String title, final String onKey, final String valKey, int icon, boolean wide) {
+        final ScrollView sv = new ScrollView(act);
+        sv.setVerticalScrollBarEnabled(false);
+        sv.setBackgroundColor(BG);
+        sv.setVisibility(View.GONE);
+        LinearLayout col = new LinearLayout(act);
+        col.setOrientation(LinearLayout.VERTICAL);
+        col.setPadding(dp(12), dp(4), dp(12), dp(76));
+        sv.addView(col, new ViewGroup.LayoutParams(-1, -2));
+        details.add(sv);
+
+        LinearLayout hd = new LinearLayout(act);
+        hd.setOrientation(LinearLayout.HORIZONTAL);
+        hd.setGravity(Gravity.CENTER_VERTICAL);
+        android.widget.ImageView bk = new android.widget.ImageView(act);
+        bk.setImageDrawable(new RzIcons(RzIcons.BACK, dp(18), TEXT));
+        bk.setScaleType(android.widget.ImageView.ScaleType.CENTER);
+        bk.setBackground(rr(ROW, 9));
+        bk.setOnClickListener(v -> closeDetail());
+        press(bk);
+        hd.addView(bk, new LinearLayout.LayoutParams(dp(32), dp(32)));
+        TextView ht = tv(title, 15, TEXT, true);
+        ht.setPadding(dp(12), 0, 0, 0);
+        hd.addView(ht, new LinearLayout.LayoutParams(0, -2, 1f));
+        if (onKey != null) hd.addView(bindSwitch(onKey), new LinearLayout.LayoutParams(dp(34), dp(20)));
+        col.addView(hd, lp(-1, -2, 0));
+        col.addView(new View(act), lp(-1, dp(8), 0));
+
+        final LinearLayout tile = new LinearLayout(act);
+        tile.setOrientation(LinearLayout.VERTICAL);
+        tile.setPadding(dp(12), dp(12), dp(12), dp(12));
+        final GradientDrawable tbg = rr(CARD, 14);
+        tbg.setStroke(dp(1), HAIR);
+        tile.setBackground(tbg);
+        tile.setClickable(true);
+        press(tile);
+        tile.setOnClickListener(v -> openDetail(sv));
+        LinearLayout top = new LinearLayout(act);
+        top.setOrientation(LinearLayout.HORIZONTAL);
+        top.setGravity(Gravity.CENTER_VERTICAL);
+        final GradientDrawable ibg = rr(ROW, 9);
+        final RzIcons ric = new RzIcons(icon, dp(18), SUB);
+        android.widget.ImageView iv = new android.widget.ImageView(act);
+        iv.setImageDrawable(ric);
+        iv.setScaleType(android.widget.ImageView.ScaleType.CENTER);
+        iv.setBackground(ibg);
+        top.addView(iv, new LinearLayout.LayoutParams(dp(32), dp(32)));
+        top.addView(new View(act), new LinearLayout.LayoutParams(0, 1, 1f));
+        if (onKey != null) top.addView(bindSwitch(onKey), new LinearLayout.LayoutParams(dp(34), dp(20)));
+        tile.addView(top, new LinearLayout.LayoutParams(-1, -2));
+        tile.addView(tv(title, 13, TEXT, true), lp(-1, -2, 12));
+        final TextView sub = tv("", 11, MUTED, false);
+        sub.setTypeface(fMono);
+        tile.addView(sub, lp(-1, -2, 0));
+        refreshers.add(() -> {
+            boolean on = onKey != null && st.on(onKey);
+            ibg.setColor(on ? accent : ROW);
+            ric.setColor(on ? DARK : SUB);
+            tbg.setStroke(dp(1), on ? ((accent & 0x00FFFFFF) | 0x80000000) : HAIR);
+            sub.setTextColor(on ? SUB : MUTED);
+            sub.setText(onKey == null ? "Warna dan kurva" : !on ? "Nonaktif" : valKey == null ? "Aktif" : String.format(Locale.US, "Intensitas %.2f", st.get(valKey)));
+        });
+
+        if (wide) {
+            LinearLayout row = new LinearLayout(act);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            mainCol.addView(row, lp(-1, -2, 8));
+            row.addView(tile, new LinearLayout.LayoutParams(-1, -2));
+            tileRow = null;
+        } else {
+            if (tileRow == null || tileRow.getChildCount() >= 2) {
+                tileRow = new LinearLayout(act);
+                tileRow.setOrientation(LinearLayout.HORIZONTAL);
+                mainCol.addView(tileRow, lp(-1, -2, 8));
+            }
+            LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(0, -2, 1f);
+            if (tileRow.getChildCount() == 1) tp.leftMargin = dp(8);
+            tileRow.addView(tile, tp);
+        }
+        return col;
+    }
+
+    private void gradingSliders(LinearLayout p) {
+        slider(p, "Exposure", "exposure", "%+.2f");
+        slider(p, "Brightness", "brightness", "%+.2f");
+        slider(p, "Contrast", "contrast", "%+.2f");
+        slider(p, "Saturation", "saturation", "%+.2f");
+        slider(p, "Warmth", "warmth", "%+.2f");
+        slider(p, "Vibrance", "vibrance", "%+.2f");
+        slider(p, "Gamma", "gamma", "%.2f");
     }
 
     // ------------------------------------------------------------------ dropdown (grup yang bisa dilipat)
     private LinearLayout group(LinearLayout pg, String title, final String onKey) {
         final LinearLayout card = new LinearLayout(act);
         card.setOrientation(LinearLayout.VERTICAL);
-        GradientDrawable cg = rr(CARD, 12);
-        cg.setStroke(dp(1), 0xFF26262A);
+        GradientDrawable cg = rr(CARD, 14);
+        cg.setStroke(dp(1), HAIR);
         card.setBackground(cg);
         LinearLayout head = new LinearLayout(act);
         head.setOrientation(LinearLayout.HORIZONTAL);
         head.setGravity(Gravity.CENTER_VERTICAL);
-        head.setPadding(dp(12), dp(9), dp(12), dp(9));
-        final TextView name = tv(title.toUpperCase(Locale.US), 13, TEXT, true);
-        name.setLetterSpacing(0.08f);
-        final TextView dot = tv("", 10, accent, true);
-        dot.setLetterSpacing(0.1f);
-        final TextView arrow = tv("▸", 14, SUB, true);
+        head.setPadding(dp(16), dp(12), dp(12), dp(12));
+        final TextView name = tv(title, 14, TEXT, true);
+        final TextView dot = tv("", 11, accent, false);
+        dot.setTypeface(fMono);
+        dot.setCompoundDrawablePadding(dp(6));
+        final android.widget.ImageView arrow = new android.widget.ImageView(act);
+        arrow.setImageDrawable(new RzIcons(RzIcons.CHEVRON, dp(16), SUB));
         head.addView(name, new LinearLayout.LayoutParams(0, -2, 1f));
         head.addView(dot, new LinearLayout.LayoutParams(-2, -2));
-        LinearLayout.LayoutParams ap = new LinearLayout.LayoutParams(-2, -2);
-        ap.leftMargin = dp(10);
+        LinearLayout.LayoutParams ap = new LinearLayout.LayoutParams(dp(16), dp(16));
+        ap.leftMargin = dp(8);
         head.addView(arrow, ap);
         final LinearLayout body = new LinearLayout(act);
         body.setOrientation(LinearLayout.VERTICAL);
-        body.setPadding(dp(8), 0, dp(8), dp(10));
+        body.setPadding(dp(8), 0, dp(8), dp(12));
         body.setVisibility(View.GONE);
+        press(head);
         head.setOnClickListener(v -> {
             boolean open = body.getVisibility() != View.VISIBLE;
-            body.setVisibility(open ? View.VISIBLE : View.GONE);
-            arrow.setText(open ? "▾" : "▸");
-            name.setTextColor(open ? accent : TEXT);
+            slide(body, open, card.getWidth());
+            arrow.animate().rotation(open ? 90f : 0f).setDuration(220).setInterpolator(EASE).start();
         });
         card.addView(head, new LinearLayout.LayoutParams(-1, -2));
         card.addView(body, new LinearLayout.LayoutParams(-1, -2));
         pg.addView(card, lp(-1, -2, 8));
-        if (onKey != null) refreshers.add(() -> dot.setText(st.on(onKey) ? "AKTIF" : ""));
+        if (onKey != null) refreshers.add(() -> {
+            boolean on = st.on(onKey);
+            dot.setText(on ? "Aktif" : "");
+            dot.setCompoundDrawables(on ? dotDrawable(accent) : null, null, null, null);
+        });
         return body;
     }
 
@@ -570,7 +835,7 @@ final class RzPanel {
             ((ViewGroup) decor).bringChildToFront(root);
             root.bringToFront();
             if (fab != null) fab.setElevation(dp(40));
-            if (panel != null) panel.setElevation(dp(40));
+            if (panel != null) panel.setElevation(dp(24));
             root.post(new Runnable() { public void run() { if (root != null) place(); } });
             return;
         }
@@ -586,7 +851,7 @@ final class RzPanel {
         View decor = act.getWindow() == null ? null : act.getWindow().getDecorView();
         if (!(decor instanceof ViewGroup)) return;
         if (root != null && root.getParent() == decor && root.isAttachedToWindow()) return;
-        pages.clear(); tabs.clear(); refreshers.clear();
+        pages.clear(); tabs.clear(); refreshers.clear(); details.clear(); curDetail = null; tileRow = null;
         fxList = null; fxStatus = null; fxCount = null; savedList = null; nameBox = null;
         root = new FrameLayout(act);
         root.setClipChildren(false);
@@ -674,6 +939,7 @@ final class RzPanel {
         boolean open = panel != null && panel.getVisibility() == View.VISIBLE;
         // Hentikan loop polling lama sebelum membuat view tree baru.
         h.removeCallbacks(poll);
+        if (dotPulse != null) { dotPulse.cancel(); dotPulse = null; }
         h.removeCallbacks(saveR);
         h.removeCallbacks(hideToast);
         if (root != null && root.getParent() instanceof ViewGroup) ((ViewGroup) root.getParent()).removeView(root);
@@ -686,6 +952,7 @@ final class RzPanel {
     void detach() {
         // Batalkan seluruh pekerjaan tertunda agar Activity lama tidak disentuh setelah relog.
         h.removeCallbacksAndMessages(null);
+        if (dotPulse != null) { dotPulse.cancel(); dotPulse = null; }
         if (root != null && root.getParent() instanceof ViewGroup) {
             try { ((ViewGroup) root.getParent()).removeView(root); } catch (Throwable ignored) { }
         }
@@ -705,8 +972,8 @@ final class RzPanel {
         int w = root.getWidth(), hh = root.getHeight();
         if (w <= 0) return;
         ViewGroup.LayoutParams lpP = panel.getLayoutParams();
-        lpP.width = Math.min(dp(420 * ui.scale), (int) (w * 0.94f));
-        lpP.height = Math.min(dp(360 * ui.scale), (int) (hh * 0.88f));
+        lpP.width = Math.min(dp(620 * ui.scale), (int) (w * 0.94f));
+        lpP.height = Math.min(dp(400 * ui.scale), (int) (hh * 0.88f));
         panel.setLayoutParams(lpP);
         panel.setAlpha(ui.opacity);
         fab.setAlpha(ui.fabOpacity);
@@ -725,30 +992,52 @@ final class RzPanel {
         fab.setX(dp(14)); fab.setY(Math.min(dp(110), hh - dp(70)));
     }
 
-    private void setOpen(boolean on) {
-        panel.setVisibility(on ? View.VISIBLE : View.GONE);
+    private void setOpen(final boolean on) {
+        if (panel == null) return;
+        boolean was = panel.getVisibility() == View.VISIBLE;
+        panel.animate().cancel();
+        if (on) {
+            panel.setVisibility(View.VISIBLE);
+            if (!was) {
+                final float y0 = panel.getY();
+                panel.setAlpha(0f); panel.setScaleX(0.94f); panel.setScaleY(0.94f); panel.setY(y0 + dp(14));
+                panel.animate().alpha(ui.opacity).scaleX(1f).scaleY(1f).y(y0).setDuration(260).setInterpolator(EASE).start();
+                stagger(pages.get(curTab));
+            }
+        } else if (was) {
+            final float y0 = panel.getY();
+            panel.animate().alpha(0f).scaleX(0.97f).scaleY(0.97f).y(y0 + dp(8)).setDuration(160).withEndAction(new Runnable() {
+                public void run() {
+                    if (panel == null) return;
+                    panel.setVisibility(View.GONE);
+                    panel.setAlpha(ui.opacity); panel.setScaleX(1f); panel.setScaleY(1f); panel.setY(y0);
+                }
+            }).start();
+        }
         if (logoFab != null && !on) {
             fab.setText("");
-            fab.setBackground(new RzLogo(logoFab, 0x99FFFFFF, dp(1.5f)));
+            fab.setBackground(new RzLogo(logoFab, 0x33FFFFFF, dp(1)));
         } else {
             fab.setText(on ? "×" : "RZ");
             fab.setTextSize(TypedValue.COMPLEX_UNIT_SP, (on ? 24 : 16) * auto);
-            GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[] { accent, accent2 });
+            GradientDrawable g = rr(accent, 0);
             g.setShape(GradientDrawable.OVAL);
-            g.setStroke(dp(1.5f), 0x99FFFFFF);
+            g.setStroke(dp(1), 0x33FFFFFF);
             fab.setBackground(g);
         }
+        fab.setScaleX(0.88f); fab.setScaleY(0.88f);
+        fab.animate().scaleX(1f).scaleY(1f).setDuration(220).setInterpolator(EASE).start();
     }
 
     private void buildFab() {
         fab = tv("RZ", 15, DARK, true);
         fab.setTypeface(fTitle);
         fab.setGravity(Gravity.CENTER);
-        GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[] { accent, accent2 });
+        GradientDrawable g = rr(accent, 0);
         g.setShape(GradientDrawable.OVAL);
-        g.setStroke(dp(1.5f), 0x99FFFFFF);
+        g.setStroke(dp(1), 0x33FFFFFF);
         fab.setBackground(g);
-        fab.setElevation(dp(40));
+        fab.setElevation(dp(12));
         fab.setClickable(true);
         fab.setFocusable(true);
         FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(dp(ui.fabSize), dp(ui.fabSize));
@@ -759,77 +1048,160 @@ final class RzPanel {
     private void buildPanel() {
         panel = new LinearLayout(act);
         panel.setOrientation(LinearLayout.VERTICAL);
-        GradientDrawable bg = rr(BG, 16);
-        bg.setStroke(dp(1.5f), STROKE);
+        GradientDrawable bg = rr(BG, 20);
+        bg.setStroke(dp(1), STROKE);
         panel.setBackground(bg);
         panel.setClipToOutline(true);
-        panel.setElevation(dp(40));
+        panel.setElevation(dp(24));
         panel.setClickable(true);
         panel.setFocusable(true);
-        root.addView(panel, new FrameLayout.LayoutParams(dp(280), dp(320)));
+        root.addView(panel, new FrameLayout.LayoutParams(dp(300), dp(320)));
+        details.clear();
+        tileRow = null;
 
-        // header
+        // header: logo, judul + status engine, tombol power, tutup
         LinearLayout head = new LinearLayout(act);
         head.setOrientation(LinearLayout.HORIZONTAL);
         head.setGravity(Gravity.CENTER_VERTICAL);
-        head.setPadding(dp(14), dp(8), dp(10), dp(8));
+        head.setPadding(dp(16), dp(12), dp(12), dp(12));
+        if (logoFull != null) {
+            android.widget.ImageView mk = new android.widget.ImageView(act);
+            mk.setImageBitmap(logoFull);
+            mk.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
+            mk.setClipToOutline(true);
+            mk.setOutlineProvider(new android.view.ViewOutlineProvider() {
+                public void getOutline(View v, android.graphics.Outline o) { o.setRoundRect(0, 0, v.getWidth(), v.getHeight(), dp(9)); }
+            });
+            LinearLayout.LayoutParams mp = new LinearLayout.LayoutParams(dp(32), dp(32));
+            mp.rightMargin = dp(12);
+            head.addView(mk, mp);
+        }
         LinearLayout titles = new LinearLayout(act);
         titles.setOrientation(LinearLayout.VERTICAL);
-        TextView title = tv("RYEENZYXNZ", 14, Color.WHITE, true);
+        TextView title = tv("RYEENZYXNZ", 15, TEXT, true);
         title.setTypeface(fTitle);
-        title.setLetterSpacing(0.06f);
-        title.getPaint().setShader(new LinearGradient(0, 0, dp(150), 0, accent, accent2, Shader.TileMode.CLAMP));
+        title.setLetterSpacing(0.04f);
         titles.addView(title);
         statusTv = tv("Shader Engine v0.7.0", 11, SUB, false);
+        statusTv.setTypeface(fMono);
         statusTv.setSingleLine(true);
+        statusDot = dotDrawable(MUTED);
+        statusTv.setCompoundDrawables(statusDot, null, null, null);
+        statusTv.setCompoundDrawablePadding(dp(6));
         titles.addView(statusTv);
         head.addView(titles, new LinearLayout.LayoutParams(0, -2, 1f));
-        pill = tv("OFF", 12, SUB, true);
-        pill.setGravity(Gravity.CENTER);
-        pill.setPadding(dp(14), dp(6), dp(14), dp(6));
+
+        pill = new LinearLayout(act);
+        pill.setOrientation(LinearLayout.HORIZONTAL);
+        pill.setGravity(Gravity.CENTER_VERTICAL);
+        pill.setPadding(dp(8), dp(8), dp(14), dp(8));
+        pillBg = rr(ROW, 20);
+        pillBg.setStroke(dp(1), HAIR);
+        pill.setBackground(pillBg);
+        pwrBg = new GradientDrawable();
+        pwrBg.setShape(GradientDrawable.OVAL);
+        pwrBg.setColor(OFF);
+        pwrIv = new android.widget.ImageView(act);
+        pwrIv.setBackground(pwrBg);
+        pwrIv.setScaleType(android.widget.ImageView.ScaleType.CENTER);
+        pwrIv.setImageDrawable(new RzIcons(RzIcons.POWER, dp(14), SUB));
+        pill.addView(pwrIv, new LinearLayout.LayoutParams(dp(22), dp(22)));
+        pillLbl = tv("OFF", 12, SUB, true);
+        LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(-2, -2);
+        plp.leftMargin = dp(8);
+        pill.addView(pillLbl, plp);
+        press(pill);
+        pill.setClickable(true);
         pill.setOnClickListener(v -> {
             if (!st.on("enabled") && !licOk) { notify("Lisensi belum aktif. Masukkan key di tab CREDIT.", false); return; }
             int next = st.on("enabled") ? 0 : 1;
             st.set("enabled", next); st.set("master", next); refreshAll(); changed();
         });
+        pillCol = OFF;
         refreshers.add(() -> {
             boolean on = st.on("enabled");
-            pill.setText(on ? "ON" : "OFF");
-            pill.setBackground(rr(on ? OK : OFF, 14));
-            pill.setTextColor(on ? DARK : SUB);
+            pillLbl.setText(on ? "ON" : "OFF");
+            pillLbl.setTextColor(on ? TEXT : SUB);
+            pillBg.setStroke(dp(1), on ? ((accent & 0x00FFFFFF) | 0x8C000000) : HAIR);
+            int to = on ? accent : OFF;
+            tint(pwrBg, pillCol, to);
+            pillCol = to;
+            ((RzIcons) pwrIv.getDrawable()).setColor(on ? DARK : SUB);
         });
         head.addView(pill, new LinearLayout.LayoutParams(-2, -2));
-        TextView close = tv("×", 20, TEXT, true);
+        TextView close = tv("×", 20, SUB, true);
         close.setGravity(Gravity.CENTER);
-        close.setBackground(rr(ROW, 14));
+        close.setBackground(rr(ROW, 9));
+        press(close);
         close.setOnClickListener(v -> setOpen(false));
-        LinearLayout.LayoutParams cp = new LinearLayout.LayoutParams(dp(30), dp(30));
+        LinearLayout.LayoutParams cp = new LinearLayout.LayoutParams(dp(32), dp(32));
         cp.leftMargin = dp(8);
         head.addView(close, cp);
         panel.addView(head, new LinearLayout.LayoutParams(-1, -2));
         drag(titles, panel, null);
 
-        // isi: tab di SAMPING (kiri), halaman di kanan
-        View divTop = new View(act);
-        divTop.setBackgroundColor(STROKE);
-        panel.addView(divTop, new LinearLayout.LayoutParams(-1, dp(1)));
-        LinearLayout content = new LinearLayout(act);
-        content.setOrientation(LinearLayout.HORIZONTAL);
-        panel.addView(content, new LinearLayout.LayoutParams(-1, 0, 1f));
-        ScrollView tabScroll = new ScrollView(act);
-        tabScroll.setVerticalScrollBarEnabled(false);
-        tabScroll.setBackgroundColor(SIDE);
-        final LinearLayout tabRow = new LinearLayout(act);
-        tabRow.setOrientation(LinearLayout.VERTICAL);
-        tabRow.setPadding(dp(6), dp(8), dp(6), dp(8));
-        tabScroll.addView(tabRow, new ViewGroup.LayoutParams(-1, -2));
-        content.addView(tabScroll, new LinearLayout.LayoutParams(dp(92), -1));
-        View divSide = new View(act);
-        divSide.setBackgroundColor(STROKE);
-        content.addView(divSide, new LinearLayout.LayoutParams(dp(1), -1));
+        LinearLayout main = new LinearLayout(act);
+        main.setOrientation(LinearLayout.HORIZONTAL);
+        main.setPadding(dp(12), 0, dp(12), dp(12));
+        panel.addView(main, new LinearLayout.LayoutParams(-1, 0, 1f));
 
-        FrameLayout body = new FrameLayout(act);
-        content.addView(body, new LinearLayout.LayoutParams(0, -1, 1f));
+        // kolom kiri: pratinjau live, FPS, kualitas
+        LinearLayout left = new LinearLayout(act);
+        left.setOrientation(LinearLayout.VERTICAL);
+        main.addView(left, new LinearLayout.LayoutParams(dp(224), -1));
+        FrameLayout sf = new FrameLayout(act);
+        GradientDrawable sbg = rr(0xFF000000, 14);
+        sbg.setStroke(dp(1), HAIR);
+        sf.setBackground(sbg);
+        sf.setClipToOutline(true);
+        scene = new RzScene(act, st);
+        sf.addView(scene, new FrameLayout.LayoutParams(-1, -2));
+        sceneTag = tv("shader aktif", 10, 0xFFD7D7DA, false);
+        sceneTag.setTypeface(fMono);
+        sceneTag.setCompoundDrawablePadding(dp(6));
+        sceneTag.setPadding(dp(8), dp(4), dp(8), dp(4));
+        sceneTag.setBackground(rr(0xAA000000, 6));
+        FrameLayout.LayoutParams stp = new FrameLayout.LayoutParams(-2, -2, Gravity.TOP | Gravity.LEFT);
+        stp.leftMargin = dp(8); stp.topMargin = dp(8);
+        sf.addView(sceneTag, stp);
+        final Runnable tagUpd = () -> {
+            boolean on = st.on("enabled") && !scene.raw;
+            sceneTag.setText(on ? "shader aktif" : "tanpa shader");
+            sceneTag.setCompoundDrawables(dotDrawable(on ? OK : 0xFFD9774A), null, null, null);
+        };
+        refreshers.add(() -> { tagUpd.run(); scene.invalidate(); });
+        scene.setOnTouchListener((v, e) -> {
+            int a = e.getActionMasked();
+            if (a == MotionEvent.ACTION_DOWN) { scene.raw = true; tagUpd.run(); scene.invalidate(); }
+            else if (a == MotionEvent.ACTION_UP || a == MotionEvent.ACTION_CANCEL) { scene.raw = false; tagUpd.run(); scene.invalidate(); }
+            return true;
+        });
+        left.addView(sf, new LinearLayout.LayoutParams(-1, -2));
+
+        LinearLayout fc = new LinearLayout(act);
+        fc.setOrientation(LinearLayout.HORIZONTAL);
+        fc.setGravity(Gravity.CENTER_VERTICAL);
+        fc.setPadding(dp(12), dp(8), dp(12), dp(8));
+        GradientDrawable fcb = rr(CARD, 12);
+        fcb.setStroke(dp(1), HAIR);
+        fc.setBackground(fcb);
+        LinearLayout ft = new LinearLayout(act);
+        ft.setOrientation(LinearLayout.VERTICAL);
+        ft.addView(tv("Frame rate", 11, SUB, false));
+        fpsTv = tv("--", 20, TEXT, false);
+        fpsTv.setTypeface(fMono);
+        ft.addView(fpsTv);
+        fc.addView(ft, new LinearLayout.LayoutParams(0, -2, 1f));
+        spark = new RzSpark(act, accent, dp(1.5f));
+        fc.addView(spark, new LinearLayout.LayoutParams(dp(80), dp(30)));
+        left.addView(fc, lp(-1, -2, 8));
+        qualityRow(left, false);
+
+        // kolom kanan: halaman, detail yang meluncur, dock tab
+        rightFrame = new FrameLayout(act);
+        LinearLayout.LayoutParams rp = new LinearLayout.LayoutParams(0, -1, 1f);
+        rp.leftMargin = dp(12);
+        main.addView(rightFrame, rp);
 
         buildMainPage();
         buildPresetPage();
@@ -839,42 +1211,61 @@ final class RzPanel {
         buildFeedbackPage();
         buildCreditPage();
 
-        final boolean compact = compactTabs();
-        android.graphics.Paint meas = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
-        meas.setTypeface(fBold);
-        meas.setTextSize(13f * 1.1f * auto * act.getResources().getDisplayMetrics().scaledDensity);
-        float maxLbl = 0;
-        for (String nm : pages.keySet()) maxLbl = Math.max(maxLbl, meas.measureText(nm) * 1.08f);
-        int tabW = Math.max(dp(84), Math.min(dp(136), (int) maxLbl + dp(19 + 7 + 9 + 4 + 12)));
-        tabScroll.setLayoutParams(new LinearLayout.LayoutParams(compact ? dp(50) : tabW, -1));
+        for (String name : pages.keySet()) rightFrame.addView(pages.get(name), new FrameLayout.LayoutParams(-1, -1));
+        for (View d : details) rightFrame.addView(d, new FrameLayout.LayoutParams(-1, -1));
+
+        LinearLayout dock = new LinearLayout(act);
+        dock.setOrientation(LinearLayout.HORIZONTAL);
+        dock.setPadding(dp(4), dp(4), dp(4), dp(4));
+        GradientDrawable dbg = rr(0xEE141416, 18);
+        dbg.setStroke(dp(1), STROKE);
+        dock.setBackground(dbg);
+        dock.setElevation(dp(8));
+        boolean first = true;
         for (final String name : pages.keySet()) {
-            TextView t = tv(compact ? "" : name, 13, SUB, true);
-            t.setLetterSpacing(0.03f);
-            t.setSingleLine(true);
-            t.setMaxLines(1);
-            if (!compact) t.setAutoSizeTextTypeUniformWithConfiguration(7, 14, 1, TypedValue.COMPLEX_UNIT_SP);
-            t.setGravity(compact ? Gravity.CENTER : Gravity.CENTER_VERTICAL);
-            t.setPadding(dp(compact ? 0 : 9), dp(12), dp(compact ? 0 : 4), dp(12));
-            RzIcons ic = new RzIcons(tabIcon(name), dp(19), SUB);
-            t.setCompoundDrawables(ic, null, null, null);
-            t.setCompoundDrawablePadding(dp(compact ? 0 : 7));
-            t.setTag(ic);
+            LinearLayout t = new LinearLayout(act);
+            t.setOrientation(LinearLayout.HORIZONTAL);
+            t.setGravity(Gravity.CENTER_VERTICAL);
+            t.setPadding(dp(11), 0, dp(11), 0);
+            GradientDrawable tb = rr(TAB_OFF, 14);
+            t.setBackground(tb);
+            tabBg.put(t, tb);
+            tabCol.put(t, TAB_OFF);
+            RzIcons ic = new RzIcons(tabIcon(name), dp(18), SUB);
+            android.widget.ImageView iv = new android.widget.ImageView(act);
+            iv.setImageDrawable(ic);
+            t.addView(iv, new LinearLayout.LayoutParams(dp(18), dp(18)));
+            TextView lbl = tv(name.charAt(0) + name.substring(1).toLowerCase(Locale.US), 12, TEXT, true);
+            lbl.setSingleLine(true);
+            lbl.setPadding(dp(8), 0, 0, 0);
+            lbl.setAlpha(0f);
+            t.addView(lbl, new LinearLayout.LayoutParams(0, -2));
+            t.setTag(new Object[] { ic, lbl });
             t.setContentDescription(name);
+            t.setClickable(true);
             t.setOnClickListener(v -> showTab(name));
-            LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(-1, -2);
-            tp.bottomMargin = dp(4);
-            tabRow.addView(t, tp);
+            press(t);
             tabs.put(name, t);
-            body.addView(pages.get(name), new FrameLayout.LayoutParams(-1, -1));
+            LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(-2, dp(40));
+            tp.leftMargin = first ? 0 : dp(2);
+            first = false;
+            dock.addView(t, tp);
         }
+        FrameLayout.LayoutParams dl = new FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+        dl.bottomMargin = dp(12);
+        rightFrame.addView(dock, dl);
+
         toast = tv("", 12, TEXT, true);
         toast.setGravity(Gravity.CENTER);
-        toast.setBackground(rr(ROWHI, 14));
-        toast.setPadding(dp(12), dp(7), dp(12), dp(7));
+        GradientDrawable tbg = rr(ROWHI, 10);
+        tbg.setStroke(dp(1), STROKE);
+        toast.setBackground(tbg);
+        toast.setPadding(dp(16), dp(8), dp(16), dp(8));
+        toast.setElevation(dp(16));
         toast.setVisibility(View.GONE);
-        FrameLayout.LayoutParams tl = new FrameLayout.LayoutParams(-2, -2, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-        tl.bottomMargin = dp(10);
-        body.addView(toast, tl);
+        FrameLayout.LayoutParams tl = new FrameLayout.LayoutParams(-2, -2, Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        tl.topMargin = dp(4);
+        rightFrame.addView(toast, tl);
         showTab(curTab);
     }
 
@@ -905,7 +1296,7 @@ final class RzPanel {
         nameBox.setTypeface(fBody);
         nameBox.setSingleLine(true);
         nameBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        nameBox.setBackground(rr(ROW, 10));
+        nameBox.setBackground(rr(ROW, 8));
         nameBox.setPadding(dp(12), dp(10), dp(12), dp(10));
         p.addView(nameBox, lp(-1, -2, 6));
         button(p, "SAVE  ·  simpan pengaturan sekarang", this::saveCurrent, true, RzIcons.SAVE);
@@ -929,7 +1320,7 @@ final class RzPanel {
         box.setTextColor(TEXT);
         box.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
         box.setTypeface(Typeface.MONOSPACE);
-        box.setBackground(rr(ROW, 10));
+        box.setBackground(rr(ROW, 8));
         box.setPadding(dp(10), dp(8), dp(10), dp(8));
         box.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         box.setMinLines(4);
@@ -1009,7 +1400,7 @@ final class RzPanel {
         msg.setTextColor(TEXT);
         msg.setTypeface(fBody);
         msg.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * auto);
-        msg.setBackground(rr(ROW, 10));
+        msg.setBackground(rr(ROW, 8));
         msg.setPadding(dp(12), dp(10), dp(12), dp(10));
         msg.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         msg.setFilters(new android.text.InputFilter[] { new android.text.InputFilter.LengthFilter(1000) });
@@ -1024,7 +1415,7 @@ final class RzPanel {
         contact.setTypeface(fBody);
         contact.setSingleLine(true);
         contact.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * auto);
-        contact.setBackground(rr(ROW, 10));
+        contact.setBackground(rr(ROW, 8));
         contact.setPadding(dp(12), dp(10), dp(12), dp(10));
         contact.setFilters(new android.text.InputFilter[] { new android.text.InputFilter.LengthFilter(80) });
         p.addView(contact, lp(-1, -2, 6));
@@ -1033,7 +1424,7 @@ final class RzPanel {
         sw.setTextColor(TEXT);
         sw.setTypeface(fBody);
         sw.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * auto);
-        sw.setBackground(rr(ROW, 10));
+        sw.setBackground(rr(ROW, 8));
         sw.setPadding(dp(12), dp(10), dp(12), dp(10));
         int[][] states = { { android.R.attr.state_checked }, {} };
         sw.setThumbTintList(new ColorStateList(states, new int[] { DARK, 0xFF8E9196 }));
@@ -1068,9 +1459,9 @@ final class RzPanel {
         c.setOrientation(LinearLayout.VERTICAL);
         c.setGravity(Gravity.CENTER_HORIZONTAL);
         GradientDrawable cg = rr(CARD, 14);
-        cg.setStroke(dp(1), 0xFF26262A);
+        cg.setStroke(dp(1), HAIR);
         c.setBackground(cg);
-        c.setPadding(dp(16), dp(26), dp(16), dp(26));
+        c.setPadding(dp(16), dp(24), dp(16), dp(24));
         if (logoFull != null) {
             android.widget.ImageView iv = new android.widget.ImageView(act);
             iv.setImageBitmap(logoFull);
@@ -1083,15 +1474,11 @@ final class RzPanel {
             ip.bottomMargin = dp(14);
             c.addView(iv, ip);
         }
-        TextView t = tv("RYEENZYXNZ", 22, Color.WHITE, true);
+        TextView t = tv("RYEENZYXNZ", 22, TEXT, true);
         t.setTypeface(fTitle);
-        t.setLetterSpacing(0.08f);
+        t.setLetterSpacing(0.04f);
         t.setGravity(Gravity.CENTER);
-        t.getPaint().setShader(new LinearGradient(0, 0, dp(230), 0, accent, accent2, Shader.TileMode.CLAMP));
         c.addView(t, lp(-2, -2, 0));
-        View line = new View(act);
-        line.setBackgroundColor(accent2);
-        c.addView(line, lp(dp(48), dp(2), 14));
         TextView a = tv("Developed by RYEENZYXNZ", 15, TEXT, true);
         a.setGravity(Gravity.CENTER);
         c.addView(a, lp(-2, -2, 16));
@@ -1131,7 +1518,7 @@ final class RzPanel {
         final LinearLayout c = new LinearLayout(act);
         c.setOrientation(LinearLayout.VERTICAL);
         GradientDrawable cg = rr(CARD, 14);
-        cg.setStroke(dp(1), 0xFF26262A);
+        cg.setStroke(dp(1), HAIR);
         c.setBackground(cg);
         c.setPadding(dp(16), dp(16), dp(16), dp(16));
         TextView title = tv("Lisensi", 14, TEXT, true);
@@ -1204,7 +1591,7 @@ final class RzPanel {
         q.setTextColor(TEXT);
         q.setSingleLine(true);
         q.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        q.setBackground(rr(ROW, 10));
+        q.setBackground(rr(ROW, 8));
         q.setPadding(dp(10), dp(8), dp(10), dp(8));
         q.addTextChangedListener(new android.text.TextWatcher() {
             public void beforeTextChanged(CharSequence c, int a, int b, int d) { }
@@ -1238,7 +1625,7 @@ final class RzPanel {
     private View fxRow(final RzFx.Fx f) {
         final LinearLayout box = new LinearLayout(act);
         box.setOrientation(LinearLayout.VERTICAL);
-        box.setBackground(rr(ROW, 10));
+        box.setBackground(rr(ROW, 8));
         LinearLayout head = new LinearLayout(act);
         head.setOrientation(LinearLayout.HORIZONTAL);
         head.setGravity(Gravity.CENTER_VERTICAL);
@@ -1406,23 +1793,52 @@ final class RzPanel {
         "mx_on", "mx_int", "mx_rad", "mx_samples", "mx_rays", "mx_dark", "mx_soft", "mx_fine", "mx_coarse", "mx_nbias", "mx_dbias", "mx_edge", "mx_blur", "mx_denoise", "mx_temp", "mx_res", "mx_qual", "ss_on", "ss_int", "ss_steps", "ss_dist", "ss_thick", "ss_fade", "ss_edge", "ss_floor", "ss_blur", "ss_temp", "ss_res", "ss_qual", "df_on", "df_int", "df_focus", "df_range", "df_near", "df_far", "df_rad", "df_bokeh", "df_shape", "df_samples", "df_aper", "df_focal", "df_trans", "df_fg", "df_bg", "df_auto", "df_smooth", "ol_on", "ol_str", "ol_thick", "ol_sens", "ol_soft", "ol_blend", "ol_start", "ol_end", "ol_sky", "ol_r", "ol_g", "ol_b", "ol_debug", "perf_dof"
     };
 
-    private void qualityRow(LinearLayout p) {
+    private void qualityRow(LinearLayout p, boolean label) {
         final String[] names = { "Low", "Medium", "High", "Ultra" };
+        if (label) {
+            TextView ql = tv("Shader Quality", 13, TEXT, false);
+            ql.setPadding(dp(4), dp(12), 0, dp(4));
+            p.addView(ql, lp(-1, -2, 0));
+        }
+        LinearLayout seg = new LinearLayout(act);
+        seg.setOrientation(LinearLayout.HORIZONTAL);
+        GradientDrawable sbg = rr(ROW, 10);
+        sbg.setStroke(dp(1), HAIR);
+        seg.setBackground(sbg);
+        seg.setPadding(dp(4), dp(4), dp(4), dp(4));
+        final TextView[] items = new TextView[4];
         for (int i = 0; i < 4; i++) {
             final int q = i;
-            button(p, "Shader Quality: " + names[i], () -> { st.set("quality", q); changed(); refreshAll(); notify("Quality " + names[q], true); }, false);
+            TextView t = tv(names[i], 12, SUB, true);
+            t.setGravity(Gravity.CENTER);
+            t.setSingleLine(true);
+            t.setPadding(dp(2), dp(8), dp(2), dp(8));
+            t.setOnClickListener(v -> { st.set("quality", q); changed(); refreshAll(); notify("Quality " + names[q], true); });
+            press(t);
+            seg.addView(t, new LinearLayout.LayoutParams(0, -2, 1f));
+            items[i] = t;
         }
+        refreshers.add(() -> {
+            int cur = Math.round(st.get("quality"));
+            for (int j = 0; j < 4; j++) {
+                boolean on = j == cur;
+                items[j].setBackground(on ? rr(ROWHI, 7) : null);
+                items[j].setTextColor(on ? TEXT : SUB);
+            }
+        });
+        p.addView(seg, lp(-1, -2, label ? 0 : 8));
     }
 
     private void buildMainPage() {
         LinearLayout root0 = page("MAIN");
+        mainCol = root0;
+        tileRow = null;
         LinearLayout p;
 
-        p = group(root0, "Global", "master");
+        p = detail("Global", "master", "strength", RzIcons.GLOBAL, true);
         toggle(p, "ON/OFF Shader", "master");
         slider(p, "Global Shader Intensity", "strength", "%.2f");
         toggle(p, "Mode LIVE: ubah shader Roblox langsung (ON/OFF real-time)", "live");
-        qualityRow(p);
         note(p, "Low: hemat performa. Medium: tanpa rim dan fog tambahan. High: kualitas penuh. Ultra: pantulan lebih tajam.");
         toggle(p, "Battery Saver", "perf_batt");
         toggle(p, "Thermal Performance Mode", "perf_therm");
@@ -1436,7 +1852,8 @@ final class RzPanel {
             curPreset = "-"; refreshAll(); changed(); notify("Pengaturan awal dipulihkan", true);
         }, false);
 
-        p = group(root0, "SSR", "ss_on");
+        section(root0, "Efek shader");
+        p = detail("SSR", "ss_on", "ss_int", RzIcons.SSR, false);
         note(p, "Memantulkan objek dan avatar pada permukaan.");
         toggle(p, "Enable SSR", "ss_on");
         slider(p, "SSR Intensity", "ss_int", "%.2f");
@@ -1451,7 +1868,7 @@ final class RzPanel {
         slider(p, "Reflection Blur", "ss_blur", "%.2f");
         slider(p, "Temporal Stability", "ss_temp", "%.2f");
 
-        p = group(root0, "MXAO / Ambient Occlusion", "mx_on");
+        p = detail("MXAO", "mx_on", "mx_int", RzIcons.AO, false);
         note(p, "AO Intensity, Radius, dan Detail mengatur SSAO bawaan Roblox. MXAO menambah oklusi berbasis kedalaman.");
         slider(p, "AO Intensity (SSAO bawaan)", "ao", "%.2f");
         slider(p, "AO Radius", "ao_radius", "%.2f");
@@ -1475,7 +1892,7 @@ final class RzPanel {
         slider(p, "Denoise", "mx_denoise", "%.2f");
         slider(p, "Temporal Stability", "mx_temp", "%.2f");
 
-        p = group(root0, "DOF - Depth of Field", "df_on");
+        p = detail("Depth of Field", "df_on", "df_int", RzIcons.DOF, false);
         note(p, "Mengaburkan area sesuai jaraknya dari fokus.");
         toggle(p, "Enable DOF", "df_on");
         slider(p, "DOF Intensity", "df_int", "%.2f");
@@ -1496,7 +1913,7 @@ final class RzPanel {
         slider(p, "Focal Length (mm)", "df_focal", "%.0f");
         toggle(p, "Performance Mode (DOF)", "perf_dof");
 
-        p = group(root0, "Outline", "ol_on");
+        p = detail("Outline", "ol_on", "ol_str", RzIcons.OL, false);
         note(p, "Menggambar garis tepi pada siluet dan lipatan objek.");
         toggle(p, "Enable Outline", "ol_on");
         slider(p, "Strength", "ol_str", "%.2f");
@@ -1512,7 +1929,7 @@ final class RzPanel {
         slider(p, "Warna B", "ol_b", "%.2f");
         slider(p, "Tampilkan mask (debug)", "ol_debug", "%.0f");
 
-        p = group(root0, "Adaptive Fog", "fog_on");
+        p = detail("Adaptive Fog", "fog_on", "fog_intensity", RzIcons.FOG, false);
         note(p, "Kabut mengikuti ketinggian. Sesuaikan nilainya di perangkat Anda.");
         toggle(p, "Enable Adaptive Fog", "fog_on");
         slider(p, "Fog Intensity", "fog_intensity", "%.2f");
@@ -1537,7 +1954,7 @@ final class RzPanel {
         slider(p, "Camera Distance Response (tinggi kamera)", "fog_cam", "%.2f");
         toggle(p, "Performance Mode (Fog)", "perf_fog");
 
-        p = group(root0, "Rimlight", "rim_on");
+        p = detail("Rimlight", "rim_on", "rim_intensity", RzIcons.RIM, false);
         note(p, "Berlaku pada material PBR. Material flat belum didukung.");
         toggle(p, "Enable Rimlight", "rim_on");
         slider(p, "Rimlight Intensity", "rim_intensity", "%.2f");
@@ -1558,7 +1975,7 @@ final class RzPanel {
         slider(p, "Distance Fade", "rim_fade", "%.2f");
         toggle(p, "Performance Mode (Rim: tanpa soft/edge/material)", "perf_rim");
 
-        p = group(root0, "HDR & Bloom", "hdr_on");
+        p = detail("HDR & Bloom", "hdr_on", "bloom", RzIcons.HDR, false);
         note(p, "Threshold, radius, dan lens dirt belum tersedia.");
         toggle(p, "Enable HDR (highlight/kompresi/bayangan)", "hdr_on");
         slider(p, "Bloom Intensity (penguat bloom engine)", "bloom", "%.2f");
@@ -1567,7 +1984,9 @@ final class RzPanel {
         slider(p, "Shadow Strength", "shadow_strength", "%+.2f");
         toggle(p, "Performance Mode (HDR)", "perf_hdr");
 
-        buildColorInto(group(root0, "Warna & Grading", null));
+        p = detail("Warna & Grading", null, null, RzIcons.GRADE, false);
+        gradingSliders(p);
+        buildColorInto(p);
 
     }
 
@@ -1626,7 +2045,7 @@ final class RzPanel {
         rules.setTextColor(TEXT);
         rules.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
         rules.setTypeface(Typeface.MONOSPACE);
-        rules.setBackground(rr(ROW, 10));
+        rules.setBackground(rr(ROW, 8));
         rules.setPadding(dp(10), dp(8), dp(10), dp(8));
         rules.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         rules.setMinLines(5);
@@ -1734,8 +2153,22 @@ final class RzPanel {
                     if (kv.startsWith("state=")) state = kv.substring(6);
                     else if (kv.startsWith("fps=")) fps = kv.substring(4);
                 }
+                if (fpsTv != null) {
+                    try { float fv = Float.parseFloat(fps); fpsTv.setText(String.format(Locale.US, "%.0f", fv)); if (spark != null) spark.push(fv); }
+                    catch (Throwable ig) { fpsTv.setText("--"); }
+                }
                 boolean good = state.equals("hooked");
-                statusTv.setTextColor(good ? OK : (state.startsWith("waiting") || state.startsWith("menunggu") ? SUB : BAD));
+                int dotC = good ? OK : (state.startsWith("waiting") || state.startsWith("menunggu") ? MUTED : BAD);
+                if (statusDot != null) statusDot.setColor(dotC);
+                if (good && (dotPulse == null || !dotPulse.isRunning()) && statusDot != null) {
+                    dotPulse = ValueAnimator.ofInt(255, 90);
+                    dotPulse.setDuration(1400);
+                    dotPulse.setRepeatMode(ValueAnimator.REVERSE);
+                    dotPulse.setRepeatCount(ValueAnimator.INFINITE);
+                    dotPulse.addUpdateListener(va -> { if (statusDot != null) { statusDot.setAlpha((Integer) va.getAnimatedValue()); statusTv.invalidate(); } });
+                    dotPulse.start();
+                } else if (!good && dotPulse != null) { dotPulse.cancel(); dotPulse = null; if (statusDot != null) statusDot.setAlpha(255); }
+                statusTv.setTextColor(SUB);
                 statusTv.setText(good ? "engine aktif" + (fps.isEmpty() ? "" : " · " + fps + " FPS") : "engine: " + state);
             } catch (Throwable ignore) { }
             h.postDelayed(this, 700);
