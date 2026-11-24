@@ -87,3 +87,9 @@ This source update addresses the requested runtime and relog issues.
 - Penyebab tab terpotong: `auto` dibatasi minimal 0.8 dan tinggi panel dipotong 90% layar sementara isi tetap berukuran penuh. Kini `auto` dihitung dari ukuran desain sehingga panel selalu muat; `ui.scale` memakai `setScaleX/Y`.
 - Penyebab bayangan tidak muncul: `GradientDrawable.getOutline` memberi alpha 0 untuk warna tembus pandang / stroke beda alpha. `elev()` kini memakai `ViewOutlineProvider` dengan alpha 0.9.
 - Belum dicoba di HP; perilaku bayangan bergantung pada versi Android.
+
+## v28d — shadow, liquid glass, ukuran panel bertahan
+- Ukuran panel kembali normal saat dibuka lagi: animasi buka/tutup `setOpen` memaksa skala 1f. Kini memakai `panelScale`.
+- Shadow: bayangan buatan `RzShadow` sebagai view saudara di belakang panel (disinkronkan di `onPreDraw`), elevation kartu x1.5.
+- Liquid glass: `RzGlass` menggantikan gradasi datar untuk panel, tab, kartu, tile (tema Glass saja; tema Solid tidak berubah).
+- Belum dicoba di HP.

@@ -64,8 +64,10 @@ final class RzPanel {
     private final RzUi ui;
     private final RzPresetStore store;
     private int accent, accent2;
-    private static final float DESIGN_W = 620f, DESIGN_H = 424f;
+    private static final float DESIGN_W = 620f, DESIGN_H = 424f, SHADOW_M = 30f;
     private final float auto;
+    private float panelScale = 1f;      // skala efektif panel (Ukuran panel + batas layar); animasi buka/tutup harus kembali ke nilai ini
+    private View panelShadow;
     private Typeface fBody, fBold, fTitle, fMono;
     private final Map<View, GradientDrawable> tabBg = new java.util.HashMap<>();
     private final Map<View, Integer> tabCol = new java.util.HashMap<>();
@@ -311,6 +313,11 @@ final class RzPanel {
         return g;
     }
 
+    /** Latar kartu/kontainer: kaca sungguhan di tema Glass, gradasi biasa di tema Solid. */
+    private Drawable glassSurface(float rDp) {
+        return glass() ? new RzGlass(dp(rDp), dp(1), accent, 1) : surface(rDp);
+    }
+
     private int[] cardOn() {
         return glass() ? new int[] { (accent & 0x00FFFFFF) | 0x4D000000, 0x14FFFFFF } : new int[] { blend(accent, 0xFF1A1A1E, 0.26f), 0xFF141416 };
     }
@@ -321,7 +328,7 @@ final class RzPanel {
 
     /** Shadow lewat elevation. Di Android 9+ warna bayangan bisa diatur (dipakai untuk glow aksen). */
     private void elev(View v, float d, int spot) {
-        v.setElevation(dp(d));
+        v.setElevation(dp(d * 1.5f));
         // Outline bawaan dari background memberi alpha 0 bila warna latar tembus pandang atau garis tepinya transparan,
         // sehingga bayangan tidak tampil sama sekali. Alpha dipatok 0.9 (di bawah 1 agar bayangan tidak tembus ke dalam kaca).
         v.setOutlineProvider(new ViewOutlineProvider() {
@@ -591,7 +598,7 @@ final class RzPanel {
     private void buildTabs(LinearLayout left) {
         tabsBox = new FrameLayout(act);
         tabsBox.setPadding(dp(4), dp(4), dp(4), dp(4));
-        tabsBox.setBackground(surface(14));
+        tabsBox.setBackground(glassSurface(14));
         tabsBox.setClipChildren(false);
         elev(tabsBox, 4, 0xFF000000);
         tabInd = new View(act);
@@ -745,7 +752,9 @@ final class RzPanel {
         tile.setOrientation(LinearLayout.VERTICAL);
         tile.setPadding(dp(12), dp(12), dp(12), dp(12));
         final GradientDrawable tbg = surface(14);
-        tile.setBackground(tbg);
+        tile.setBackground(glass()
+                ? new android.graphics.drawable.LayerDrawable(new Drawable[] { tbg, new RzGlass(dp(14), dp(1), accent, 1) })
+                : tbg);
         elev(tile, 5, 0xFF000000);
         tile.setClickable(true);
         lift(tile);
@@ -812,7 +821,7 @@ final class RzPanel {
     private LinearLayout group(LinearLayout pg, String title, final String onKey) {
         final LinearLayout card = new LinearLayout(act);
         card.setOrientation(LinearLayout.VERTICAL);
-        card.setBackground(surface(14));
+        card.setBackground(glassSurface(14));
         elev(card, 4, 0xFF000000);
         LinearLayout head = new LinearLayout(act);
         head.setOrientation(LinearLayout.HORIZONTAL);
@@ -1116,6 +1125,23 @@ final class RzPanel {
         nameBox = null;
     }
 
+    /** Samakan posisi, skala, alpha, dan visibilitas bayangan dengan panel (dipanggil tiap sebelum menggambar). */
+    private void syncShadow() {
+        View sh = panelShadow;
+        if (sh == null || panel == null) return;
+        boolean vis = panel.getVisibility() == View.VISIBLE;
+        if ((sh.getVisibility() == View.VISIBLE) != vis) sh.setVisibility(vis ? View.VISIBLE : View.GONE);
+        if (!vis) return;
+        int m = dp(SHADOW_M);
+        sh.setX(panel.getX() - m);
+        sh.setY(panel.getY() - m);
+        sh.setPivotX(sh.getWidth() / 2f);
+        sh.setPivotY(sh.getHeight() / 2f);
+        sh.setScaleX(panel.getScaleX());
+        sh.setScaleY(panel.getScaleY());
+        sh.setAlpha(Math.min(1f, panel.getAlpha() / Math.max(0.01f, ui.opacity)));
+    }
+
     private void sizePanel() {
         int w = root.getWidth(), hh = root.getHeight();
         if (w <= 0) return;
@@ -1128,8 +1154,17 @@ final class RzPanel {
         float sc = Math.max(0.3f, Math.min(ui.scale, fitS));
         panel.setPivotX(lpP.width / 2f);
         panel.setPivotY(lpP.height / 2f);
+        panelScale = sc;
         panel.setScaleX(sc);
         panel.setScaleY(sc);
+        if (panelShadow != null) {
+            int m = dp(SHADOW_M);
+            ViewGroup.LayoutParams sp = panelShadow.getLayoutParams();
+            if (sp.width != lpP.width + 2 * m || sp.height != lpP.height + 2 * m) {
+                sp.width = lpP.width + 2 * m; sp.height = lpP.height + 2 * m;
+                panelShadow.setLayoutParams(sp);
+            }
+        }
         panel.setAlpha(ui.opacity);
         fab.setAlpha(ui.fabOpacity);
         ViewGroup.LayoutParams fp = fab.getLayoutParams();
@@ -1155,17 +1190,17 @@ final class RzPanel {
             panel.setVisibility(View.VISIBLE);
             if (!was) {
                 final float y0 = panel.getY();
-                panel.setAlpha(0f); panel.setScaleX(0.94f); panel.setScaleY(0.94f); panel.setY(y0 + dp(14));
-                panel.animate().alpha(ui.opacity).scaleX(1f).scaleY(1f).y(y0).setDuration(260).setInterpolator(EASE).start();
+                panel.setAlpha(0f); panel.setScaleX(panelScale * 0.94f); panel.setScaleY(panelScale * 0.94f); panel.setY(y0 + dp(14));
+                panel.animate().alpha(ui.opacity).scaleX(panelScale).scaleY(panelScale).y(y0).setDuration(260).setInterpolator(EASE).start();
                 stagger(pages.get(curTab));
             }
         } else if (was) {
             final float y0 = panel.getY();
-            panel.animate().alpha(0f).scaleX(0.97f).scaleY(0.97f).y(y0 + dp(8)).setDuration(160).withEndAction(new Runnable() {
+            panel.animate().alpha(0f).scaleX(panelScale * 0.97f).scaleY(panelScale * 0.97f).y(y0 + dp(8)).setDuration(160).withEndAction(new Runnable() {
                 public void run() {
                     if (panel == null) return;
                     panel.setVisibility(View.GONE);
-                    panel.setAlpha(ui.opacity); panel.setScaleX(1f); panel.setScaleY(1f); panel.setY(y0);
+                    panel.setAlpha(ui.opacity); panel.setScaleX(panelScale); panel.setScaleY(panelScale); panel.setY(y0);
                 }
             }).start();
         }
@@ -1203,16 +1238,30 @@ final class RzPanel {
     private void buildPanel() {
         panel = new LinearLayout(act);
         panel.setOrientation(LinearLayout.VERTICAL);
-        GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
-                glass() ? new int[] { 0xA6202030, 0x7A0E0E16, 0x8C181824 } : new int[] { 0xFF1C1C20, 0xFF0C0C0D, 0xFF18181C });
-        bg.setCornerRadius(dp(20));
-        bg.setStroke(dp(1), STROKE);
-        panel.setBackground(bg);
+        if (glass()) {
+            panel.setBackground(new RzGlass(dp(20), dp(1), accent, 0));
+        } else {
+            GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
+                    new int[] { 0xFF1C1C20, 0xFF0C0C0D, 0xFF18181C });
+            bg.setCornerRadius(dp(20));
+            bg.setStroke(dp(1), STROKE);
+            panel.setBackground(bg);
+        }
         panel.setClipToOutline(true);
         elev(panel, 32, 0xFF000000);
         panel.setClickable(true);
         panel.setFocusable(true);
+        // Bayangan buatan di belakang panel (view terpisah supaya tidak terpotong clipToOutline milik panel).
+        panelShadow = new View(act);
+        panelShadow.setBackground(new RzShadow(dp(SHADOW_M), dp(20), glass() ? 0x0D : 0x12));
+        panelShadow.setClickable(false);
+        panelShadow.setFocusable(false);
+        panelShadow.setVisibility(View.GONE);
+        root.addView(panelShadow, new FrameLayout.LayoutParams(dp(300), dp(320)));
         root.addView(panel, new FrameLayout.LayoutParams(dp(300), dp(320)));
+        panel.getViewTreeObserver().addOnPreDrawListener(new android.view.ViewTreeObserver.OnPreDrawListener() {
+            @Override public boolean onPreDraw() { syncShadow(); return true; }
+        });
         details.clear();
         tileRow = null;
 
@@ -1343,7 +1392,7 @@ final class RzPanel {
         fc.setOrientation(LinearLayout.HORIZONTAL);
         fc.setGravity(Gravity.CENTER_VERTICAL);
         fc.setPadding(dp(12), dp(6), dp(12), dp(6));
-        fc.setBackground(surface(12));
+        fc.setBackground(glassSurface(12));
         elev(fc, 3, 0xFF000000);
         LinearLayout ft = new LinearLayout(act);
         ft.setOrientation(LinearLayout.VERTICAL);
