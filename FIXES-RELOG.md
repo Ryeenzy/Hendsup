@@ -93,3 +93,9 @@ This source update addresses the requested runtime and relog issues.
 - Shadow: bayangan buatan `RzShadow` sebagai view saudara di belakang panel (disinkronkan di `onPreDraw`), elevation kartu x1.5.
 - Liquid glass: `RzGlass` menggantikan gradasi datar untuk panel, tab, kartu, tile (tema Glass saja; tema Solid tidak berubah).
 - Belum dicoba di HP.
+
+## v28e — warna UI instan, sampel warna, tanpa kedip, shader lebih ringan
+- Warna aksen, font, dan tema dibaca ulang (`reloadStyle()`) setiap rebuild, jadi langsung berlaku tanpa relog.
+- Warna aksen kini berupa sampel lingkaran (10 warna), bukan teks.
+- Rebuild tidak lagi memutar animasi buka: posisi panel/tombol dipertahankan, view baru ditampilkan dan view lama dilepas pada frame yang sama (tanpa kedip).
+- Optimasi: auto performa default aktif; default MXAO 12 sampel, SSR 32 langkah dan resolusi 0.5; level auto-perf 1 sudah memangkas sampel setengah.

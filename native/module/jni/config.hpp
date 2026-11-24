@@ -78,7 +78,7 @@ struct Config {
     float reflFade = 0.f;        // 0..1 pudar menurut jarak
     float reflDist = 0.5f;       // 0..1 jarak pantulan (x500 stud)
     // performa
-    bool perfFps = false, perfBatt = false, perfTherm = false, autoPerf = false;
+    bool perfFps = false, perfBatt = false, perfTherm = false, autoPerf = true;
     float fpsTarget = 40.f;      // 20..60
     bool perfSsr = false, perfHdr = false, perfFog = false, perfRim = false, perfAo = false;
     bool hdrOn = false;
@@ -95,7 +95,7 @@ struct Config {
     bool mxOn = false;
     float mxInt = 1.0f;
     float mxRad = 1.5f;
-    float mxSamples = 16.0f;
+    float mxSamples = 12.0f;
     float mxRays = 2.0f;
     float mxDark = 1.0f;
     float mxSoft = 0.3f;
@@ -111,7 +111,7 @@ struct Config {
     float mxQual = 1.0f;
     bool ssOn = false;
     float ssInt = 1.0f;
-    float ssSteps = 48.0f;
+    float ssSteps = 32.0f;
     float ssDist = 60.0f;
     float ssThick = 1.0f;
     float ssFade = 0.4f;
@@ -119,7 +119,7 @@ struct Config {
     float ssFloor = 0.0f;
     float ssBlur = 0.2f;
     float ssTemp = 0.5f;
-    float ssRes = 0.75f;
+    float ssRes = 0.5f;
     float ssQual = 1.0f;
     bool dfOn = false;
     float dfInt = 0.7f;

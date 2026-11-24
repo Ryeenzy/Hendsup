@@ -91,7 +91,7 @@ final class RzState {
         b("perf_fps", false);
         b("perf_batt", false);
         b("perf_therm", false);
-        b("auto_perf", false);
+        b("auto_perf", true);
         f("fps_target", 40f, 20f, 60f);
         b("perf_ssr", false);
         b("perf_hdr", false);
@@ -109,7 +109,7 @@ final class RzState {
         b("mx_on", false);
         f("mx_int", 1.0f, 0.0f, 3.0f);
         f("mx_rad", 1.5f, 0.1f, 10.0f);
-        f("mx_samples", 16.0f, 4.0f, 48.0f);
+        f("mx_samples", 12.0f, 4.0f, 48.0f);
         f("mx_rays", 2.0f, 1.0f, 8.0f);
         f("mx_dark", 1.0f, 0.2f, 3.0f);
         f("mx_soft", 0.3f, 0.0f, 1.0f);
@@ -125,7 +125,7 @@ final class RzState {
         f("mx_qual", 1.0f, 0.0f, 3.0f);
         b("ss_on", false);
         f("ss_int", 1.0f, 0.0f, 2.0f);
-        f("ss_steps", 48.0f, 8.0f, 128.0f);
+        f("ss_steps", 32.0f, 8.0f, 128.0f);
         f("ss_dist", 60.0f, 5.0f, 300.0f);
         f("ss_thick", 1.0f, 0.1f, 5.0f);
         f("ss_fade", 0.4f, 0.0f, 1.0f);
@@ -133,7 +133,7 @@ final class RzState {
         f("ss_floor", 0.0f, 0.0f, 1.0f);
         f("ss_blur", 0.2f, 0.0f, 1.0f);
         f("ss_temp", 0.5f, 0.0f, 1.0f);
-        f("ss_res", 0.75f, 0.25f, 1.0f);
+        f("ss_res", 0.5f, 0.25f, 1.0f);
         f("ss_qual", 1.0f, 0.0f, 3.0f);
         b("df_on", false);
         f("df_int", 0.7f, 0.0f, 1.0f);

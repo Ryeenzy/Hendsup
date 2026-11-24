@@ -28,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -118,11 +119,7 @@ final class RzPanel {
         auto = Math.max(0.4f, Math.min(1.3f, fit));
         ui = new RzUi(filesDir);
         store = new RzPresetStore(filesDir);
-        accent = RzUi.ACCENTS[ui.accent];
-        accent2 = RzUi.ACCENTS2[ui.accent];
-        applyTheme();
-        fBody = font(RzUi.FONT_MED[ui.font], Typeface.create("sans-serif-condensed", Typeface.NORMAL));
-        fBold = font(RzUi.FONT_BOLD[ui.font], Typeface.create("sans-serif-condensed", Typeface.BOLD));
+        reloadStyle();
         fTitle = font("ChakraPetch-SemiBold.ttf", Typeface.create("sans-serif-medium", Typeface.NORMAL));
         fMono = font("ShareTechMono-Regular.ttf", Typeface.MONOSPACE);
         logoFab = bitmap("logo_fab.png");
@@ -291,6 +288,18 @@ final class RzPanel {
 
     // ------------------------------------------------------------------ tema dan shadow
     private boolean glass() { return ui.theme == 0; }
+
+    /** Baca ulang warna aksen, font, dan tema dari pengaturan; dipanggil saat start dan setiap rebuild. */
+    private void reloadStyle() {
+        accent = RzUi.ACCENTS[ui.accent];
+        accent2 = RzUi.ACCENTS2[ui.accent];
+        applyTheme();
+        fBody = font(RzUi.FONT_MED[ui.font], Typeface.create("sans-serif-condensed", Typeface.NORMAL));
+        fBold = font(RzUi.FONT_BOLD[ui.font], Typeface.create("sans-serif-condensed", Typeface.BOLD));
+    }
+
+    private float keepPx = Float.NaN, keepPy, keepFx, keepFy;
+    private boolean instantOpen;
 
     private void applyTheme() {
         if (glass()) {
@@ -521,6 +530,33 @@ final class RzPanel {
         LinearLayout grid = new LinearLayout(act);
         grid.setOrientation(LinearLayout.VERTICAL);
         fillChips(grid, labels, pick);
+        p.addView(grid, lp(-1, -2, 0));
+    }
+
+    /** Baris sampel warna (lingkaran); yang terpilih diberi cincin putih. */
+    private void swatches(LinearLayout p, int[] cols, int sel, final Pick pick) {
+        LinearLayout grid = new LinearLayout(act);
+        grid.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout rowL = null;
+        for (int i = 0; i < cols.length; i++) {
+            if (i % 5 == 0) {
+                rowL = new LinearLayout(act);
+                rowL.setOrientation(LinearLayout.HORIZONTAL);
+                grid.addView(rowL, lp(-1, -2, 4));
+            }
+            final int idx = i;
+            FrameLayout cell = new FrameLayout(act);
+            View dot = new View(act);
+            GradientDrawable d = new GradientDrawable();
+            d.setShape(GradientDrawable.OVAL);
+            d.setColor(cols[i]);
+            d.setStroke(dp(i == sel ? 3 : 1), i == sel ? 0xFFFFFFFF : 0x55FFFFFF);
+            dot.setBackground(d);
+            if (i == sel) dot.setElevation(dp(4));
+            cell.addView(dot, new FrameLayout.LayoutParams(dp(32), dp(32), Gravity.CENTER));
+            cell.setOnClickListener(v -> pick.on(idx));
+            rowL.addView(cell, new LinearLayout.LayoutParams(0, dp(42), 1f));
+        }
         p.addView(grid, lp(-1, -2, 0));
     }
 
@@ -1093,17 +1129,46 @@ final class RzPanel {
 
     /** Bangun ulang seluruh panel (mis. setelah ganti warna aksen). */
     private void rebuild(final String tab) {
-        boolean open = panel != null && panel.getVisibility() == View.VISIBLE;
+        final boolean open = panel != null && panel.getVisibility() == View.VISIBLE;
+        final View oldRoot = root;
+        final boolean had = panel != null && fab != null;
+        final float px = had ? panel.getX() : Float.NaN, py = had ? panel.getY() : 0f, fx0 = had ? fab.getX() : 0f, fy0 = had ? fab.getY() : 0f;
         // Hentikan loop polling lama sebelum membuat view tree baru.
         h.removeCallbacks(poll);
         if (dotPulse != null) { dotPulse.cancel(); dotPulse = null; }
         h.removeCallbacks(saveR);
         h.removeCallbacks(hideToast);
-        if (root != null && root.getParent() instanceof ViewGroup) ((ViewGroup) root.getParent()).removeView(root);
         root = null;
+        reloadStyle();
+        keepPx = px; keepPy = py; keepFx = fx0; keepFy = fy0;
+        instantOpen = true;
         attach();
+        instantOpen = false;
+        if (root == null) { keepPx = Float.NaN; return; }
+        if (had) { panel.setX(px); panel.setY(py); fab.setX(fx0); fab.setY(fy0); }
         showTab(tab);
-        if (open) setOpen(true);
+        if (open) setOpen(true, true);
+        // View baru disembunyikan sampai frame pertamanya siap, lalu view lama dilepas pada frame yang sama (tanpa kedip).
+        final View nr = root;
+        if (oldRoot != null && oldRoot.getParent() instanceof ViewGroup) {
+            nr.setAlpha(0f);
+            nr.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override public boolean onPreDraw() {
+                    nr.getViewTreeObserver().removeOnPreDrawListener(this);
+                    place(); // ukuran dan posisi panel baru ditetapkan sebelum ditampilkan
+                    nr.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                        @Override public boolean onPreDraw() {
+                            nr.getViewTreeObserver().removeOnPreDrawListener(this);
+                            nr.setAlpha(1f);
+                            try { ((ViewGroup) oldRoot.getParent()).removeView(oldRoot); } catch (Throwable ignored) { }
+                            return true;
+                        }
+                    });
+                    nr.postInvalidate();
+                    return true;
+                }
+            });
+        }
     }
 
     void detach() {
@@ -1180,15 +1245,20 @@ final class RzPanel {
         panel.setX((w - lpP.width) / 2f);
         panel.setY((hh - lpP.height) / 2f);
         fab.setX(dp(14)); fab.setY(Math.min(dp(110), hh - dp(70)));
+        if (!Float.isNaN(keepPx)) { panel.setX(keepPx); panel.setY(keepPy); fab.setX(keepFx); fab.setY(keepFy); keepPx = Float.NaN; }
     }
 
-    private void setOpen(final boolean on) {
+    private void setOpen(final boolean on) { setOpen(on, false); }
+
+    private void setOpen(final boolean on, final boolean instant) {
         if (panel == null) return;
         boolean was = panel.getVisibility() == View.VISIBLE;
         panel.animate().cancel();
         if (on) {
             panel.setVisibility(View.VISIBLE);
-            if (!was) {
+            if (instant) {
+                panel.setAlpha(ui.opacity); panel.setScaleX(panelScale); panel.setScaleY(panelScale);
+            } else if (!was) {
                 final float y0 = panel.getY();
                 panel.setAlpha(0f); panel.setScaleX(panelScale * 0.94f); panel.setScaleY(panelScale * 0.94f); panel.setY(y0 + dp(14));
                 panel.animate().alpha(ui.opacity).scaleX(panelScale).scaleY(panelScale).y(y0).setDuration(260).setInterpolator(EASE).start();
@@ -1215,6 +1285,7 @@ final class RzPanel {
             g.setStroke(dp(1), 0x33FFFFFF);
             fab.setBackground(g);
         }
+        if (instant) { fab.setScaleX(1f); fab.setScaleY(1f); return; }
         fab.setScaleX(0.88f); fab.setScaleY(0.88f);
         fab.animate().scaleX(1f).scaleY(1f).setDuration(220).setInterpolator(EASE).start();
     }
@@ -1529,9 +1600,7 @@ final class RzPanel {
         for (int i = 0; i < RzUi.FONT_NAMES.length; i++) fn.add((i == ui.font ? "● " : "") + RzUi.FONT_NAMES[i]);
         chips(g, fn, i -> { ui.font = i; ui.save(); rebuild("SETTING"); });
         section(g, "Warna aksen");
-        List<String> an = new ArrayList<>();
-        for (int i = 0; i < RzUi.ACCENT_NAMES.length; i++) an.add((i == ui.accent ? "● " : "") + RzUi.ACCENT_NAMES[i]);
-        chips(g, an, i -> { ui.accent = i; ui.save(); rebuild("SETTING"); });
+        swatches(g, RzUi.ACCENTS, ui.accent, i -> { if (i == ui.accent) return; ui.accent = i; ui.save(); rebuild("SETTING"); });
         button(g, "Posisi tombol RZ kembali ke awal", () -> { fab.setX(dp(14)); fab.setY(Math.min(dp(110), root.getHeight() - dp(70))); notify("Posisi tombol dikembalikan", true); }, false);
         button(g, "Reset tampilan", () -> { ui.reset(); ui.save(); rebuild("SETTING"); }, false, RzIcons.RESET);
         note(g, "Tampilan menyesuaikan ukuran layar. Ketuk tombol RZ untuk membuka atau menutup panel. Geser tombol atau judul panel untuk memindahkannya.");

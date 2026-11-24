@@ -7,13 +7,13 @@ import java.util.Locale;
 
 /** Pengaturan tampilan panel (rz_ui.cfg): transparansi, ukuran, ukuran tombol, warna aksen. */
 final class RzUi {
-    static final int[] ACCENTS = { 0xFF8BD13F, 0xFFD4D4D8, 0xFF5EEAD4, 0xFF7AA7FF, 0xFFE8B84A };
-    static final int[] ACCENTS2 = { 0xFF6FB02A, 0xFF9B9DA2, 0xFF2FBFA8, 0xFF4F7FE0, 0xFFC99A2A };
+    static final int[] ACCENTS = { 0xFF8BD13F, 0xFFD4D4D8, 0xFF5EEAD4, 0xFF7AA7FF, 0xFFE8B84A, 0xFFFF6B6B, 0xFFFF9F43, 0xFFFF7EB6, 0xFFB388FF, 0xFF4DD0FF };
+    static final int[] ACCENTS2 = { 0xFF6FB02A, 0xFF9B9DA2, 0xFF2FBFA8, 0xFF4F7FE0, 0xFFC99A2A, 0xFFD94848, 0xFFDB7E22, 0xFFD9558F, 0xFF8E5FE0, 0xFF22A8D9 };
     static final String[] FONT_NAMES = { "Chakra Petch", "Rajdhani", "Share Tech Mono" };
     static final String[] FONT_MED = { "ChakraPetch-Medium.ttf", "Rajdhani-Medium.ttf", "ShareTechMono-Regular.ttf" };
     static final String[] FONT_BOLD = { "ChakraPetch-SemiBold.ttf", "Rajdhani-SemiBold.ttf", "ShareTechMono-Regular.ttf" };
     static final String[] THEME_NAMES = { "Liquid Glass", "Solid" };
-    static final String[] ACCENT_NAMES = { "Hijau", "Perak", "Tosca", "Biru", "Emas" };
+    static final String[] ACCENT_NAMES = { "Hijau", "Perak", "Tosca", "Biru", "Emas", "Merah", "Oranye", "Pink", "Ungu", "Cyan" };
 
     float opacity = 0.97f, scale = 1f, fabSize = 54f, fabOpacity = 1f;
     int accent = 0, font = 0, theme = 0;

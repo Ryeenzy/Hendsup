@@ -507,7 +507,7 @@ Fx makeFx(const Config& cin, int lvl) {
     Config c = cin;
     Fx f;
     const float s = clampf(c.strength, 0.f, 1.5f);
-    const bool pAo = c.perfAo || lvl >= 2, pSs = c.perfSsr || lvl >= 2, pDf = c.perfDof || lvl >= 2;
+    const bool pAo = c.perfAo || lvl >= 1, pSs = c.perfSsr || lvl >= 1, pDf = c.perfDof || lvl >= 1;  // level 1: setengah sampel
     const bool off = lvl >= 3;  // mode termal: matikan pass berat
     f.ao = c.mxOn && !off;
     f.ss = c.ssOn && !off;
